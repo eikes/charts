@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'symbol_count_graph'
 
 RSpec.describe SymbolCountGraph do
