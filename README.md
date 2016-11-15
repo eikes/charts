@@ -5,3 +5,21 @@
 # Graph tool
 
 Generate info graphic elements with ease
+
+# Development
+
+Start by installing bundler:
+
+    gem install bundler
+
+And then install the dependencies:
+
+    bundle install
+
+Run the test suite:
+
+    rake
+
+or
+
+    rspec
