@@ -1,14 +1,16 @@
 class SymbolCountGraph
   attr_reader :data, :options
 
-  def initialize(data, options={columns: 10})
+  def initialize(data, options = { columns: 10 })
     validate_arguments(data, options)
     @data = data
-    @options = options 
+    @options = options
   end
 
   def render
-    'x' * @data[:x]
+    result = ''
+    @data.each { |key, value| result << key.to_s * value }
+    result.scan(/.{1,#{@options[:columns]}}/).join("\n")
   end
 
   def validate_arguments(data, options)
