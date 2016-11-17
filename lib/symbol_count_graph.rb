@@ -9,9 +9,7 @@ class SymbolCountGraph
   end
 
   def render
-    result = ''
-    @data.each { |key, value| result << key.to_s * value }
-    result.scan(/.{1,#{@options[:columns]}}/).join("\n")
+    prepare_data.map(&:join).join("\n")
   end
 
   def validate_arguments(data, options)
@@ -23,7 +21,7 @@ class SymbolCountGraph
   def prepare_data
     prepared_data = []
     @data.each do |key, value|
-      value.times { |_val| prepared_data << key.to_s }
+      value.times { prepared_data << key.to_s }
     end
     @prepared_data = prepared_data.each_slice(@options[:columns]).to_a
   end
