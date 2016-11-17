@@ -35,9 +35,9 @@ RSpec.describe SymbolCountGraph do
     end
   end
 
-  describe '#prepared_data' do
-    it 'calls the prepared_data method' do
-      expect_any_instance_of(SymbolCountGraph).to receive(:prepared_data)
+  describe '#prepare_data' do
+    it 'calls the prepare_data method' do
+      expect_any_instance_of(SymbolCountGraph).to receive(:prepare_data)
       SymbolCountGraph.new({x: 1})
     end
     it 'creates the prepared_data for simple keys' do
