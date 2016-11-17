@@ -42,7 +42,7 @@ RSpec.describe SymbolCountGraph do
     end
     it 'creates the prepared_data for simple keys' do
       graph = SymbolCountGraph.new({ x: 3, o: 2 }, { columns: 2 })
-      expect(graph.options[:prepared_data]).to eq([
+      expect(graph.prepared_data).to eq([
         ['x', 'x'],
         ['x', 'o'],
         ['o']
@@ -50,7 +50,7 @@ RSpec.describe SymbolCountGraph do
     end
     it 'creates the prepared_data for complex keys' do
       graph = SymbolCountGraph.new({ '#FF0000' => 2, '#00FF00' => 2 }, { columns: 2 })
-      expect(graph.options[:prepared_data]).to eq([
+      expect(graph.prepared_data).to eq([
         ['#FF0000', '#FF0000'],
         ['#00FF00', '#00FF00']
       ])
