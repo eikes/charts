@@ -33,6 +33,10 @@ RSpec.describe SymbolCountGraph do
       graph = SymbolCountGraph.new({ x: 2 })
       expect(graph.options[:columns]).to eq(10)
     end
+    it 'accepts numbers as strings' do
+      graph = SymbolCountGraph.new({ x: "2" })
+      expect(graph.options[:columns]).to eq(10)
+    end
   end
 
   describe '#prepare_data' do
