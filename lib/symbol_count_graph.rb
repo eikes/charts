@@ -9,7 +9,7 @@ class SymbolCountGraph
   end
 
   def render
-    prepare_data.map(&:join).join("\n")
+    prepared_data.map(&:join).join("\n")
   end
 
   def validate_arguments(data, options)
