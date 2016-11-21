@@ -39,6 +39,9 @@ RSpec.describe SymbolCountGraph do
     it 'raises an error when value is not an Integer' do
       expect{ SymbolCountGraph.new({ x: '@$' }) }.to raise_error(ArgumentError)
     end
+    it 'raises an error when a collection of values contains a Non-Integer' do
+      expect{ SymbolCountGraph.new({ a: 12, x: '@$' }) }.to raise_error(ArgumentError)
+    end
   end
 
   describe '#prepare_data' do
