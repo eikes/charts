@@ -34,8 +34,13 @@ RSpec.describe SymbolCountGraph do
       expect(graph.options[:columns]).to eq(10)
     end
     it 'accepts numbers as strings' do
-      graph = SymbolCountGraph.new({ x: "2" })
-      expect(graph.options[:columns]).to eq(10)
+      expect{ SymbolCountGraph.new({ x: "2" }) }.to_not raise_error(NoMethodError)
+    end
+    it 'raises an error when value is not an Integer' do
+      expect{ SymbolCountGraph.new({ x: '@$' }) }.to raise_error(ArgumentError)
+    end
+    it 'raises an error when a collection of values contains a Non-Integer' do
+      expect{ SymbolCountGraph.new({ a: 12, x: '@$' }) }.to raise_error(ArgumentError)
     end
   end
 

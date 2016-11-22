@@ -16,6 +16,7 @@ class SymbolCountGraph
     raise ArgumentError if data.empty?
     raise ArgumentError unless data.is_a? Hash
     raise ArgumentError unless options.is_a? Hash
+    raise ArgumentError unless data.values.all? {|x| x.is_a? Integer}
   end
 
   def prepare_data
