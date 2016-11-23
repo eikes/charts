@@ -29,9 +29,29 @@ RSpec.describe SvgCountGraph do
 
   context 'two different circles' do
     let(:data) { { "#FF0000" => 1, "#00FF00" => 1 } }
-    it 'renders two circles with the correct color' do
-      expect(subject).to have_css('circle[cx="10"][cy="10"][fill="#FF0000"]')
-      expect(subject).to have_css('circle[cx="30"][cy="10"][fill="#00FF00"]')
+    let(:red_circle) { subject.all('circle').first }
+    let(:green_circle) { subject.all('circle').last }
+    it 'renders two circles' do
+      expect(subject.all('circle').count).to eq(2)
+    end
+    it 'renders one red circle' do
+      expect(red_circle[:fill]).to eq("#FF0000")
+    end
+    it 'renders the red circle on the left' do
+      expect(red_circle[:cx]).to eq("10")
+    end
+    it 'renders the red circle on the top' do
+      expect(red_circle[:cy]).to eq("10")
+    end
+
+    it 'renders one green circle' do
+      expect(green_circle[:fill]).to eq("#00FF00")
+    end
+    it 'renders the green circle on the left' do
+      expect(green_circle[:cx]).to eq("30")
+    end
+    it 'renders the green circle on the top' do
+      expect(green_circle[:cy]).to eq("10")
     end
   end
 end
