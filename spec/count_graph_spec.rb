@@ -39,7 +39,7 @@ RSpec.describe CountGraph do
       expect(graph.options[:extra]).to eq(123)
     end
     it 'accepts numbers as strings' do
-      expect{ CountGraph.new({ x: "2" }) }.to_not raise_error(NoMethodError)
+      expect{ CountGraph.new({ x: "2" }) }.to_not raise_error
     end
     it 'raises an error when value is not an Integer' do
       expect{ CountGraph.new({ x: '@$' }) }.to raise_error(ArgumentError)

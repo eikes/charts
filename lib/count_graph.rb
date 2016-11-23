@@ -11,11 +11,12 @@ class CountGraph
   def default_options
     {columns: 10}
   end
+
   def validate_arguments(data, options)
     raise ArgumentError if data.empty?
     raise ArgumentError unless data.is_a? Hash
     raise ArgumentError unless options.is_a? Hash
-    raise ArgumentError unless data.values.all? {|x| x.is_a? Integer}
+    raise ArgumentError unless data.values.all? { |x| Integer(x) }
   end
 
   def prepare_data
