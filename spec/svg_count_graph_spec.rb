@@ -48,17 +48,22 @@ RSpec.describe SvgCountGraph do
     end
     context 'one circle' do
       let(:data) { { red: 1 } }
-      include_examples 'has a width and height of', 10, 10
+      include_examples 'has a width and height of', 20, 20
+    end
+    context 'one circle differen radius' do
+      let(:data) { { red: 1 } }
+      let(:options) { { radius: 20 } }
+      include_examples 'has a width and height of', 40, 40
     end
     context 'one column two circles' do
       let(:data) { { red: 2 } }
       let(:options) { { columns: 1 } }
-      include_examples 'has a width and height of', 10, 20
+      include_examples 'has a width and height of', 20, 40
     end
     context 'two columns two circles' do
       let(:data) { { red: 2 } }
       let(:options) { { columns: 2 } }
-      include_examples 'has a width and height of', 20, 10
+      include_examples 'has a width and height of', 40, 20
     end
   end
 
