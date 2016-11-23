@@ -1,10 +1,10 @@
 require_relative 'count_graph'
 require 'victor'
 class SvgCountGraph < CountGraph
-
   def render
-    svg = SVG.new width: '100%', height: '100%'
-    radius = @options[:radius] 
+    width; height
+    svg = SVG.new width: @width, height: @height
+    radius = @options[:radius]
     prepared_data.each_with_index do |row, row_count|
       row.each_with_index do |column, column_count|
         cx = radius + 2 * column_count * radius
@@ -14,7 +14,18 @@ class SvgCountGraph < CountGraph
     end
     svg.render
   end
+
   def default_options
-    super.merge({radius: 10})
+    super.merge(radius: 10)
+  end
+
+  def width
+    column_count = prepared_data.first.count
+    @width = column_count * 2 * @options[:radius]
+  end
+
+  def height
+    row_count = prepared_data.count
+    @height = row_count * 2 * @options[:radius]
   end
 end

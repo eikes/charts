@@ -50,7 +50,7 @@ RSpec.describe SvgCountGraph do
       let(:data) { { red: 1 } }
       include_examples 'has a width and height of', 20, 20
     end
-    context 'one circle differen radius' do
+    context 'one circle with a differen radius' do
       let(:data) { { red: 1 } }
       let(:options) { { radius: 20 } }
       include_examples 'has a width and height of', 40, 40
@@ -76,11 +76,19 @@ RSpec.describe SvgCountGraph do
   context 'one circle' do
     let(:data) { { "#FACADE" => 1 } }
     let(:circle) { svg.find('circle') }
-    it 'renders one circle with a radius of ten' do
+    it 'renders one circle with a default radius of ten' do
       expect(circle[:r]).to eq('10')
     end
     it 'renders one circle with the correct color' do
       expect(circle[:fill]).to eq('#FACADE')
+    end
+  end
+  context 'radius' do
+    let(:data) { { "#FACADE" => 1 } }
+    let(:options) { { radius: 100 } }
+    let(:circle) { svg.find('circle') }
+    it 'renders a circle with a given radius of hundred' do
+      expect(circle[:r]).to eq('100')
     end
   end
 
