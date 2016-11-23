@@ -1,15 +1,16 @@
 class CountGraph
+
   attr_reader :data, :options, :prepared_data
 
   def initialize(data, options = {})
     validate_arguments(data, options)
     @data = data
     @options = default_options.merge options
-    prepare_data
+    @prepared_data = prepare_data
   end
 
   def default_options
-    {columns: 10}
+    { columns: 10 }
   end
 
   def validate_arguments(data, options)
@@ -21,9 +22,10 @@ class CountGraph
 
   def prepare_data
     prepared_data = []
-    @data.each do |key, value|
+    data.each do |key, value|
       value.to_i.times { prepared_data << key.to_s }
     end
-    @prepared_data = prepared_data.each_slice(@options[:columns]).to_a
+    prepared_data.each_slice(options[:columns]).to_a
   end
+
 end
