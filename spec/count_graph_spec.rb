@@ -33,6 +33,11 @@ RSpec.describe CountGraph do
       graph = CountGraph.new({ x: 2 })
       expect(graph.options[:columns]).to eq(10)
     end
+    it 'provides merges default options with passed in options' do
+      graph = CountGraph.new({ x: 2 }, { extra: 123 })
+      expect(graph.options[:columns]).to eq(10)
+      expect(graph.options[:extra]).to eq(123)
+    end
     it 'accepts numbers as strings' do
       expect{ CountGraph.new({ x: "2" }) }.to_not raise_error(NoMethodError)
     end
