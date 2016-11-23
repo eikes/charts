@@ -14,32 +14,57 @@ RSpec.describe SvgCountGraph do
     it 'sets the SVG header' do
       expect(graph.render).to match(/DOCTYPE svg PUBLIC/)
     end
-    it 'has a default radius' do
-      expect(graph.options['radius']).to eq(10)
+    it 'has a default radius of 10' do
+      expect(graph.options[:radius]).to eq(10)
     end
+    context 'with radius 20 in the options' do
+      let(:options) { { radius: 20 } }
+      it 'has the radius in the options attribute' do
+        expect(graph.options[:radius]).to eq(20)
+      end
+    end
+  end
+
+  describe '#height and #width' do
     it 'has a width attribute' do
       expect(graph).to respond_to(:width)
-    end
-    it 'has a width attribute' do
-      expect(graph.width).to eq(10)
     end
     it 'has a height attribute' do
       expect(graph).to respond_to(:height)
     end
-    it 'has a height attribute' do
-      expect(graph.height).to eq(10)
+    shared_examples 'has a width and height of' do |width, height|
+      it "sets the graph.width to #{width}" do
+        expect(graph.width).to eq(width)
+      end
+      it "sets the svg root width to #{width}" do
+        expect(svg.find('svg')[:width]).to eq(width.to_s)
+      end
+      it "sets the graph.height to #{height}" do
+        expect(graph.height).to eq(height)
+      end
+      it "sets the svg root height to #{height}" do
+        expect(svg.find('svg')[:height]).to eq(height.to_s)
+      end
+    end
+    context 'one circle' do
+      let(:data) { { red: 1 } }
+      include_examples 'has a width and height of', 10, 10
+    end
+    context 'one column two circles' do
+      let(:data) { { red: 2 } }
+      let(:options) { { columns: 1 } }
+      include_examples 'has a width and height of', 10, 20
+    end
+    context 'two columns two circles' do
+      let(:data) { { red: 2 } }
+      let(:options) { { columns: 2 } }
+      include_examples 'has a width and height of', 20, 10
     end
   end
 
   describe 'root element' do
     it 'exists' do
       expect(svg).to have_css('svg')
-    end
-    it 'sets width' do
-      expect(svg.find('svg')[:width]).to eq('100%')
-    end
-    it 'sets width' do
-      expect(svg.find('svg')[:height]).to eq('100%')
     end
   end
 
