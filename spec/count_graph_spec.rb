@@ -27,13 +27,13 @@ RSpec.describe CountGraph do
     end
     it 'stores the options in an instance attribute' do
       graph = CountGraph.new({ x: 2 }, { columns: 2 })
-      expect(graph.options).to eq({ columns: 2 })
+      expect(graph.options).to eq({ columns: 2})
     end
     it 'provides default options' do
       graph = CountGraph.new({ x: 2 })
       expect(graph.options[:columns]).to eq(10)
     end
-    it 'provides merges default options with passed in options' do
+    it 'merges default options with passed in options' do
       graph = CountGraph.new({ x: 2 }, { extra: 123 })
       expect(graph.options[:columns]).to eq(10)
       expect(graph.options[:extra]).to eq(123)

@@ -14,7 +14,7 @@ RSpec.describe SvgCountGraph do
     it 'sets the SVG header' do
       expect(graph.render).to match(/DOCTYPE svg PUBLIC/)
     end
-    it 'has a default radius of 10' do
+    it 'has a default radius' do
       expect(graph.options[:radius]).to eq(10)
     end
     context 'with radius 20 in the options' do

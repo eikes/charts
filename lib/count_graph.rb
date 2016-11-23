@@ -1,13 +1,16 @@
 class CountGraph
   attr_reader :data, :options, :prepared_data
 
-  def initialize(data, options = { columns: 10 })
+  def initialize(data, options = {})
     validate_arguments(data, options)
     @data = data
-    @options = options
+    @options = default_options.merge options
     prepare_data
   end
 
+  def default_options
+    {columns: 10}
+  end
   def validate_arguments(data, options)
     raise ArgumentError if data.empty?
     raise ArgumentError unless data.is_a? Hash
