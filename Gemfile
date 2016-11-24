@@ -8,4 +8,5 @@ group :test do
   gem 'pry-byebug'
   gem 'victor'
   gem 'capybara'
+  gem 'rmagick'
 end
