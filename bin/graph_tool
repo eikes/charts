@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 
-require File.expand_path("../../lib/symbol_count_graph.rb", __FILE__)
+require File.expand_path("../../lib/svg_count_graph.rb", __FILE__)
 
 if ARGV.length == 0
   puts "Usage:"
-  puts "$ bin/graph_tool x=23 o=19"
+  puts "$ bin/graph_tool Purple=33 Gold=13"
   exit
 end
 
 params = ARGV.map { |e| e.split("=") }.to_h
 
-puts SymbolCountGraph.new(params).render
+puts SvgCountGraph.new(params).render

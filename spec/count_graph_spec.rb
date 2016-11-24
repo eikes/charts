@@ -27,14 +27,19 @@ RSpec.describe CountGraph do
     end
     it 'stores the options in an instance attribute' do
       graph = CountGraph.new({ x: 2 }, { columns: 2 })
-      expect(graph.options).to eq({ columns: 2 })
+      expect(graph.options).to eq({ columns: 2})
     end
     it 'provides default options' do
       graph = CountGraph.new({ x: 2 })
       expect(graph.options[:columns]).to eq(10)
     end
+    it 'merges default options with passed in options' do
+      graph = CountGraph.new({ x: 2 }, { extra: 123 })
+      expect(graph.options[:columns]).to eq(10)
+      expect(graph.options[:extra]).to eq(123)
+    end
     it 'accepts numbers as strings' do
-      expect{ CountGraph.new({ x: "2" }) }.to_not raise_error(NoMethodError)
+      expect{ CountGraph.new({ x: "2" }) }.to_not raise_error
     end
     it 'raises an error when value is not an Integer' do
       expect{ CountGraph.new({ x: '@$' }) }.to raise_error(ArgumentError)
