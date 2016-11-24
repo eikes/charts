@@ -1,13 +1,46 @@
 #!/usr/bin/env ruby
 
 require File.expand_path("../../lib/svg_count_graph.rb", __FILE__)
+require File.expand_path("../../lib/symbol_count_graph.rb", __FILE__)
 
-if ARGV.length == 0
-  puts "Usage:"
-  puts "$ bin/graph_tool Purple=33 Gold=13"
-  exit
+require 'optparse'
+
+# defaults:
+options = { type: :svg }
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: bin/graph_tool [options]"
+
+  opts.on("-d DATA", "--data DATA", Array, "Provide multiple data points in this format: Purple:33,Gold:22,Olive:12") do |data|
+    options[:data] = data.map { |d| d.split(":") }.to_h
+  end
+
+  opts.on("-t TYPE", "--type TYPE", [:text, :svg], "Select graph type (text, svg)") do |t|
+    options[:type] = t
+  end
+
+  opts.on("-c COLUMNS", "--columns COLUMNS", Integer, "Set number of columns") do |c|
+    options[:columns] = c
+  end
+
+  opts.on("-r RADIUS", "--radius RADIUS", Integer, "Set the circle radius") do |r|
+    options[:radius] = r
+  end
+
+  opts.on("-h", "--help", "Prints this help") do
+    puts opts
+    exit
+  end
+end.parse!(ARGV.empty? ? ['--help'] : ARGV)
+
+data = options[:data]
+graph_options = options.select { |key, value| [:columns, :radius].include? key }
+
+if data
+  if options[:type] == :text
+    graph = SymbolCountGraph.new(data, graph_options)
+  elsif options[:type] == :svg
+    graph = SvgCountGraph.new(data, graph_options)
+  end
+  puts graph.render
 end
-
-params = ARGV.map { |e| e.split("=") }.to_h
-
-puts SvgCountGraph.new(params).render
