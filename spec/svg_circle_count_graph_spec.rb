@@ -92,4 +92,9 @@ RSpec.describe SvgCircleCountGraph do
     end
   end
 
+  it 'calls #write on the image' do
+    expect_any_instance_of(SVG).to receive(:save)
+    graph.save
+  end
+
 end
