@@ -4,7 +4,7 @@ require File.expand_path("../../lib/svg_count_graph.rb", __FILE__)
 
 if ARGV.length == 0
   puts "Usage:"
-  puts "$ bin/graph_tool x=23 o=19"
+  puts "$ bin/graph_tool Purple=33 Gold=13"
   exit
 end
 
