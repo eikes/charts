@@ -10,14 +10,20 @@ Generate info graphic elements with ease
 
 You can use the command line tool:
 
+    $ bin/graph_tool --help
+
+Usage help is displayed.
+
     $ bin/graph_tool -c 20 -d X:55,O:33,*:22 -t txt
 
-    XXXXXXXXXXXXXXXXXXXX
-    XXXXXXXXXXXXXXXXXXXX
-    XXXXXXXXXXXXXXXOOOOO
-    OOOOOOOOOOOOOOOOOOOO
-    OOOOOOOO************
-    **********
+```
+XXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXOOOOO
+OOOOOOOOOOOOOOOOOOOO
+OOOOOOOO************
+**********
+```
 
     bin/graph_tool -d Purple:33,Gold:22,Olive:8 -f images/dots.jpg
 
