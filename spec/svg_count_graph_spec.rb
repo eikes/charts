@@ -25,6 +25,35 @@ RSpec.describe SvgCountGraph do
     end
   end
 
+  describe '#height and #width' do
+    shared_examples 'has a width and height of' do |width, height|
+      it "sets the svg root width to #{width}" do
+        expect(svg.find('svg')[:width]).to eq(width.to_s)
+      end
+      it "sets the svg root height to #{height}" do
+        expect(svg.find('svg')[:height]).to eq(height.to_s)
+      end
+    end
+    context 'one circle' do
+      let(:data) { { red: 1 } }
+      include_examples 'has a width and height of', 20, 20
+    end
+    context 'one circle with a differen radius' do
+      let(:data) { { red: 1 } }
+      let(:options) { { radius: 20 } }
+      include_examples 'has a width and height of', 40, 40
+    end
+    context 'one column two circles' do
+      let(:data) { { red: 2 } }
+      let(:options) { { columns: 1 } }
+      include_examples 'has a width and height of', 20, 40
+    end
+    context 'two columns two circles' do
+      let(:data) { { red: 2 } }
+      let(:options) { { columns: 2 } }
+      include_examples 'has a width and height of', 40, 20
+    end
+  end
 
   describe 'root element' do
     it 'exists' do

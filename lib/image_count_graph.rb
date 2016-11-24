@@ -2,8 +2,6 @@ require_relative 'count_graph'
 
 class ImageCountGraph < CountGraph
 
-  attr_reader :svg
-
   def default_options
     super.merge(radius: 10)
   end

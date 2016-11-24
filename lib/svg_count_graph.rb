@@ -3,6 +3,8 @@ require 'victor'
 
 class SvgCountGraph < ImageCountGraph
 
+  attr_reader :svg
+
   def pre_draw
     @svg = SVG.new width: width, height: height
   end

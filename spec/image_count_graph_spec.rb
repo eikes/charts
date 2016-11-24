@@ -8,7 +8,6 @@ RSpec.describe ImageCountGraph do
   let(:data) { { red: 1 } }
   let(:options) { { columns: 2 } }
   let(:graph) { ImageCountGraph.new(data, options) }
-  let(:svg) { Capybara.string(graph.render) }
 
 
   describe '#height and #width' do
@@ -22,16 +21,29 @@ RSpec.describe ImageCountGraph do
       it "sets the graph.width to #{width}" do
         expect(graph.width).to eq(width)
       end
-      it "sets the svg root width to #{width}" do
-        expect(svg.find('svg')[:width]).to eq(width.to_s)
-      end
       it "sets the graph.height to #{height}" do
         expect(graph.height).to eq(height)
       end
-      it "sets the svg root height to #{height}" do
-        expect(svg.find('svg')[:height]).to eq(height.to_s)
-      end
     end
-
+    context 'one circle' do
+      let(:data) { { red: 1 } }
+      include_examples 'has a width and height of', 20, 20
+    end
+    context 'one circle with a differen radius' do
+      let(:data) { { red: 1 } }
+      let(:options) { { radius: 20 } }
+      include_examples 'has a width and height of', 40, 40
+    end
+    context 'one column two circles' do
+      let(:data) { { red: 2 } }
+      let(:options) { { columns: 1 } }
+      include_examples 'has a width and height of', 20, 40
+    end
+    context 'two columns two circles' do
+      let(:data) { { red: 2 } }
+      let(:options) { { columns: 2 } }
+      include_examples 'has a width and height of', 40, 20
+    end
   end
+
 end
