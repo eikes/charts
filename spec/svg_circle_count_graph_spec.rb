@@ -1,13 +1,13 @@
 require 'spec_helper'
-require 'svg_count_graph'
+require 'svg_circle_count_graph'
 require 'capybara/rspec'
 
-RSpec.describe SvgCountGraph do
+RSpec.describe SvgCircleCountGraph do
   include Capybara::RSpecMatchers
 
   let(:data) { { red: 1 } }
   let(:options) { { columns: 2 } }
-  let(:graph) { SvgCountGraph.new(data, options) }
+  let(:graph) { SvgCircleCountGraph.new(data, options) }
   let(:svg) { Capybara.string(graph.render) }
 
   describe 'setup' do

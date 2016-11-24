@@ -1,9 +1,9 @@
 require_relative 'count_graph'
-
 class ImageCountGraph < CountGraph
 
   def default_options
-    super.merge(radius: 10)
+    super.merge(item_width: 20)
+    super.merge(item_height: 20)
   end
 
   def render
@@ -28,21 +28,16 @@ class ImageCountGraph < CountGraph
     raise NoMethodError
   end
 
-  def draw_item(column_count, row_count, color)
+  def draw_item
     raise NoMethodError
   end
 
   def width
-    prepared_data.first.count * 2 * radius
+    prepared_data.first.count * @options[:item_width]
   end
 
   def height
-    prepared_data.count * 2 * radius
-  end
-
-  def radius
-    @options[:radius]
+    prepared_data.first.count * @options[:item_height]
   end
 
 end
-

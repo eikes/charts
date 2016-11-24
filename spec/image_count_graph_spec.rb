@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'image_count_graph'
+require 'circle_count_graph'
 require 'capybara/rspec'
 
 RSpec.describe ImageCountGraph do

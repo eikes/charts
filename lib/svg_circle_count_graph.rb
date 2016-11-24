@@ -1,7 +1,7 @@
-require_relative 'image_count_graph'
+require_relative 'circle_count_graph'
 require 'victor'
 
-class SvgCountGraph < ImageCountGraph
+class SvgCircleCountGraph < CircleCountGraph
 
   attr_reader :svg
 
@@ -13,9 +13,7 @@ class SvgCountGraph < ImageCountGraph
     svg.render
   end
 
-  def draw_item(column_count, row_count, color)
-    cx = radius + 2 * column_count * radius
-    cy = radius + 2 * row_count * radius
+  def circle(cx, cy, color)
     svg.circle cx: cx, cy: cy, r: radius, fill: color
   end
 
