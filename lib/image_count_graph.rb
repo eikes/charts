@@ -2,8 +2,7 @@ require_relative 'count_graph'
 class ImageCountGraph < CountGraph
 
   def default_options
-    super.merge(item_width: 20)
-    super.merge(item_height: 20)
+    super.merge(item_width: 20, item_height: 20)
   end
 
   def render
@@ -37,7 +36,7 @@ class ImageCountGraph < CountGraph
   end
 
   def height
-    prepared_data.first.count * @options[:item_height]
+    prepared_data.count * @options[:item_height]
   end
 
 end
