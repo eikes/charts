@@ -9,6 +9,23 @@ RSpec.describe ImageCountGraph do
   let(:options) { { columns: 2 } }
   let(:graph) { ImageCountGraph.new(data, options) }
 
+  describe '#default_options' do
+   it 'has a default item width of 20' do
+      expect(graph.options[:item_width]).to eq(20)
+    end
+    it 'has a default item height of 20' do
+      expect(graph.options[:item_height]).to eq(20)
+    end
+    context 'with radius 20 in the options' do
+      let(:options) { { item_width: 40, item_height: 40 } }
+      it 'has the item_width in the options attribute' do
+        expect(graph.options[:item_width]).to eq(40)
+      end
+      it 'has the item_height in the options attribute' do
+        expect(graph.options[:item_height]).to eq(40)
+      end
+    end
+  end
 
   describe '#height and #width' do
     it 'has a width attribute' do

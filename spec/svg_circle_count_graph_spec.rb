@@ -14,15 +14,6 @@ RSpec.describe SvgCircleCountGraph do
     it 'sets the SVG header' do
       expect(graph.render).to match(/DOCTYPE svg PUBLIC/)
     end
-    it 'has a default radius' do
-      expect(graph.options[:radius]).to eq(10)
-    end
-    context 'with radius 20 in the options' do
-      let(:options) { { radius: 20 } }
-      it 'has the radius in the options attribute' do
-        expect(graph.options[:radius]).to eq(20)
-      end
-    end
   end
 
   describe '#height and #width' do
@@ -38,9 +29,9 @@ RSpec.describe SvgCircleCountGraph do
       let(:data) { { red: 1 } }
       include_examples 'has a width and height of', 20, 20
     end
-    context 'one circle with a differen radius' do
+    context 'one circle with a different width' do
       let(:data) { { red: 1 } }
-      let(:options) { { radius: 20 } }
+      let(:options) { { item_width: 40, item_height: 40 } }
       include_examples 'has a width and height of', 40, 40
     end
     context 'one column two circles' do
@@ -63,20 +54,13 @@ RSpec.describe SvgCircleCountGraph do
 
   context 'one circle' do
     let(:data) { { "#FACADE" => 1 } }
+    let(:options) { { item_width: 100 } }
     let(:circle) { svg.find('circle') }
-    it 'renders one circle with a default radius of ten' do
-      expect(circle[:r]).to eq('10')
-    end
     it 'renders one circle with the correct color' do
       expect(circle[:fill]).to eq('#FACADE')
     end
-  end
-  context 'radius' do
-    let(:data) { { "#FACADE" => 1 } }
-    let(:options) { { radius: 100 } }
-    let(:circle) { svg.find('circle') }
-    it 'renders a circle with a given radius of hundred' do
-      expect(circle[:r]).to eq('100')
+    it 'renders a circle with a given radius of 50 (half item_width)' do
+      expect(circle[:r]).to eq('50')
     end
   end
 
