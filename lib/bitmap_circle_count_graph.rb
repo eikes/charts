@@ -21,5 +21,12 @@ class BitmapCircleCountGraph < CircleCountGraph
     canvas.circle cx, cy, cx - radius, cy
   end
 
+  def save
+    pre_draw
+    draw
+    canvas.draw(image)
+    image.write options[:filename]
+  end
+
 end
 

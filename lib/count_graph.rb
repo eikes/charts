@@ -28,4 +28,12 @@ class CountGraph
     prepared_data.each_slice(options[:columns]).to_a
   end
 
+  def render
+    raise NotImplementedError
+  end
+
+  def save
+    raise NotImplementedError
+  end
+
 end

@@ -24,6 +24,11 @@ RSpec.describe SymbolCountGraph do
       graph = SymbolCountGraph.new({ x: 3, o: 2 }, { columns: 2 })
       expect(graph.render).to eq "xx\nxo\no"
     end
+
+    it 'renders the first letter of the key only' do
+      graph = SymbolCountGraph.new({ foto: 1, otto: 2 })
+      expect(graph.render).to eq 'foo'
+    end
   end
 
 end

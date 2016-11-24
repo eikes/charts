@@ -12,7 +12,7 @@ class ImageCountGraph < CountGraph
   end
 
   def pre_draw
-    raise NoMethodError
+    raise NotImplementedError
   end
 
   def draw
@@ -24,11 +24,11 @@ class ImageCountGraph < CountGraph
   end
 
   def post_draw
-    raise NoMethodError
+    raise NotImplementedError
   end
 
   def draw_item
-    raise NoMethodError
+    raise NotImplementedError
   end
 
   def width

@@ -9,41 +9,64 @@ require 'optparse'
 # defaults:
 options = { type: :svg }
 
+formats = [:txt, :svg, :png, :jpg, :gif]
+
 OptionParser.new do |opts|
   opts.banner = "Usage: bin/graph_tool [options]"
 
-  opts.on("-d DATA", "--data DATA", Array, "Provide multiple data points in this format: Purple:33,Gold:22,Olive:12") do |data|
+  opts.on("-d DATA", "--data DATA", Array, "Provide multiple data points, ie: 'bin/graph_tool -d Red:8,Gold:7'") do |data|
     options[:data] = data.map { |d| d.split(":") }.to_h
   end
 
-  opts.on("-t TYPE", "--type TYPE", [:text, :svg, :png], "Select graph type (text, svg, png)") do |t|
-    options[:type] = t
+  opts.on("-f FILENAME", "--filename FILENAME", "Set the filename the result is stored in. Supported formats are: : #{formats.join(', ')}") do |filename|
+    options[:filename] = filename
   end
 
-  opts.on("-c COLUMNS", "--columns COLUMNS", Integer, "Set number of columns") do |c|
-    options[:columns] = c
+  opts.on("-c COLUMNS", "--columns COLUMNS", Integer, "Set number of columns") do |columns|
+    options[:columns] = columns
   end
 
-  opts.on("-r RADIUS", "--radius RADIUS", Integer, "Set the circle radius") do |r|
-    options[:radius] = r
+  opts.on("-w WIDTH", "--item-width WIDTH", Integer, "Sets the width of the individual item") do |item_width|
+    options[:item_width] = item_width
   end
 
-  opts.on("-h", "--help", "Prints this help") do
+  opts.on("-h HEIGHT", "--item-height HEIGHT", Integer, "Sets the height of the individual item") do |item_height|
+    options[:item_height] = item_height
+  end
+
+  opts.on("-t TYPE", "--type TYPE", formats, "If no filename is provided, output is sent to STDOUT, choose the format: #{formats.join(', ')}") do |type|
+    options[:type] = type
+  end
+
+  opts.on("--help", "Prints this help") do
     puts opts
     exit
   end
 end.parse!(ARGV.empty? ? ['--help'] : ARGV)
 
+if options[:filename]
+  type = options[:filename].match(/.*\.(#{formats.join("|")})/)
+  if type
+    options[:type] = type[1].to_sym
+  else
+    exit 1
+  end
+end
+
 data = options[:data]
-graph_options = options.select { |key, value| [:columns, :radius].include? key }
+graph_options = options.select { |key, value| [:filename, :columns, :item_width, :item_height].include? key }
 
 if data
-  if options[:type] == :text
+  if options[:type] == :txt
     graph = SymbolCountGraph.new(data, graph_options)
   elsif options[:type] == :svg
     graph = SvgCircleCountGraph.new(data, graph_options)
-  elsif options[:type] == :png
+  elsif [:png, :jpg, :gif].include? options[:type]
     graph = BitmapCircleCountGraph.new(data, graph_options)
   end
-  puts graph.render
+  if options[:filename]
+    graph.save
+  else
+    puts graph.render
+  end
 end
