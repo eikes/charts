@@ -8,26 +8,28 @@ Generate info graphic elements with ease
 
 # Usage
 
-You can use the command line tool:
+You can use the command line tool, get help with:
 
     $ bin/graph_tool --help
-
-Usage help is displayed.
-
-    $ bin/graph_tool -c 20 -d X:55,O:33,*:22 -t txt
-
-```
-XXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXOOOOO
-OOOOOOOOOOOOOOOOOOOO
-OOOOOOOO************
-**********
-```
-
-    bin/graph_tool -d Purple:33,Gold:22,Olive:8 -f images/dots.jpg
+    
+Create images:
+    
+    bin/graph_tool --data Purple:33,Gold:22,Olive:8 --filename images/dots.jpg
 
 ![example image](https://raw.githubusercontent.com/eikes/graph_tool/master/images/dots.jpg)
+
+See https://en.wikipedia.org/wiki/Web_colors#X11_color_names to find more color names you can use.
+    
+Create text:
+
+    $ bin/graph_tool --columns 20 --data X:55,O:33,*:22 -t txt
+
+    XXXXXXXXXXXXXXXXXXXX
+    XXXXXXXXXXXXXXXXXXXX
+    XXXXXXXXXXXXXXXOOOOO
+    OOOOOOOOOOOOOOOOOOOO
+    OOOOOOOO************
+    **********
 
 # Development
 
