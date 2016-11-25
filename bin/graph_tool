@@ -1,9 +1,8 @@
 #!/usr/bin/env ruby
 
-require File.expand_path("../../lib/svg_circle_count_graph.rb", __FILE__)
-require File.expand_path("../../lib/symbol_count_graph.rb", __FILE__)
-require File.expand_path("../../lib/bitmap_circle_count_graph.rb", __FILE__)
-require File.expand_path("../../lib/svg_cross_count_graph.rb", __FILE__)
+require File.expand_path('../../lib/svg_circle_count_graph.rb', __FILE__)
+require File.expand_path('../../lib/symbol_count_graph.rb', __FILE__)
+require File.expand_path('../../lib/bitmap_circle_count_graph.rb', __FILE__)
 
 require 'optparse'
 
@@ -13,33 +12,51 @@ options = { type: :svg }
 formats = [:txt, :svg, :png, :jpg, :gif]
 
 OptionParser.new do |opts|
-  opts.banner = "Usage: bin/graph_tool [options]"
-
-  opts.on("-d DATA", "--data DATA", Array, "Provide multiple data points, ie: 'bin/graph_tool -d Red:8,Gold:7'") do |data|
-    options[:data] = data.map { |d| d.split(":") }.to_h
+  opts.banner = 'Usage: bin/graph_tool [options]'
+  opts.on('-d DATA',
+          '--data DATA',
+          Array,
+          "Provide multiple data points, ie: 'bin/graph_tool -d Red:8,Gold:7'"
+         ) do |data|
+    options[:data] = data.map { |d| d.split(':') }.to_h
   end
-
-  opts.on("-f FILENAME", "--filename FILENAME", "Set the filename the result is stored in. Supported formats are: : #{formats.join(', ')}") do |filename|
+  opts.on('-f FILENAME',
+          '--filename FILENAME',
+          "Set the filename the result is stored in. Supported formats are: : #{formats.join(', ')}"
+         ) do |filename|
     options[:filename] = filename
   end
-
-  opts.on("-c COLUMNS", "--columns COLUMNS", Integer, "Set number of columns") do |columns|
+  opts.on('-c COLUMNS',
+          '--columns COLUMNS',
+          Integer,
+          'Set number of columns'
+         ) do |columns|
     options[:columns] = columns
   end
-
-  opts.on("-w WIDTH", "--item-width WIDTH", Integer, "Sets the width of the individual item") do |item_width|
+  opts.on('-w WIDTH',
+          '--item-width WIDTH',
+          Integer,
+          'Sets the width of the individual item'
+         ) do |item_width|
     options[:item_width] = item_width
   end
-
-  opts.on("-h HEIGHT", "--item-height HEIGHT", Integer, "Sets the height of the individual item") do |item_height|
+  opts.on('-h HEIGHT',
+          '--item-height HEIGHT',
+          Integer,
+          'Sets the height of the individual item'
+         ) do |item_height|
     options[:item_height] = item_height
   end
-
-  opts.on("-t TYPE", "--type TYPE", formats, "If no filename is provided, output is sent to STDOUT, choose the format: #{formats.join(', ')}") do |type|
+  opts.on('-t TYPE',
+          '--type TYPE',
+          formats,
+          "If no filename is provided, output is sent to STDOUT, choose the format: #{formats.join(', ')}"
+         ) do |type|
     options[:type] = type
   end
-
-  opts.on("--help", "Prints this help") do
+  opts.on('--help',
+          'Prints this help'
+         ) do
     puts opts
     exit
   end
@@ -55,18 +72,18 @@ if options[:filename]
 end
 
 data = options[:data]
-graph_options = options.select { |key, value| [:filename, :columns, :item_width, :item_height].include? key }
+graph_options = options.select { |key, _value| [:filename, :columns, :item_width, :item_height].include? key }
 
 if data
   if options[:type] == :txt
     graph = SymbolCountGraph.new(data, graph_options)
   elsif options[:type] == :svg
-    graph = SvgCrossCountGraph.new(data, graph_options)
+    graph = SvgCircleCountGraph.new(data, graph_options)
   elsif [:png, :jpg, :gif].include? options[:type]
     graph = BitmapCircleCountGraph.new(data, graph_options)
   end
   if options[:filename]
-    graph.save
+    graph.render
   else
     puts graph.render
   end

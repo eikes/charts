@@ -33,9 +33,11 @@ RSpec.describe BitmapCircleCountGraph do
     graph.render
   end
 
-  it 'calls #write on the image' do
-    expect_any_instance_of(Magick::ImageList).to receive(:write)
-    graph.save
+  context 'filename is set' do
+    let(:options) { { filename: 'dots.jpg' } }
+    it 'calls #write on the image' do
+      expect_any_instance_of(Magick::ImageList).to receive(:write)
+      graph.render
+    end
   end
-
 end

@@ -1,16 +1,13 @@
-require_relative 'image_count_graph'
+require_relative 'count_graph'
 
-class CircleCountGraph < ImageCountGraph
-
-  def draw_item(column_count, row_count, color)
-    cx = radius + 2 * column_count * radius
-    cy = radius + 2 * row_count * radius
+class CircleCountGraph < CountGraph
+  def draw_item(x, y, color)
+    cx = x + @options[:item_width] / 2
+    cy = y + @options[:item_height] / 2
     circle(cx, cy, color)
   end
 
   def radius
     @options[:item_width] / 2
   end
-
 end
-
