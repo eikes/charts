@@ -7,7 +7,7 @@ require File.expand_path('../../lib/cross_count_graph.rb', __FILE__)
 require 'optparse'
 
 formats = [:txt, :svg, :png, :jpg, :gif]
-styles = [:cirlce, :cross]
+styles = [:circle, :cross]
 # defaults:
 options = { type: :svg, style: :circle }
 

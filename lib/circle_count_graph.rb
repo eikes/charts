@@ -8,11 +8,7 @@ class CircleCountGraph < CountGraph
     cx = x + @options[:item_width] / 2
     cy = y + @options[:item_height] / 2
     radius = @options[:item_width] / 2
-    if is_svg?
-      svg.circle cx: cx, cy: cy, r: radius, fill: color
-    else
-      canvas.fill color
-      canvas.circle cx, cy, x, cy
-    end
+
+    circle cx, cy, radius, { fill: color }
   end
 end
