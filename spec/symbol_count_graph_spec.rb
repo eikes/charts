@@ -3,31 +3,29 @@ require 'symbol_count_graph'
 
 RSpec.describe SymbolCountGraph do
 
-  describe '#render' do
-    it 'outputs x when x: 1' do
-      graph = SymbolCountGraph.new({ x: 1 })
-      expect(graph.render).to eq 'x'
+  shared_examples 'renders text' do |data, options, result|
+    it "outputs #{result.gsub("\n", "\\n")} when data = #{data} and options = #{options}" do
+      graph = SymbolCountGraph.new(data, options)
+      expect(graph.render).to eq result
     end
-    it 'outputs xx when x: 2' do
-      graph = SymbolCountGraph.new({ x: 2 })
-      expect(graph.render).to eq 'xx'
-    end
-    it 'outputs xx\nx when x: 3, columns: 2' do
-      graph = SymbolCountGraph.new({ x: 3 }, { columns: 2 })
-      expect(graph.render).to eq "xx\nx"
-    end
-    it 'outputs xxx\nx when x: 4, columns: 3' do
-      graph = SymbolCountGraph.new({ x: 4 }, { columns: 3 })
-      expect(graph.render).to eq "xxx\nx"
-    end
-    it 'outputs xx\nxo\no when x: 3, o: 2, columns: 2' do
-      graph = SymbolCountGraph.new({ x: 3, o: 2 }, { columns: 2 })
-      expect(graph.render).to eq "xx\nxo\no"
-    end
+  end
 
-    it 'renders the first letter of the key only' do
-      graph = SymbolCountGraph.new({ foto: 1, otto: 2 })
-      expect(graph.render).to eq 'foo'
+  describe '#render' do
+    include_examples 'renders text', { x: 1 }, {}, 'x'
+    include_examples 'renders text', { x: 2 }, {}, 'xx'
+    include_examples 'renders text', { x: 3 }, { columns: 2 }, "xx\nx"
+    include_examples 'renders text', { x: 4 }, { columns: 3 }, "xxx\nx"
+    include_examples 'renders text', { x: 3, o: 2 }, { columns: 2 }, "xx\nxo\no"
+    include_examples 'renders text', { foto: 1, otto: 2 }, {}, 'foo' # renders the first letter of the key only
+  end
+
+  context 'filename is set' do
+    let(:data) { { x: 1 } }
+    let(:options) { { filename: 'dots.txt' } }
+    let(:graph) { SymbolCountGraph.new(data, options) }
+    it 'calls File#open' do
+      expect(File).to receive(:open)
+      graph.render
     end
   end
 

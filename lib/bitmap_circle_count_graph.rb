@@ -13,7 +13,11 @@ class BitmapCircleCountGraph < CircleCountGraph
 
   def post_draw
     canvas.draw(image)
-    image.to_blob { |attrs| attrs.format = 'PNG' }
+    if options[:filename]
+      image.write options[:filename]
+    else
+      image.to_blob { |attrs| attrs.format = 'PNG' }
+    end
   end
 
   def circle(cx, cy, color)
@@ -21,12 +25,4 @@ class BitmapCircleCountGraph < CircleCountGraph
     canvas.circle cx, cy, cx - radius, cy
   end
 
-  def save
-    pre_draw
-    draw
-    canvas.draw(image)
-    image.write options[:filename]
-  end
-
 end
-

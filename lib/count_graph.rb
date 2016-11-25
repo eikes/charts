@@ -32,8 +32,4 @@ class CountGraph
     raise NotImplementedError
   end
 
-  def save
-    raise NotImplementedError
-  end
-
 end
