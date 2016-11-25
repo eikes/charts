@@ -1,14 +1,15 @@
 #!/usr/bin/env ruby
 
-require File.expand_path('../../lib/circle_count_graph.rb', __FILE__)
 require File.expand_path('../../lib/symbol_count_graph.rb', __FILE__)
+require File.expand_path('../../lib/circle_count_graph.rb', __FILE__)
+require File.expand_path('../../lib/cross_count_graph.rb', __FILE__)
 
 require 'optparse'
 
-# defaults:
-options = { type: :svg }
-
 formats = [:txt, :svg, :png, :jpg, :gif]
+styles = [:cirlce, :cross]
+# defaults:
+options = { type: :svg, style: :circle }
 
 OptionParser.new do |opts|
   opts.banner = 'Usage: bin/graph_tool [options]'
@@ -24,6 +25,13 @@ OptionParser.new do |opts|
           "Set the filename the result is stored in. Supported formats are: : #{formats.join(', ')}"
          ) do |filename|
     options[:filename] = filename
+  end
+  opts.on('-s STYLE',
+          '--style STYLE',
+          styles,
+          "Choose the graph style: #{styles.join(', ')}"
+         ) do |style|
+    options[:style] = style
   end
   opts.on('-c COLUMNS',
           '--columns COLUMNS',
@@ -77,7 +85,11 @@ if data
   if options[:type] == :txt
     graph = SymbolCountGraph.new(data, graph_options)
   elsif [:svg, :png, :jpg, :gif].include? options[:type]
-    graph = CircleCountGraph.new(data, graph_options)
+    if options[:style] == :circle
+      graph = CircleCountGraph.new(data, graph_options)
+    elsif options[:style] == :cross
+      graph = CrossCountGraph.new(data, graph_options)
+    end
   end
   if options[:filename]
     graph.render
