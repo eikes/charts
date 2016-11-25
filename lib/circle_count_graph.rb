@@ -1,6 +1,6 @@
-require_relative 'image_count_graph'
+require_relative 'count_graph'
 
-class CircleCountGraph < ImageCountGraph
+class CircleCountGraph < CountGraph
 
   def draw_item(column_count, row_count, color)
     cx = radius + 2 * column_count * radius

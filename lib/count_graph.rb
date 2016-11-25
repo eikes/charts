@@ -9,15 +9,15 @@ class CountGraph
     @prepared_data = prepare_data
   end
 
-  def default_options
-    { columns: 10 }
-  end
-
   def validate_arguments(data, options)
     raise ArgumentError if data.empty?
     raise ArgumentError unless data.is_a? Hash
     raise ArgumentError unless options.is_a? Hash
     raise ArgumentError unless data.values.all? { |x| Integer(x) }
+  end
+
+  def default_options
+    { columns: 10, item_width: 20, item_height: 20 }
   end
 
   def prepare_data
@@ -29,7 +29,37 @@ class CountGraph
   end
 
   def render
+    pre_draw
+    draw
+    post_draw
+  end
+
+  def pre_draw
     raise NotImplementedError
+  end
+
+  def draw
+    prepared_data.each_with_index do |row, row_count|
+      row.each_with_index do |color, column_count|
+        draw_item(column_count, row_count, color)
+      end
+    end
+  end
+
+  def draw_item
+    raise NotImplementedError
+  end
+
+  def post_draw
+    raise NotImplementedError
+  end
+
+  def width
+    prepared_data.first.count * @options[:item_width]
+  end
+
+  def height
+    prepared_data.count * @options[:item_height]
   end
 
 end
