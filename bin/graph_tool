@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 
-require File.expand_path('../../lib/svg_circle_count_graph.rb', __FILE__)
+require File.expand_path('../../lib/circle_count_graph.rb', __FILE__)
 require File.expand_path('../../lib/symbol_count_graph.rb', __FILE__)
-require File.expand_path('../../lib/bitmap_circle_count_graph.rb', __FILE__)
 
 require 'optparse'
 
@@ -72,15 +71,13 @@ if options[:filename]
 end
 
 data = options[:data]
-graph_options = options.select { |key, _value| [:filename, :columns, :item_width, :item_height].include? key }
+graph_options = options.select { |key, _value| [:filename, :type, :columns, :item_width, :item_height].include? key }
 
 if data
   if options[:type] == :txt
     graph = SymbolCountGraph.new(data, graph_options)
-  elsif options[:type] == :svg
-    graph = SvgCircleCountGraph.new(data, graph_options)
-  elsif [:png, :jpg, :gif].include? options[:type]
-    graph = BitmapCircleCountGraph.new(data, graph_options)
+  elsif [:svg, :png, :jpg, :gif].include? options[:type]
+    graph = CircleCountGraph.new(data, graph_options)
   end
   if options[:filename]
     graph.render

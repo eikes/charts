@@ -16,7 +16,7 @@ class CountGraph
   end
 
   def default_options
-    { columns: 10, item_width: 20, item_height: 20 }
+    { columns: 10, type: :svg, item_width: 20, item_height: 20 }
   end
 
   def prepare_data
