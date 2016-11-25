@@ -3,6 +3,7 @@
 require File.expand_path("../../lib/svg_circle_count_graph.rb", __FILE__)
 require File.expand_path("../../lib/symbol_count_graph.rb", __FILE__)
 require File.expand_path("../../lib/bitmap_circle_count_graph.rb", __FILE__)
+require File.expand_path("../../lib/svg_cross_count_graph.rb", __FILE__)
 
 require 'optparse'
 
@@ -60,7 +61,7 @@ if data
   if options[:type] == :txt
     graph = SymbolCountGraph.new(data, graph_options)
   elsif options[:type] == :svg
-    graph = SvgCircleCountGraph.new(data, graph_options)
+    graph = SvgCrossCountGraph.new(data, graph_options)
   elsif [:png, :jpg, :gif].include? options[:type]
     graph = BitmapCircleCountGraph.new(data, graph_options)
   end
