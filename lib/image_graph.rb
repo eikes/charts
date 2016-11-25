@@ -2,61 +2,72 @@ require 'rmagick'
 require 'victor'
 
 module ImageGraph
-  attr_reader :canvas, :image, :svg
+  attr_reader :graph
 
   def is_svg?
     options[:type] == :svg
   end
 
   def pre_draw
-    if is_svg?
-      @svg = SVG.new width: width, height: height
-    else
-      @image = Magick::ImageList.new
-      image.new_image(width, height)
-      @canvas = Magick::Draw.new
-    end
+    @graph = is_svg? ? SvgGraph.new(width, height) : BitmapGraph.new(width, height)
   end
 
   def post_draw
     filename = options[:filename]
-    if is_svg?
-      if filename
-        svg.save filename
-      else
-        svg.render
-      end
+    if filename
+      graph.save filename
     else
-      canvas.draw(image)
-      if filename
-        image.write filename
-      else
-        image.to_blob { |attrs| attrs.format = 'PNG' }
-      end
+      graph.render
     end
   end
 
-  def line(x1, y1, x2, y2, style)
-    if is_svg?
+  class SvgGraph
+    attr_reader :svg
+    def initialize(width, height)
+      @svg = SVG.new width: width, height: height
+    end
+    def render
+      svg.render
+    end
+    def save(filename)
+      svg.save filename
+    end
+    def line(x1, y1, x2, y2, style)
       svg.line style.merge({ x1: x1, y1: y1, x2: x2, y2: y2 })
-    else
+    end
+    def circle(cx, cy, radius, style)
+      svg.circle style.merge({ cx: cx, cy: cy, r: radius })
+    end
+  end
+
+  class BitmapGraph
+    attr_reader :canvas, :image
+    def initialize(width, height)
+      @image = Magick::ImageList.new
+      image.new_image(width, height)
+      @canvas = Magick::Draw.new
+    end
+    def render
+      canvas.draw(image)
+      image.to_blob { |attrs| attrs.format = 'PNG' }
+    end
+    def save(filename)
+      canvas.draw(image)
+      image.write filename
+    end
+    def line(x1, y1, x2, y2, style)
       set_canvas_style style
       canvas.line x1, y1, x2, y2
     end
-  end
-
-  def circle(cx, cy, radius, style)
-    if is_svg?
-      svg.circle style.merge({ cx: cx, cy: cy, r: radius })
-    else
+    def circle(cx, cy, radius, style)
       set_canvas_style style
       canvas.circle cx, cy, cx - radius, cy
     end
-  end
-
-  def set_canvas_style(style)
-    style.each do |key, value|
-      canvas.send key, value
+    def set_canvas_style(style)
+      style.each do |key, value|
+        canvas.send key, value
+      end
     end
   end
+
 end

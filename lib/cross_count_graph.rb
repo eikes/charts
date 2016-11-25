@@ -12,7 +12,7 @@ class CrossCountGraph < CountGraph
 
     style  = { stroke: color, stroke_width: 6, stroke_linecap: 'round' }
 
-    line left, top, right, bottom, style
-    line left, bottom, right, top, style
+    graph.line left, top, right, bottom, style
+    graph.line left, bottom, right, top, style
   end
 end

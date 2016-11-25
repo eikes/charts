@@ -9,6 +9,6 @@ class CircleCountGraph < CountGraph
     cy = y + @options[:item_height] / 2
     radius = @options[:item_width] / 2
 
-    circle cx, cy, radius, { fill: color }
+    graph.circle cx, cy, radius, { fill: color }
   end
 end
