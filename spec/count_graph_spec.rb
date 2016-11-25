@@ -129,4 +129,22 @@ RSpec.describe CountGraph do
       include_examples 'has a width and height of', 40, 20
     end
   end
+
+  context 'A child class has not implemented the required methods' do
+
+    class BogusCountGraph < CountGraph
+    end
+
+    it 'raises an exception when pre_draw is called' do
+      expect { BogusCountGraph.new({ x: 1 }).pre_draw }.to raise_error(NotImplementedError)
+    end
+
+    it 'raises an exception when draw_item is called' do
+      expect { BogusCountGraph.new({ x: 1 }).draw_item(1,2,:red) }.to raise_error(NotImplementedError)
+    end
+
+    it 'raises an exception when post_draw is called' do
+      expect { BogusCountGraph.new({ x: 1 }).post_draw }.to raise_error(NotImplementedError)
+    end
+  end
 end
