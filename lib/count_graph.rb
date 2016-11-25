@@ -41,12 +41,14 @@ class CountGraph
   def draw
     prepared_data.each_with_index do |row, row_count|
       row.each_with_index do |color, column_count|
-        draw_item(column_count, row_count, color)
+        x = column_count * @options[:item_width]
+        y = row_count * @options[:item_height]
+        draw_item(x, y, color)
       end
     end
   end
 
-  def draw_item
+  def draw_item(x, y, color)
     raise NotImplementedError
   end
 
