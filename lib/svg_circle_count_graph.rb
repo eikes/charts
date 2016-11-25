@@ -2,7 +2,6 @@ require_relative 'circle_count_graph'
 require 'victor'
 
 class SvgCircleCountGraph < CircleCountGraph
-
   attr_reader :svg
 
   def pre_draw
@@ -20,6 +19,4 @@ class SvgCircleCountGraph < CircleCountGraph
   def circle(cx, cy, color)
     svg.circle cx: cx, cy: cy, r: radius, fill: color
   end
-
 end
-

@@ -40,5 +40,4 @@ RSpec.describe BitmapCircleCountGraph do
       graph.render
     end
   end
-
 end

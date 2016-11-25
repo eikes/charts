@@ -53,7 +53,7 @@ RSpec.describe SvgCircleCountGraph do
   end
 
   context 'one circle' do
-    let(:data) { { "#FACADE" => 1 } }
+    let(:data) { { '#FACADE' => 1 } }
     let(:options) { { item_width: 100 } }
     let(:circle) { svg.find('circle') }
     it 'renders one circle with the correct color' do
@@ -72,23 +72,23 @@ RSpec.describe SvgCircleCountGraph do
       expect(svg.all('circle').count).to eq(2)
     end
     it 'renders one red circle' do
-      expect(red_circle[:fill]).to eq("red")
+      expect(red_circle[:fill]).to eq('red')
     end
     it 'renders the red circle on the left' do
-      expect(red_circle[:cx]).to eq("10")
+      expect(red_circle[:cx]).to eq('10')
     end
     it 'renders the red circle on the top' do
-      expect(red_circle[:cy]).to eq("10")
+      expect(red_circle[:cy]).to eq('10')
     end
 
     it 'renders one green circle' do
-      expect(green_circle[:fill]).to eq("green")
+      expect(green_circle[:fill]).to eq('green')
     end
     it 'renders the green circle on the right' do
-      expect(green_circle[:cx]).to eq("30")
+      expect(green_circle[:cx]).to eq('30')
     end
     it 'renders the green circle on the top' do
-      expect(green_circle[:cy]).to eq("10")
+      expect(green_circle[:cy]).to eq('10')
     end
   end
 
@@ -99,5 +99,4 @@ RSpec.describe SvgCircleCountGraph do
       graph.render
     end
   end
-
 end

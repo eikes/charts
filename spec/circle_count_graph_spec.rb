@@ -8,6 +8,4 @@ RSpec.describe CircleCountGraph do
   let(:data) { { red: 1 } }
   let(:options) { { columns: 2 } }
   let(:graph) { CircleCountGraph.new(data, options) }
-
-
 end

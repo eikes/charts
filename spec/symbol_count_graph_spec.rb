@@ -2,9 +2,8 @@ require 'spec_helper'
 require 'symbol_count_graph'
 
 RSpec.describe SymbolCountGraph do
-
   shared_examples 'renders text' do |data, options, result|
-    it "outputs #{result.gsub("\n", "\\n")} when data = #{data} and options = #{options}" do
+    it "outputs #{result.gsub("\n", '\\n')} when data = #{data} and options = #{options}" do
       graph = SymbolCountGraph.new(data, options)
       expect(graph.render).to eq result
     end
@@ -28,5 +27,4 @@ RSpec.describe SymbolCountGraph do
       graph.render
     end
   end
-
 end

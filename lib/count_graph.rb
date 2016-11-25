@@ -1,5 +1,4 @@
 class CountGraph
-
   attr_reader :data, :options, :prepared_data
 
   def initialize(data, options = {})
@@ -48,7 +47,7 @@ class CountGraph
     end
   end
 
-  def draw_item(x, y, color)
+  def draw_item(_x, _y, _color)
     raise NotImplementedError
   end
 
@@ -63,5 +62,4 @@ class CountGraph
   def height
     prepared_data.count * @options[:item_height]
   end
-
 end

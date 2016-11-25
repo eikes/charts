@@ -2,11 +2,10 @@ require_relative 'circle_count_graph'
 require 'RMagick'
 
 class BitmapCircleCountGraph < CircleCountGraph
-
   attr_reader :canvas, :image
 
   def pre_draw
-    @image  = Magick::ImageList.new
+    @image = Magick::ImageList.new
     image.new_image(width, height)
     @canvas = Magick::Draw.new
   end
@@ -24,5 +23,4 @@ class BitmapCircleCountGraph < CircleCountGraph
     canvas.fill color
     canvas.circle cx, cy, cx - radius, cy
   end
-
 end
