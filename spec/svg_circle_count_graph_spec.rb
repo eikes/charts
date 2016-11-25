@@ -84,7 +84,7 @@ RSpec.describe SvgCircleCountGraph do
     it 'renders one green circle' do
       expect(green_circle[:fill]).to eq("green")
     end
-    it 'renders the green circle on the left' do
+    it 'renders the green circle on the right' do
       expect(green_circle[:cx]).to eq("30")
     end
     it 'renders the green circle on the top' do
