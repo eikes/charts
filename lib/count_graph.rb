@@ -1,22 +1,13 @@
-class CountGraph
-  attr_reader :data, :options, :prepared_data
+require_relative 'graph'
 
-  def initialize(data, options = {})
-    validate_arguments(data, options)
-    @data = data
-    @options = default_options.merge options
-    @prepared_data = prepare_data
+class CountGraph < Graph
+  def default_options
+    super.merge({ columns: 10, item_width: 20, item_height: 20 })
   end
 
   def validate_arguments(data, options)
-    raise ArgumentError if data.empty?
-    raise ArgumentError unless data.is_a? Hash
-    raise ArgumentError unless options.is_a? Hash
+    super(data, options)
     raise ArgumentError unless data.values.all? { |x| Integer(x) }
-  end
-
-  def default_options
-    { columns: 10, type: :svg, item_width: 20, item_height: 20 }
   end
 
   def prepare_data
@@ -25,16 +16,6 @@ class CountGraph
       value.to_i.times { prepared_data << key.to_s }
     end
     prepared_data.each_slice(options[:columns]).to_a
-  end
-
-  def render
-    pre_draw
-    draw
-    post_draw
-  end
-
-  def pre_draw
-    raise NotImplementedError
   end
 
   def draw
@@ -48,10 +29,6 @@ class CountGraph
   end
 
   def draw_item(_x, _y, _color)
-    raise NotImplementedError
-  end
-
-  def post_draw
     raise NotImplementedError
   end
 

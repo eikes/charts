@@ -5,7 +5,11 @@ module ImageGraph
   attr_reader :graph
 
   def pre_draw
-    @graph = options[:type] == :svg ? SvgGraph.new(width, height) : BitmapGraph.new(width, height)
+    @graph = if options[:type] == :svg
+      SvgGraph.new(width, height)
+    else
+      BitmapGraph.new(width, height)
+    end
   end
 
   def post_draw
