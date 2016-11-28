@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'bar_graph'
 
 RSpec.describe BarGraph do
-  let(:data) { [[10, 20, 25, 30]] }
+  let(:data) { [[0, 10, 15, 20]] }
   let(:options) { {} }
   let(:graph) { BarGraph.new(data, options) }
   let(:svg) { Capybara.string(graph.render) }
@@ -72,21 +72,43 @@ RSpec.describe BarGraph do
   end
 
   context 'one dataset with four bars' do
-    let(:data) { [[10, 20, 25, 30]] }
-    it 'renders three rect' do
+    let(:data) { [[0, 10, 15, 20]] }
+    it 'renders four rect' do
       expect(rectangles.count).to eq(4)
     end
     it 'correctly sets the xs' do
       expect(xs).to eq(['0.0', '25.0', '50.0', '75.0'])
     end
     it 'correctly sets the width' do
-      expect(widths).to eq(['25.0', '25.0', '25.0', '25.0'])
+      expect(widths).to eq(['25', '25', '25', '25'])
     end
     it 'correctly sets the ys' do
       expect(ys).to eq(['100.0', '50.0', '25.0', '0.0'])
     end
     it 'correctly sets the heights' do
       expect(heights).to eq(['0.0', '50.0', '75.0', '100.0'])
+    end
+  end
+
+  context 'one dataset with two bars, include_zero: true' do
+    let(:data) { [[10, 20]] }
+    let(:options) { { include_zero: true } }
+    it 'correctly sets the ys' do
+      expect(ys).to eq(['50.0', '0.0'])
+    end
+    it 'correctly sets the heights' do
+      expect(heights).to eq(['50.0', '100.0'])
+    end
+  end
+
+  context 'one dataset with two bars, include_zero: false' do
+    let(:data) { [[10, 20]] }
+    let(:options) { { include_zero: false } }
+    it 'correctly sets the ys' do
+      expect(ys).to eq(['100.0', '0.0'])
+    end
+    it 'correctly sets the heights' do
+      expect(heights).to eq(['0.0', '100.0'])
     end
   end
 
@@ -99,7 +121,7 @@ RSpec.describe BarGraph do
       expect(xs).to eq(['0.0', '25.0', '50.0', '75.0'])
     end
     it 'correctly sets the width' do
-      expect(widths).to eq(['25.0', '25.0', '25.0', '25.0'])
+      expect(widths).to eq(['25', '25', '25', '25'])
     end
     it 'correctly sets the ys' do
       expect(ys).to eq(['75.0', '75.0', '50.0', '0.0'])
