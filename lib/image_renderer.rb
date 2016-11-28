@@ -1,19 +1,23 @@
 require 'rmagick'
 require 'victor'
 
-module ImageGraph
-  attr_reader :graph
+module ImageRenderer
+  attr_reader :renderer
 
   def pre_draw
-    @graph = options[:type] == :svg ? SvgGraph.new(width, height) : BitmapGraph.new(width, height)
+    @renderer = if options[:type] == :svg
+      SvgGraph.new(width, height)
+    else
+      BitmapGraph.new(width, height)
+    end
   end
 
   def post_draw
     filename = options[:filename]
     if filename
-      graph.save filename
+      renderer.save filename
     else
-      graph.render
+      renderer.render
     end
   end
 
@@ -32,12 +36,16 @@ module ImageGraph
       svg.save filename
     end
 
-    def line(x1, y1, x2, y2, style)
+    def line(x1, y1, x2, y2, style = {})
       svg.line style.merge(x1: x1, y1: y1, x2: x2, y2: y2)
     end
 
-    def circle(cx, cy, radius, style)
+    def circle(cx, cy, radius, style = {})
       svg.circle style.merge(cx: cx, cy: cy, r: radius)
+    end
+
+    def rect(x, y, width, height, style = {})
+      svg.rect style.merge(x: x, y: y, width: width, height: height)
     end
   end
 
@@ -68,6 +76,11 @@ module ImageGraph
     def circle(cx, cy, radius, style)
       apply_canvas_style style
       canvas.circle cx, cy, cx - radius, cy
+    end
+
+    def rect(x, y, width, height, style)
+      apply_canvas_style style
+      canvas.rectangle(x, y, x + width, y + height)
     end
 
     def apply_canvas_style(style)

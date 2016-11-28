@@ -7,31 +7,6 @@ RSpec.describe CountGraph do
   let(:graph) { CountGraph.new(data, options) }
 
   describe '#initialize' do
-    it 'raises an error when no data is provided' do
-      expect { CountGraph.new }.to raise_error(ArgumentError)
-    end
-    it 'calls the validate_arguments method' do
-      expect_any_instance_of(CountGraph).to receive(:validate_arguments)
-      CountGraph.new({})
-    end
-    it 'raises an error when the data hash is empty' do
-      expect { CountGraph.new({}) }.to raise_error(ArgumentError)
-    end
-    it 'raises an error when the data is not a hash' do
-      expect { CountGraph.new('x') }.to raise_error(ArgumentError)
-    end
-    it 'raises an error when the options are not a hash' do
-      expect { CountGraph.new({ x: 2 }, 'x') }.to raise_error(ArgumentError)
-    end
-
-    it 'stores the data in an instance attribute' do
-      graph = CountGraph.new(x: 2)
-      expect(graph.data).to eq(x: 2)
-    end
-    it 'stores the options in an instance attribute' do
-      graph = CountGraph.new({ x: 2 }, columns: 2)
-      expect(graph.options).to include(columns: 2)
-    end
     it 'provides default options' do
       graph = CountGraph.new(x: 2)
       expect(graph.options[:columns]).to eq(10)
@@ -44,6 +19,9 @@ RSpec.describe CountGraph do
     it 'accepts numbers as strings' do
       expect { CountGraph.new(x: '2') }.to_not raise_error
     end
+    it 'raises an error when the data is not a hash' do
+      expect { CountGraph.new('x') }.to raise_error(ArgumentError)
+    end
     it 'raises an error when value is not an Integer' do
       expect { CountGraph.new(x: '@$') }.to raise_error(ArgumentError)
     end
@@ -53,10 +31,6 @@ RSpec.describe CountGraph do
   end
 
   describe '#prepare_data' do
-    it 'calls the prepare_data method' do
-      expect_any_instance_of(CountGraph).to receive(:prepare_data)
-      CountGraph.new(x: 1)
-    end
     it 'creates the prepared_data for simple keys' do
       graph = CountGraph.new({ x: 3, o: 2 }, columns: 2)
       expect(graph.prepared_data).to eq([
@@ -81,7 +55,7 @@ RSpec.describe CountGraph do
     it 'has a default item height of 20' do
       expect(graph.options[:item_height]).to eq(20)
     end
-    context 'with radius 20 in the options' do
+    context 'with item_width 40 and item_height 40 in the options' do
       let(:options) { { item_width: 40, item_height: 40 } }
       it 'has the item_width in the options attribute' do
         expect(graph.options[:item_width]).to eq(40)
@@ -133,16 +107,8 @@ RSpec.describe CountGraph do
     class BogusCountGraph < CountGraph
     end
 
-    it 'raises an exception when pre_draw is called' do
-      expect { BogusCountGraph.new(x: 1).pre_draw }.to raise_error(NotImplementedError)
-    end
-
     it 'raises an exception when draw_item is called' do
       expect { BogusCountGraph.new(x: 1).draw_item(1, 2, :red) }.to raise_error(NotImplementedError)
-    end
-
-    it 'raises an exception when post_draw is called' do
-      expect { BogusCountGraph.new(x: 1).post_draw }.to raise_error(NotImplementedError)
     end
   end
 end
