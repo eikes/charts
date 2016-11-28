@@ -5,14 +5,16 @@ RSpec.describe BarGraph do
   let(:data) { [[0, 10, 15, 20]] }
   let(:options) do
     {
-      width:        100,
-      height:       100,
+      width:        width,
+      height:       height,
       group_margin: group_margin,
       bar_margin:   bar_margin,
       outer_margin: outer_margin,
       include_zero: include_zero
     }
   end
+  let(:width) { 100 }
+  let(:height) { 100 }
   let(:group_margin) { 0 }
   let(:bar_margin) { 0 }
   let(:outer_margin) { 0 }
@@ -167,13 +169,14 @@ RSpec.describe BarGraph do
   end
 
   context 'two dataset with two bars bar_margin: 0, group_margin: 10' do
-    let(:data) { [[10, 20], [15, 25]] }
-    let(:group_margin) { 20 }
+    let(:data) { [[10, 20, 30, 40], [15, 25, 35, 45]] }
+    let(:width) { 110 }
+    let(:group_margin) { 10 }
     it 'correctly sets the xs' do
-      expect(xs).to eq(['0', '60', '20', '80'])
+      expect(xs).to eq(['0', '30', '60', '90', '10', '40', '70', '100'])
     end
     it 'correctly sets the widths' do
-      expect(widths).to eq(['20', '20', '20', '20'])
+      expect(widths).to eq(['10', '10', '10', '10', '10', '10', '10', '10'])
     end
   end
 

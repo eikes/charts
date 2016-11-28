@@ -13,7 +13,7 @@ class BarGraph < Graph
       include_zero: true,
       outer_margin: 50,
       group_margin: 20,
-      bar_margin: 2
+      bar_margin: 1
     })
   end
 
@@ -69,31 +69,52 @@ class BarGraph < Graph
     # counting from left to right or top to bottom:
     bar_number = set_nr + data_point_nr * set_count
 
-    width_without_margins = width.to_f - (set_count - 1) * options[:group_margin] - 2 * options[:outer_margin]
-    height_without_margins = height - 2 * options[:outer_margin]
+    all_bars_width = inner_width.to_f - (bars_pers_set - 1) * group_margin
 
-    w = (width_without_margins / bar_count).floor.to_i - 2 * options[:bar_margin]
-    h = height_without_margins * (data_point - base_line).abs
-    x = (width_without_margins * bar_number / bar_count).floor.to_i
-    x += options[:outer_margin] + options[:bar_margin] + options[:group_margin] * data_point_nr # Add margins
-    y = height_without_margins * ([(1 - data_point), (1 - base_line)].min)
-    y += options[:outer_margin] # Add margins
+    w = (all_bars_width / bar_count).floor.to_i - 2 * bar_margin
+    h = inner_height * (data_point - base_line).abs
+
+    x = inner_left + bar_margin + (all_bars_width * bar_number / bar_count).floor.to_i + group_margin * data_point_nr
+    y = inner_top + inner_height * ([(1 - data_point), (1 - base_line)].min)
 
     renderer.rect x, y, w, h, { fill: colors[set_nr], class: 'bar' }
   end
 
   def draw_background
     renderer.rect 0, 0, width, height, { fill: '#EEEEEE' }
-    m = options[:outer_margin]
-    renderer.rect m, m, width - 2*m, height - 2*m, { fill: '#FFFFFF' }
+    renderer.rect inner_left, inner_top, inner_width, inner_height, { fill: '#FFFFFF' }
+  end
+
+  def inner_left
+    options[:outer_margin]
+  end
+
+  def inner_top
+    options[:outer_margin]
   end
 
   def width
     options[:width]
   end
 
+  def inner_width
+    width - 2 * options[:outer_margin]
+  end
+
   def height
     options[:height]
+  end
+
+  def inner_height
+    height - 2 * options[:outer_margin]
+  end
+
+  def bar_margin
+    options[:bar_margin]
+  end
+
+  def group_margin
+    options[:group_margin]
   end
 
   def colors
