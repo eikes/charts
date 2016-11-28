@@ -3,11 +3,12 @@
 require File.expand_path('../../lib/symbol_count_graph.rb', __FILE__)
 require File.expand_path('../../lib/circle_count_graph.rb', __FILE__)
 require File.expand_path('../../lib/cross_count_graph.rb', __FILE__)
+require File.expand_path('../../lib/manikin_count_graph.rb', __FILE__)
 
 require 'optparse'
 
 formats = [:txt, :svg, :png, :jpg, :gif]
-styles = [:circle, :cross]
+styles = [:circle, :cross, :manikin]
 # defaults:
 options = { type: :svg, style: :circle }
 
@@ -89,6 +90,8 @@ if data
       graph = CircleCountGraph.new(data, graph_options)
     elsif options[:style] == :cross
       graph = CrossCountGraph.new(data, graph_options)
+    elsif options[:style] == :manikin
+      graph = ManikinCountGraph.new(data, graph_options)
     end
   end
   if options[:filename]
