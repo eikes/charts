@@ -19,6 +19,9 @@ RSpec.describe CountGraph do
     it 'accepts numbers as strings' do
       expect { CountGraph.new(x: '2') }.to_not raise_error
     end
+    it 'raises an error when the data is not a hash' do
+      expect { CountGraph.new('x') }.to raise_error(ArgumentError)
+    end
     it 'raises an error when value is not an Integer' do
       expect { CountGraph.new(x: '@$') }.to raise_error(ArgumentError)
     end

@@ -7,6 +7,7 @@ class CountGraph < Graph
 
   def validate_arguments(data, options)
     super(data, options)
+    raise ArgumentError unless data.is_a? Hash
     raise ArgumentError unless data.values.all? { |x| Integer(x) }
   end
 

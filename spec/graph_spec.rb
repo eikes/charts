@@ -17,9 +17,6 @@ RSpec.describe Graph do
     it 'raises an error when the data hash is empty' do
       expect { Graph.new({}) }.to raise_error(ArgumentError)
     end
-    it 'raises an error when the data is not a hash' do
-      expect { Graph.new('x') }.to raise_error(ArgumentError)
-    end
     it 'raises an error when the options are not a hash' do
       expect { Graph.new({ x: 2 }, 'x') }.to raise_error(ArgumentError)
     end

@@ -6,7 +6,7 @@ RSpec.describe CircleCountGraph do
   include Capybara::RSpecMatchers
 
   let(:data) { { red: 1 } }
-  let(:options) { { columns: 2, type: :svg } }
+  let(:options) { { columns: 2 } }
   let(:graph) { CircleCountGraph.new(data, options) }
   let(:svg) { Capybara.string(graph.render) }
 
