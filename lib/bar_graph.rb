@@ -24,22 +24,9 @@ class BarGraph < Graph
     @set_count = data.count
     @bars_pers_set = data.map(&:count).max
     @bar_count = set_count * bars_pers_set
-
-    @max = options[:max]
-    unless @max
-      @max = data.map(&:max).max
-      @max = 0 if @max.negative? && options[:include_zero]
-    end
-
-    @min = options[:min]
-    unless @min
-      @min = data.map(&:min).min
-      @min = 0 if @min.positive? && options[:include_zero]
-    end
-
-    @base_line = (-min.to_f) / (max - min) # zero value mapped
-    @base_line = 0 if @base_line.negative?
-    @base_line = 1 if @base_line > 1
+    @max = calc_max
+    @min = calc_min
+    @base_line = calc_base_line
 
     data.map do |set|
       set.map do |item|
@@ -108,6 +95,31 @@ class BarGraph < Graph
 
   def group_margin
     options[:group_margin]
+  end
+
+  def calc_max
+    max = options[:max]
+    unless max
+      max = data.map(&:max).max
+      max = 0 if max.negative? && options[:include_zero]
+    end
+    max
+  end
+
+  def calc_min
+    min = options[:min]
+    unless min
+      min = data.map(&:min).min
+      min = 0 if min.positive? && options[:include_zero]
+    end
+    max
+  end
+
+  def calc_base_line
+    base_line = (-min.to_f) / (max - min) # zero value mapped
+    base_line = 0 if base_line.negative?
+    base_line = 1 if base_line > 1
+    base_line
   end
 
   def colors
