@@ -8,9 +8,10 @@ class BarGraph < Graph
 
   def default_options
     super.merge({
-      width:  100,
-      height: 100,
+      width:  600,
+      height: 400,
       include_zero: true,
+      outer_margin: 50,
       group_margin: 20,
       bar_margin: 2
     })
@@ -43,7 +44,6 @@ class BarGraph < Graph
     end
 
     @base_line = (-min.to_f) / (max - min) # zero value mapped
-    puts @base_line
     @base_line = 0 if @base_line < 0
     @base_line = 1 if @base_line > 1
 
@@ -56,6 +56,7 @@ class BarGraph < Graph
   end
 
   def draw
+    draw_background
     prepared_data.each_with_index do |set, set_nr|
       set.each_with_index do |data_point, data_point_nr|
         bar_number = set_nr + data_point_nr * set_count
@@ -68,15 +69,23 @@ class BarGraph < Graph
     # counting from left to right or top to bottom:
     bar_number = set_nr + data_point_nr * set_count
 
-    width_without_group_margins = width.to_f - (set_count - 1) * options[:group_margin]
+    width_without_margins = width.to_f - (set_count - 1) * options[:group_margin] - 2 * options[:outer_margin]
+    height_without_margins = height - 2 * options[:outer_margin]
 
-    w = (width_without_group_margins / bar_count).floor.to_i - 2 * options[:bar_margin]
-    h = height * (data_point - base_line).abs
-    x = (width_without_group_margins * bar_number / bar_count).floor.to_i
-    x += options[:bar_margin] + options[:group_margin] * data_point_nr # Add margins
-    y = height * ([(1 - data_point), (1 - base_line)].min)
+    w = (width_without_margins / bar_count).floor.to_i - 2 * options[:bar_margin]
+    h = height_without_margins * (data_point - base_line).abs
+    x = (width_without_margins * bar_number / bar_count).floor.to_i
+    x += options[:outer_margin] + options[:bar_margin] + options[:group_margin] * data_point_nr # Add margins
+    y = height_without_margins * ([(1 - data_point), (1 - base_line)].min)
+    y += options[:outer_margin] # Add margins
 
-    renderer.rect x, y, w, h, { fill: colors[set_nr] }
+    renderer.rect x, y, w, h, { fill: colors[set_nr], class: 'bar' }
+  end
+
+  def draw_background
+    renderer.rect 0, 0, width, height, { fill: '#EEEEEE' }
+    m = options[:outer_margin]
+    renderer.rect m, m, width - 2*m, height - 2*m, { fill: '#FFFFFF' }
   end
 
   def width
