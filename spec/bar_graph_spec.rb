@@ -3,7 +3,7 @@ require 'bar_graph'
 
 RSpec.describe BarGraph do
   let(:data) { [[0, 10, 15, 20]] }
-  let(:options) { {} }
+  let(:options) { { group_margin: 0, bar_margin: 0 } }
   let(:graph) { BarGraph.new(data, options) }
   let(:svg) { Capybara.string(graph.render) }
 
@@ -77,7 +77,7 @@ RSpec.describe BarGraph do
       expect(rectangles.count).to eq(4)
     end
     it 'correctly sets the xs' do
-      expect(xs).to eq(['0.0', '25.0', '50.0', '75.0'])
+      expect(xs).to eq(['0', '25', '50', '75'])
     end
     it 'correctly sets the width' do
       expect(widths).to eq(['25', '25', '25', '25'])
@@ -118,7 +118,7 @@ RSpec.describe BarGraph do
       expect(rectangles.count).to eq(4)
     end
     it 'correctly sets the xs' do
-      expect(xs).to eq(['0.0', '25.0', '50.0', '75.0'])
+      expect(xs).to eq(['0', '25', '50', '75'])
     end
     it 'correctly sets the width' do
       expect(widths).to eq(['25', '25', '25', '25'])
@@ -128,6 +128,28 @@ RSpec.describe BarGraph do
     end
     it 'correctly sets the heights' do
       expect(heights).to eq(['25.0', '0.0', '25.0', '75.0'])
+    end
+  end
+
+  context 'one dataset with two bars bar_margin: 5' do
+    let(:data) { [[10, 20]] }
+    let(:options) { { bar_margin: 5, group_margin: 0 } }
+    it 'correctly sets the xs' do
+      expect(xs).to eq(['5', '55'])
+    end
+    it 'correctly sets the widths' do
+      expect(widths).to eq(['40', '40'])
+    end
+  end
+
+  context 'two dataset with two bars bar_margin: 0, group_margin: 10' do
+    let(:data) { [[10, 20], [15, 25]] }
+    let(:options) { { bar_margin: 0, group_margin: 20 } }
+    it 'correctly sets the xs' do
+      expect(xs).to eq(['0', '60', '20', '80'])
+    end
+    it 'correctly sets the widths' do
+      expect(widths).to eq(['20', '20', '20', '20'])
     end
   end
 
