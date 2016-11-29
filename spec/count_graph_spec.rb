@@ -6,6 +6,33 @@ RSpec.describe CountGraph do
   let(:options) { { columns: 2 } }
   let(:graph) { CountGraph.new(data, options) }
 
+  describe '#default_options' do
+    let(:data) { { red: 1 } }
+    let(:graph) { CountGraph.new(data, options) }
+    let(:options) { {} }
+    it 'has a default item width of 20' do
+      expect(graph.options[:item_width]).to eq(20)
+    end
+    it 'has a default item height of 20' do
+      expect(graph.options[:item_height]).to eq(20)
+    end
+    it 'has a default inner-margin of 2px' do
+      expect(graph.options[:inner_margin]).to eq(2)
+    end
+    it 'has 10 default columns' do
+      expect(graph.options[:columns]).to eq(10)
+    end
+    context 'with item_width 40 and item_height 40 in the options' do
+      let(:options) { { item_width: 40, item_height: 40 } }
+      it 'has the item_width in the options attribute' do
+        expect(graph.options[:item_width]).to eq(40)
+      end
+      it 'has the item_height in the options attribute' do
+        expect(graph.options[:item_height]).to eq(40)
+      end
+    end
+  end
+
   describe '#initialize' do
     it 'provides default options' do
       graph = CountGraph.new(x: 2)
@@ -34,35 +61,17 @@ RSpec.describe CountGraph do
     it 'creates the prepared_data for simple keys' do
       graph = CountGraph.new({ x: 3, o: 2 }, columns: 2)
       expect(graph.prepared_data).to eq([
-        %w(x x),
-        %w(x o),
-        ['o']
-      ])
+                                          %w(x x),
+                                          %w(x o),
+                                          ['o']
+                                        ])
     end
     it 'creates the prepared_data for complex keys' do
       graph = CountGraph.new({ '#FF0000' => 2, '#00FF00' => 2 }, columns: 2)
       expect(graph.prepared_data).to eq([
-        ['#FF0000', '#FF0000'],
-        ['#00FF00', '#00FF00']
-      ])
-    end
-  end
-
-  describe '#default_options' do
-    it 'has a default item width of 20' do
-      expect(graph.options[:item_width]).to eq(20)
-    end
-    it 'has a default item height of 20' do
-      expect(graph.options[:item_height]).to eq(20)
-    end
-    context 'with item_width 40 and item_height 40 in the options' do
-      let(:options) { { item_width: 40, item_height: 40 } }
-      it 'has the item_width in the options attribute' do
-        expect(graph.options[:item_width]).to eq(40)
-      end
-      it 'has the item_height in the options attribute' do
-        expect(graph.options[:item_height]).to eq(40)
-      end
+                                          ['#FF0000', '#FF0000'],
+                                          ['#00FF00', '#00FF00']
+                                        ])
     end
   end
 
