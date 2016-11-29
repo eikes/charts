@@ -40,4 +40,12 @@ class CountGraph < Graph
   def height
     prepared_data.count * @options[:item_height]
   end
+
+  def item_width
+    @options[:item_width]
+  end
+
+  def item_height
+    @options[:item_height]
+  end
 end
