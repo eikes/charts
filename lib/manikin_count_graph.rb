@@ -12,19 +12,19 @@ class ManikinCountGraph < CountGraph
 
   def head(x, y, color)
     center_x = center_(x)
-    cy = y + @options[:item_height] / 4
-    radius = @options[:item_height] / 8
+    cy = y + item_height / 4
+    radius = item_height / 8
 
     renderer.circle center_x, cy, radius, fill: color
   end
 
   def body(x, y, color)
     center_x = center_(x)
-    top    = y + @options[:item_height] / 2
-    bottom = y + @options[:item_height]
+    top    = y + item_height / 2
+    bottom = y + item_height
     style  = {
       stroke:         color,
-      stroke_width:   @options[:item_width] / 4,
+      stroke_width:   item_width / 4,
       stroke_linecap: 'round',
       class:          'body'
     }
@@ -34,11 +34,11 @@ class ManikinCountGraph < CountGraph
 
   def arms(x, y, color)
     center_x = center_(x)
-    top    = y + @options[:item_height] / 2 - @options[:item_height] * 0.12
-    bottom = y + @options[:item_height] - @options[:item_height] * 0.15
+    top    = y + item_height / 2 - item_height * 0.12
+    bottom = y + item_height - item_height * 0.15
     style  = {
       stroke:         color,
-      stroke_width:   @options[:item_width] / 14,
+      stroke_width:   item_width / 14,
       stroke_linecap: 'round'
     }
 
