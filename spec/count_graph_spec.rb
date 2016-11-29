@@ -34,17 +34,17 @@ RSpec.describe CountGraph do
     it 'creates the prepared_data for simple keys' do
       graph = CountGraph.new({ x: 3, o: 2 }, columns: 2)
       expect(graph.prepared_data).to eq([
-                                          %w(x x),
-                                          %w(x o),
-                                          ['o']
-                                        ])
+        %w(x x),
+        %w(x o),
+        ['o']
+      ])
     end
     it 'creates the prepared_data for complex keys' do
       graph = CountGraph.new({ '#FF0000' => 2, '#00FF00' => 2 }, columns: 2)
       expect(graph.prepared_data).to eq([
-                                          ['#FF0000', '#FF0000'],
-                                          ['#00FF00', '#00FF00']
-                                        ])
+        ['#FF0000', '#FF0000'],
+        ['#00FF00', '#00FF00']
+      ])
     end
   end
 
@@ -100,6 +100,25 @@ RSpec.describe CountGraph do
       let(:data) { { red: 2 } }
       let(:options) { { columns: 2, item_width: 20, item_height: 20 } }
       include_examples 'has a width and height of', 40, 20
+    end
+  end
+
+  describe '#item_height and #item_width' do
+    it 'has a item width attribute' do
+      expect(graph).to respond_to(:item_width)
+    end
+    it 'has a item height attribute' do
+      expect(graph).to respond_to(:item_height)
+    end
+    context 'setup' do
+      let(:data) { { red: 2 } }
+      let(:options) { { item_width: 50, item_height: 50 } }
+      it 'item width gets correct value' do
+        expect(graph.item_width).to eq(50)
+      end
+      it 'item heigt gets correct value' do
+        expect(graph.item_height).to eq(50)
+      end
     end
   end
 
