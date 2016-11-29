@@ -9,6 +9,6 @@ class CircleCountGraph < CountGraph
     cy = y + item_height / 2
     radius = item_width / 2
 
-    renderer.circle cx, cy, radius, { fill: color }
+    renderer.circle cx, cy, radius, fill: color
   end
 end

@@ -6,10 +6,10 @@ module ImageRenderer
 
   def pre_draw
     @renderer = if options[:type] == :svg
-      SvgGraph.new(width, height)
-    else
-      BitmapGraph.new(width, height)
-    end
+                  SvgGraph.new(width, height)
+                else
+                  BitmapGraph.new(width, height)
+                end
   end
 
   def post_draw
