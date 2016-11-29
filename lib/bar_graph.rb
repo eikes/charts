@@ -57,8 +57,7 @@ class BarGraph < Graph
 
   attr_reader :max, :min, :set_count, :bars_pers_set, :bar_count, :base_line
 
-  def initialize(data, options = {})
-    super(data, options)
+  def initialize_instance_variables
     @set_count = data.count
     @bars_pers_set = data.map(&:count).max
     @bar_count = set_count * bars_pers_set
@@ -150,21 +149,15 @@ class BarGraph < Graph
   end
 
   def calc_max
-    max = options[:max]
-    unless max
-      max = data.map(&:max).max
-      max = 0 if max < 0 && options[:include_zero]
-    end
-    max
+    max = data.map(&:max).max
+    max = 0 if max < 0 && options[:include_zero]
+    options[:max] || max
   end
 
   def calc_min
-    min = options[:min]
-    unless min
-      min = data.map(&:min).min
-      min = 0 if min > 0 && options[:include_zero]
-    end
-    min
+    min = data.map(&:min).min
+    min = 0 if min > 0 && options[:include_zero]
+    options[:min] || min
   end
 
   def calc_base_line
@@ -172,7 +165,7 @@ class BarGraph < Graph
   end
 
   def normalize(value)
-    (value - min.to_f) / (max - min)
+    (value.to_f - min) / (max - min)
   end
 
   def colors

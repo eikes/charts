@@ -5,6 +5,7 @@ class Graph
     validate_arguments(data, options)
     @data = data
     @options = default_options.merge options
+    initialize_instance_variables
     @prepared_data = prepare_data
   end
 
@@ -37,5 +38,8 @@ class Graph
 
   def post_draw
     raise NotImplementedError
+  end
+
+  def initialize_instance_variables
   end
 end
