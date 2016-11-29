@@ -15,17 +15,17 @@ class ManikinCountGraph < CountGraph
     cy = y + @options[:item_height] / 4
     radius = @options[:item_height] / 8
 
-    renderer.circle cx, cy, radius, { fill: color }
+    renderer.circle cx, cy, radius, fill: color
   end
 
   def body(x, y, color)
     left   = x + @options[:item_width] / 2
     right  = x + @options[:item_width] / 2
     top    = y + @options[:item_height] / 2
-    bottom = y + @options[:item_height] 
-    style  = { 
-      stroke:         color, 
-      stroke_width:   @options[:item_width] / 4, 
+    bottom = y + @options[:item_height]
+    style  = {
+      stroke:         color,
+      stroke_width:   @options[:item_width] / 4,
       stroke_linecap: 'round',
       class:          'body'
     }
@@ -38,10 +38,10 @@ class ManikinCountGraph < CountGraph
     right  = x + @options[:item_width] / 2
     top    = y + @options[:item_height] / 2 - @options[:item_height] * 0.12
     bottom = y + @options[:item_height] - @options[:item_height] * 0.15
-    style  = { 
-      stroke:         color, 
-      stroke_width:   @options[:item_width] / 14, 
-      stroke_linecap: 'round' 
+    style  = {
+      stroke:         color,
+      stroke_width:   @options[:item_width] / 14,
+      stroke_linecap: 'round'
     }
 
     style_left_arm = style.merge(class: 'left-arm', transform: "rotate(45 #{left} #{top})")
