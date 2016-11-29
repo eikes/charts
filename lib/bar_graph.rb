@@ -4,15 +4,78 @@ require_relative 'image_renderer'
 class BarGraph < Graph
   include ImageRenderer
 
+  class Bar
+    attr_reader :graph, :data_value, :set_nr, :bar_nr_in_set
+
+    def initialize(graph, data_value, set_nr, bar_nr_in_set)
+      @graph = graph
+      @data_value = data_value
+      @set_nr = set_nr
+      @bar_nr_in_set = bar_nr_in_set
+    end
+
+    def draw
+      graph.renderer.rect x, y, width, height, fill: graph.colors[set_nr], class: 'bar'
+    end
+
+    def x
+      (x_margin + x_offset).floor.to_i
+    end
+
+    def x_margin
+      graph.inner_left + graph.bar_margin + graph.group_margin * bar_nr_in_set
+    end
+
+    def x_offset
+      graph.bar_width * bar_number_in_graph
+    end
+
+    def y
+      y_margin + y_offset
+    end
+
+    def y_margin
+      graph.inner_top
+    end
+
+    def y_offset
+      graph.inner_height * [(1 - data_value), (1 - graph.base_line)].min
+    end
+
+    def width
+      graph.bar_inner_width.floor.to_i
+    end
+
+    def height
+      graph.inner_height * (data_value - graph.base_line).abs
+    end
+
+    def bar_number_in_graph
+      set_nr + bar_nr_in_set * graph.set_count
+    end
+  end
+
   attr_reader :max, :min, :set_count, :bars_pers_set, :bar_count, :base_line
 
+  def initialize(data, options = {})
+    super(data, options)
+    @set_count = data.count
+    @bars_pers_set = data.map(&:count).max
+    @bar_count = set_count * bars_pers_set
+    @max = calc_max
+    @min = calc_min
+    @base_line = calc_base_line
+  end
+
   def default_options
-    super.merge(width:  600,
-                height: 400,
-                include_zero: true,
-                outer_margin: 50,
-                group_margin: 20,
-                bar_margin: 1)
+    super.merge(
+      width:        600,
+      height:       400,
+      include_zero: true,
+      outer_margin: 50,
+      group_margin: 20,
+      bar_margin:   1
+    )
   end
 
   def validate_arguments(data, options)
@@ -21,48 +84,25 @@ class BarGraph < Graph
   end
 
   def prepare_data
-    @set_count = data.count
-    @bars_pers_set = data.map(&:count).max
-    @bar_count = set_count * bars_pers_set
-    @max = calc_max
-    @min = calc_min
-    @base_line = calc_base_line
-
     data.map do |set|
-      set.map do |item|
-        # normalize data to a value between 0 and 1
-        (item.to_f - min) / (max - min)
+      set.map do |value|
+        normalize(value)
       end
     end
+  end
+
+  def pre_draw
+    super
+    renderer.rect 0, 0, width, height, fill: '#EEEEEE'
+    renderer.rect inner_left, inner_top, inner_width, inner_height, fill: '#FFFFFF'
   end
 
   def draw
-    draw_background
     prepared_data.each_with_index do |set, set_nr|
-      set.each_with_index do |data_point, data_point_nr|
-        draw_bar set_nr, data_point_nr, data_point
+      set.each_with_index do |data_value, bar_nr_in_set|
+        Bar.new(self, data_value, set_nr, bar_nr_in_set).draw
       end
     end
-  end
-
-  def draw_bar(set_nr, data_point_nr, data_point)
-    # counting from left to right or top to bottom:
-    bar_number = set_nr + data_point_nr * set_count
-
-    all_bars_width = inner_width.to_f - (bars_pers_set - 1) * group_margin
-
-    w = (all_bars_width / bar_count).floor.to_i - 2 * bar_margin
-    h = inner_height * (data_point - base_line).abs
-
-    x = inner_left + bar_margin + (all_bars_width * bar_number / bar_count).floor.to_i + group_margin * data_point_nr
-    y = inner_top + inner_height * [(1 - data_point), (1 - base_line)].min
-
-    renderer.rect x, y, w, h, fill: colors[set_nr], class: 'bar'
-  end
-
-  def draw_background
-    renderer.rect 0, 0, width, height, fill: '#EEEEEE'
-    renderer.rect inner_left, inner_top, inner_width, inner_height, fill: '#FFFFFF'
   end
 
   def inner_left
@@ -79,6 +119,18 @@ class BarGraph < Graph
 
   def inner_width
     width - 2 * options[:outer_margin]
+  end
+
+  def bar_width
+    all_bars_width.to_f / bar_count
+  end
+
+  def bar_inner_width
+    bar_width - 2 * bar_margin
+  end
+
+  def all_bars_width
+    inner_width - (bars_pers_set - 1) * group_margin
   end
 
   def height
@@ -98,28 +150,29 @@ class BarGraph < Graph
   end
 
   def calc_max
-    m = options[:max]
-    unless m
-      m = data.map(&:max).max
-      m = 0 if m.negative? && options[:include_zero]
+    max = options[:max]
+    unless max
+      max = data.map(&:max).max
+      max = 0 if max < 0 && options[:include_zero]
     end
-    m
+    max
   end
 
   def calc_min
-    m = options[:min]
-    unless m
-      m = data.map(&:min).min
-      m = 0 if m > 0 && options[:include_zero]
+    min = options[:min]
+    unless min
+      min = data.map(&:min).min
+      min = 0 if min > 0 && options[:include_zero]
     end
-    m
+    min
   end
 
   def calc_base_line
-    b = (-min.to_f) / (max - min) # zero value mapped
-    b = 0 if b.negative?
-    b = 1 if b > 1
-    b
+    [[normalize(0), 0].max, 1].min # zero value normalized and clamp between 0 and 1
+  end
+
+  def normalize(value)
+    (value - min.to_f) / (max - min)
   end
 
   def colors

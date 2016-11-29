@@ -8,3 +8,12 @@ Style/Documentation:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
+
+Style/AlignHash:
+  EnforcedColonStyle: table
+
+Style/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
