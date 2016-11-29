@@ -98,28 +98,28 @@ class BarGraph < Graph
   end
 
   def calc_max
-    max = options[:max]
-    unless max
-      max = data.map(&:max).max
-      max = 0 if max.negative? && options[:include_zero]
+    m = options[:max]
+    unless m
+      m = data.map(&:max).max
+      m = 0 if m.negative? && options[:include_zero]
     end
-    max
+    m
   end
 
   def calc_min
-    min = options[:min]
-    unless min
-      min = data.map(&:min).min
-      min = 0 if min.positive? && options[:include_zero]
+    m = options[:min]
+    unless m
+      m = data.map(&:min).min
+      m = 0 if m > 0 && options[:include_zero]
     end
-    max
+    m
   end
 
   def calc_base_line
-    base_line = (-min.to_f) / (max - min) # zero value mapped
-    base_line = 0 if base_line.negative?
-    base_line = 1 if base_line > 1
-    base_line
+    b = (-min.to_f) / (max - min) # zero value mapped
+    b = 0 if b.negative?
+    b = 1 if b > 1
+    b
   end
 
   def colors
