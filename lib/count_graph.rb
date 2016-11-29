@@ -22,8 +22,8 @@ class CountGraph < Graph
   def draw
     prepared_data.each_with_index do |row, row_count|
       row.each_with_index do |color, column_count|
-        x = column_count * @options[:item_width]
-        y = row_count * @options[:item_height]
+        x = column_count * item_width
+        y = row_count * item_height
         draw_item(x, y, color)
       end
     end
@@ -34,10 +34,18 @@ class CountGraph < Graph
   end
 
   def width
-    prepared_data.first.count * @options[:item_width]
+    prepared_data.first.count * item_width
   end
 
   def height
-    prepared_data.count * @options[:item_height]
+    prepared_data.count * item_height
+  end
+
+  def item_width
+    @options[:item_width]
+  end
+
+  def item_height
+    @options[:item_height]
   end
 end
