@@ -10,18 +10,6 @@ RSpec.describe ManikinCountGraph do
   let(:graph) { ManikinCountGraph.new(data, options) }
   let(:svg) { Capybara.string(graph.render) }
 
-  describe 'setup' do
-    it 'sets the SVG header' do
-      expect(graph.render).to match(/DOCTYPE svg PUBLIC/)
-    end
-  end
-
-  describe 'root element' do
-    it 'exists' do
-      expect(svg).to have_css('svg')
-    end
-  end
-
   context 'one manikin' do
     let(:data) { { '#FACADE' => 1 } }
     let(:options) { { item_width: 100, item_height: 100 } }
