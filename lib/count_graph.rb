@@ -55,10 +55,6 @@ class CountGraph < Graph
     @options[:inner_margin]
   end
 
-  def inner_margin_height
-    item_height + @options[:inner_margin]
-  end
-
   def draw_item(_x, _y, _color)
     raise NotImplementedError
   end

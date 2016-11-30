@@ -34,6 +34,64 @@ RSpec.describe CountGraph do
     end
   end
 
+  describe 'inner margin' do
+    it 'has a offset_x attribute' do
+      expect(graph).to respond_to(:offset_x)
+    end
+    it 'has a offset_y attribute' do
+      expect(graph).to respond_to(:offset_y)
+    end
+    it 'has a outer_item_width attribute' do
+      expect(graph).to respond_to(:outer_item_width)
+    end
+    it 'has a outer_item_height attribute' do
+      expect(graph).to respond_to(:outer_item_height)
+    end
+    it 'has a inner_margin attribute' do
+      expect(graph).to respond_to(:inner_margin)
+    end
+    context 'width-margin of a single item' do
+      let(:data) { { red: 1 } }
+      let(:options) { { item_width: 20, inner_margin: 2 } }
+      it 'returns the correct outer_item_width' do
+        expect(graph.outer_item_width).to eq(24)
+      end
+      it 'returns the correct offset_x' do
+        expect(graph.offset_x(data[:red])).to eq(24) 
+      end
+    end
+    context 'height-margin of a single item' do
+      let(:data) { { red: 1 } }
+      let(:options) { { item_height: 20, inner_margin: 2 } }
+      it 'returns the correct outer_item_height' do
+        expect(graph.outer_item_height).to eq(24)
+      end
+      it 'returns the correct offset_y' do
+        expect(graph.offset_y(data[:red])).to eq(24) 
+      end
+    end
+    context 'width-margin of a several items' do
+      let(:data) { { red: 8 } }
+      let(:options) { { item_width: 20, inner_margin: 12 } }
+      it 'returns the correct outer_item_width' do
+        expect(graph.outer_item_width).to eq(44)
+      end
+      it 'returns the correct offset_x' do
+        expect(graph.offset_x(data[:red])).to eq(352) 
+      end
+    end
+    context 'height-margin of a several items' do
+      let(:data) { { red: 8 } }
+      let(:options) { { item_height: 40, inner_margin: 12 } }
+      it 'returns the correct outer_item_height' do
+        expect(graph.outer_item_height).to eq(64)
+      end
+      it 'returns the correct offset_y' do
+        expect(graph.offset_y(data[:red])).to eq(512) 
+      end
+    end
+  end
+
   describe '#initialize' do
     it 'provides default options' do
       graph = CountGraph.new(x: 2)
@@ -62,17 +120,17 @@ RSpec.describe CountGraph do
     it 'creates the prepared_data for simple keys' do
       graph = CountGraph.new({ x: 3, o: 2 }, columns: 2)
       expect(graph.prepared_data).to eq([
-                                          %w(x x),
-                                          %w(x o),
-                                          ['o']
-                                        ])
+        %w(x x),
+        %w(x o),
+        ['o']
+      ])
     end
     it 'creates the prepared_data for complex keys' do
       graph = CountGraph.new({ '#FF0000' => 2, '#00FF00' => 2 }, columns: 2)
       expect(graph.prepared_data).to eq([
-                                          ['#FF0000', '#FF0000'],
-                                          ['#00FF00', '#00FF00']
-                                        ])
+        ['#FF0000', '#FF0000'],
+        ['#00FF00', '#00FF00']
+      ])
     end
   end
 
