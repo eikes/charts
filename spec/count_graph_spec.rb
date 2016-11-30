@@ -7,8 +7,6 @@ RSpec.describe CountGraph do
   let(:graph) { CountGraph.new(data, options) }
 
   describe '#default_options' do
-    let(:data) { { red: 1 } }
-    let(:graph) { CountGraph.new(data, options) }
     let(:options) { {} }
     it 'has a default item width of 20' do
       expect(graph.options[:item_width]).to eq(20)
@@ -18,6 +16,9 @@ RSpec.describe CountGraph do
     end
     it 'has a default inner-margin of 2px' do
       expect(graph.options[:inner_margin]).to eq(2)
+    end
+    it 'has a default outer-margin of 20px' do
+      expect(graph.options[:outer_margin]).to eq(20)
     end
     it 'has 10 default columns' do
       expect(graph.options[:columns]).to eq(10)
@@ -92,22 +93,22 @@ RSpec.describe CountGraph do
     end
     context 'one item' do
       let(:data) { { red: 1 } }
-      let(:options) { { item_width: 20, item_height: 20 } }
+      let(:options) { { item_width: 20, item_height: 20, inner_margin: 0 } }
       include_examples 'has a width and height of', 20, 20
     end
     context 'one item with different item width' do
       let(:data) { { red: 1 } }
-      let(:options) { { item_width: 40, item_height: 40 } }
+      let(:options) { { item_width: 40, item_height: 40, inner_margin: 0 } }
       include_examples 'has a width and height of', 40, 40
     end
     context 'one column two items' do
       let(:data) { { red: 2 } }
-      let(:options) { { columns: 1, item_width: 20, item_height: 20 } }
+      let(:options) { { columns: 1, item_width: 20, item_height: 20, inner_margin: 0 } }
       include_examples 'has a width and height of', 20, 40
     end
     context 'two columns two items' do
       let(:data) { { red: 2 } }
-      let(:options) { { columns: 2, item_width: 20, item_height: 20 } }
+      let(:options) { { columns: 2, item_width: 20, item_height: 20, inner_margin: 0 } }
       include_examples 'has a width and height of', 40, 20
     end
   end
@@ -125,7 +126,7 @@ RSpec.describe CountGraph do
       it 'item width gets correct value' do
         expect(graph.item_width).to eq(50)
       end
-      it 'item heigt gets correct value' do
+      it 'item height gets correct value' do
         expect(graph.item_height).to eq(50)
       end
     end

@@ -2,7 +2,13 @@ require_relative 'graph'
 
 class CountGraph < Graph
   def default_options
-    super.merge(columns: 10, item_width: 20, item_height: 20, inner_margin: 6)
+    super.merge(
+      columns: 10, 
+      item_width: 20, 
+      item_height: 20, 
+      inner_margin: 2, 
+      outer_margin: 20
+    )
   end
 
   def validate_arguments(data, options)
