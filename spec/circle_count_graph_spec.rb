@@ -36,12 +36,12 @@ RSpec.describe CircleCountGraph do
     end
     context 'one column two circles' do
       let(:data) { { red: 2 } }
-      let(:options) { { columns: 1, inner_margin: 0  } }
+      let(:options) { { columns: 1, inner_margin: 0 } }
       include_examples 'has a width and height of', 20, 40
     end
     context 'two columns two circles' do
       let(:data) { { red: 2 } }
-      let(:options) { { columns: 2, inner_margin: 0  } }
+      let(:options) { { columns: 2, inner_margin: 0 } }
       include_examples 'has a width and height of', 40, 20
     end
   end

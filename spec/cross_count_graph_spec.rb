@@ -54,7 +54,7 @@ RSpec.describe CrossCountGraph do
 
   context 'one cross' do
     let(:data) { { '#FACADE' => 1 } }
-    let(:options) { { item_width: 100 } }
+    let(:options) { { item_width: 100, inner_margin: 0 } }
     let(:line) { svg.all('line').first }
     it 'renders one cross with the correct color' do
       expect(line[:stroke]).to eq('#FACADE')
