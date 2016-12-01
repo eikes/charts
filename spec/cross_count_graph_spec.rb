@@ -6,7 +6,12 @@ RSpec.describe CrossCountGraph do
   include Capybara::RSpecMatchers
 
   let(:data) { { red: 1 } }
-  let(:options) { { columns: 2, type: :svg, inner_margin: 0 } }
+  let(:options) do
+    { columns:      2,
+      type:         :svg,
+      inner_margin: 0,
+      outer_margin: 0 }
+  end
   let(:graph) { CrossCountGraph.new(data, options) }
   let(:svg) { Capybara.string(graph.render) }
 
@@ -31,17 +36,24 @@ RSpec.describe CrossCountGraph do
     end
     context 'one cross with a different width' do
       let(:data) { { red: 1 } }
-      let(:options) { { item_width: 40, item_height: 40, inner_margin: 0 } }
+      let(:options) do
+        {
+          item_width: 40,
+        item_height: 40,
+        inner_margin: 0, 
+        outer_margin: 0
+        }
+      end
       include_examples 'has a width and height of', 40, 40
     end
     context 'one column two crosses' do
       let(:data) { { red: 2 } }
-      let(:options) { { columns: 1, inner_margin: 0 } }
+      let(:options) { { columns: 1, inner_margin: 0, outer_margin: 0 } }
       include_examples 'has a width and height of', 20, 40
     end
     context 'two columns two crosses' do
       let(:data) { { red: 2 } }
-      let(:options) { { columns: 2, inner_margin: 0 } }
+      let(:options) { { columns: 2, inner_margin: 0, outer_margin: 0 } }
       include_examples 'has a width and height of', 40, 20
     end
   end
@@ -54,7 +66,7 @@ RSpec.describe CrossCountGraph do
 
   context 'one cross' do
     let(:data) { { '#FACADE' => 1 } }
-    let(:options) { { item_width: 100, inner_margin: 0 } }
+    let(:options) { { item_width: 100, inner_margin: 0, outer_margin: 0 } }
     let(:line) { svg.all('line').first }
     it 'renders one cross with the correct color' do
       expect(line[:stroke]).to eq('#FACADE')
@@ -70,7 +82,14 @@ RSpec.describe CrossCountGraph do
     let(:red_cross_left_bottom_right_top) { svg.all('line')[1] }
     let(:green_cross_left_top_right_bottom) { svg.all('line')[2] }
     let(:green_cross_left_bottom_right_top) { svg.all('line').last }
-    let(:options) { { item_width: 100, item_height: 100, inner_margin: 0 } }
+    let(:options) do
+      {
+        item_width:   100,
+        item_height:  100,
+        inner_margin: 0,
+        outer_margin: 0
+      }
+    end
 
     it 'renders two crosses' do
       expect(svg.all('line').count).to eq(4)
@@ -161,7 +180,8 @@ RSpec.describe CrossCountGraph do
         item_width:   100,
         item_height:  100,
         type:         :png,
-        inner_margin: 0
+        inner_margin: 0,
+        outer_margin: 0
       }
     end
     let(:graph) { CrossCountGraph.new(data, options) }

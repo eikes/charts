@@ -6,7 +6,7 @@ RSpec.describe CircleCountGraph do
   include Capybara::RSpecMatchers
 
   let(:data) { { red: 1 } }
-  let(:options) { { columns: 2, inner_margin: 0 } }
+  let(:options) { { columns: 2, inner_margin: 0, outer_margin: 0 } }
   let(:graph) { CircleCountGraph.new(data, options) }
   let(:svg) { Capybara.string(graph.render) }
 
@@ -31,17 +31,36 @@ RSpec.describe CircleCountGraph do
     end
     context 'one circle with a different width' do
       let(:data) { { red: 1 } }
-      let(:options) { { item_width: 40, item_height: 40, inner_margin: 0 } }
+      let(:options) do
+        {
+          item_width:   40,
+          item_height:  40,
+          inner_margin: 0,
+          outer_margin: 0
+        }
+      end
       include_examples 'has a width and height of', 40, 40
     end
     context 'one column two circles' do
       let(:data) { { red: 2 } }
-      let(:options) { { columns: 1, inner_margin: 0 } }
+      let(:options) do
+        {
+          columns:      1,
+          inner_margin: 0,
+          outer_margin: 0
+        }
+      end
       include_examples 'has a width and height of', 20, 40
     end
     context 'two columns two circles' do
       let(:data) { { red: 2 } }
-      let(:options) { { columns: 2, inner_margin: 0 } }
+      let(:options) do
+        {
+          columns:      2,
+          inner_margin: 0,
+          outer_margin: 0
+        }
+      end
       include_examples 'has a width and height of', 40, 20
     end
   end
@@ -102,7 +121,7 @@ RSpec.describe CircleCountGraph do
 
   describe 'rmagick renderer' do
     let(:data) { { red: 2, blue: 2 } }
-    let(:options) { { columns: 2, type: :png, inner_margin: 0 } }
+    let(:options) { { columns: 2, type: :png, inner_margin: 0, outer_margin: 0 } }
     let(:graph) { CircleCountGraph.new(data, options) }
 
     it 'instantiates a Magick::ImageList object' do

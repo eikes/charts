@@ -57,7 +57,7 @@ RSpec.describe CountGraph do
         expect(graph.outer_item_width).to eq(24)
       end
       it 'returns the correct offset_x' do
-        expect(graph.offset_x(data[:red])).to eq(24) 
+        expect(graph.offset_x(data[:red])).to eq(24)
       end
     end
     context 'height-margin of a single item' do
@@ -67,7 +67,7 @@ RSpec.describe CountGraph do
         expect(graph.outer_item_height).to eq(24)
       end
       it 'returns the correct offset_y' do
-        expect(graph.offset_y(data[:red])).to eq(24) 
+        expect(graph.offset_y(data[:red])).to eq(24)
       end
     end
     context 'width-margin of a several items' do
@@ -77,7 +77,7 @@ RSpec.describe CountGraph do
         expect(graph.outer_item_width).to eq(44)
       end
       it 'returns the correct offset_x' do
-        expect(graph.offset_x(data[:red])).to eq(352) 
+        expect(graph.offset_x(data[:red])).to eq(352)
       end
     end
     context 'height-margin of a several items' do
@@ -87,7 +87,7 @@ RSpec.describe CountGraph do
         expect(graph.outer_item_height).to eq(64)
       end
       it 'returns the correct offset_y' do
-        expect(graph.offset_y(data[:red])).to eq(512) 
+        expect(graph.offset_y(data[:red])).to eq(512)
       end
     end
   end
@@ -120,17 +120,17 @@ RSpec.describe CountGraph do
     it 'creates the prepared_data for simple keys' do
       graph = CountGraph.new({ x: 3, o: 2 }, columns: 2)
       expect(graph.prepared_data).to eq([
-        %w(x x),
-        %w(x o),
-        ['o']
-      ])
+                                          %w(x x),
+                                          %w(x o),
+                                          ['o']
+                                        ])
     end
     it 'creates the prepared_data for complex keys' do
       graph = CountGraph.new({ '#FF0000' => 2, '#00FF00' => 2 }, columns: 2)
       expect(graph.prepared_data).to eq([
-        ['#FF0000', '#FF0000'],
-        ['#00FF00', '#00FF00']
-      ])
+                                          ['#FF0000', '#FF0000'],
+                                          ['#00FF00', '#00FF00']
+                                        ])
     end
   end
 
@@ -151,22 +151,52 @@ RSpec.describe CountGraph do
     end
     context 'one item' do
       let(:data) { { red: 1 } }
-      let(:options) { { item_width: 20, item_height: 20, inner_margin: 0 } }
+      let(:options) do
+        {
+          item_width:   20,
+          item_height:  20,
+          inner_margin: 0,
+          outer_margin: 0
+        }
+      end
       include_examples 'has a width and height of', 20, 20
     end
     context 'one item with different item width' do
       let(:data) { { red: 1 } }
-      let(:options) { { item_width: 40, item_height: 40, inner_margin: 0 } }
+      let(:options) do
+        {
+          item_width:   40,
+          item_height:  40,
+          inner_margin: 0,
+          outer_margin: 0
+        }
+      end
       include_examples 'has a width and height of', 40, 40
     end
     context 'one column two items' do
       let(:data) { { red: 2 } }
-      let(:options) { { columns: 1, item_width: 20, item_height: 20, inner_margin: 0 } }
+      let(:options) do
+        {
+          columns:      1,
+          item_width:   20,
+          item_height:  20,
+          inner_margin: 0,
+          outer_margin: 0
+        }
+      end
       include_examples 'has a width and height of', 20, 40
     end
     context 'two columns two items' do
       let(:data) { { red: 2 } }
-      let(:options) { { columns: 2, item_width: 20, item_height: 20, inner_margin: 0 } }
+      let(:options) do
+        {
+          columns:      2,
+          item_width:   20,
+          item_height:  20,
+          inner_margin: 0,
+          outer_margin: 0
+        }
+      end
       include_examples 'has a width and height of', 40, 20
     end
   end
