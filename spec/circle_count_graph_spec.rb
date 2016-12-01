@@ -61,6 +61,120 @@ RSpec.describe CircleCountGraph do
     end
   end
 
+  describe '#height and #width with inner-margin' do
+    shared_examples 'has a width and height of' do |width, height|
+      it "sets the svg root width to #{width}" do
+        expect(svg.find('svg')[:width]).to eq(width.to_s)
+      end
+      it "sets the svg root height to #{height}" do
+        expect(svg.find('svg')[:height]).to eq(height.to_s)
+      end
+    end
+    context 'one circle with an inner-margin of 100' do
+      let(:data) { { red: 1 } }
+      let(:inner_margin) { 100 }
+      include_examples 'has a width and height of', 220, 220
+    end
+    context 'one circle with a width and height of 40 and an
+    inner-margin of 100' do
+      let(:data) { { red: 1 } }
+      let(:inner_margin) { 100 }
+      let(:item_width) { 40 }
+      let(:item_height) { 40 }
+      include_examples 'has a width and height of', 240, 240
+    end
+    context 'two circles with an inner-margin of 100 in one column ' do
+      let(:data) { { red: 2 } }
+      let(:columns) { 1 }
+      let(:inner_margin) { 100 }
+      include_examples 'has a width and height of', 220, 440
+    end
+    context 'two circles with an inner-margin of 100 in two columns' do
+      let(:data) { { red: 2 } }
+      let(:columns) { 2 }
+      let(:inner_margin) { 100 }
+      include_examples 'has a width and height of', 440, 220
+    end
+  end
+
+  describe '#height and #width with outer-margin' do
+    shared_examples 'has a width and height of' do |width, height|
+      it "sets the svg root width to #{width}" do
+        expect(svg.find('svg')[:width]).to eq(width.to_s)
+      end
+      it "sets the svg root height to #{height}" do
+        expect(svg.find('svg')[:height]).to eq(height.to_s)
+      end
+    end
+    context 'one circle with an outer-margin of 500' do
+      let(:data) { { red: 1 } }
+      let(:outer_margin) { 500 }
+      include_examples 'has a width and height of', 1020, 1020
+    end
+    context 'one circle with a width and height of 40 and an
+    outer-margin of 500' do
+      let(:data) { { red: 1 } }
+      let(:outer_margin) { 500 }
+      let(:item_width) { 40 }
+      let(:item_height) { 40 }
+      include_examples 'has a width and height of', 1040, 1040
+    end
+    context 'two circles with an outer-margin of 500 in one column' do
+      let(:data) { { red: 2 } }
+      let(:columns) { 1 }
+      let(:outer_margin) { 500 }
+      include_examples 'has a width and height of', 1020, 1040
+    end
+    context 'two circles with an outer-margin of 100 in two columns' do
+      let(:data) { { red: 2 } }
+      let(:columns) { 2 }
+      let(:outer_margin) { 500 }
+      include_examples 'has a width and height of', 1040, 1020
+    end
+  end
+
+  describe '#height and #width with inner- and outer-margin' do
+    shared_examples 'has a width and height of' do |width, height|
+      it "sets the svg root width to #{width}" do
+        expect(svg.find('svg')[:width]).to eq(width.to_s)
+      end
+      it "sets the svg root height to #{height}" do
+        expect(svg.find('svg')[:height]).to eq(height.to_s)
+      end
+    end
+    context 'one circle with an inner-margin of 100 and an
+    outer-margin of 500' do
+      let(:data) { { red: 1 } }
+      let(:inner_margin) { 100 }
+      let(:outer_margin) { 500 }
+      include_examples 'has a width and height of', 1220, 1220
+    end
+    context 'one circle with a width and height of 40, a inner-margin of 100
+    and an outer-margin of 500' do
+      let(:data) { { red: 1 } }
+      let(:inner_margin) { 100 }
+      let(:outer_margin) { 500 }
+      let(:item_width) { 40 }
+      let(:item_height) { 40 }
+      include_examples 'has a width and height of', 1240, 1240
+    end
+    context 'two circles with an inner-margin of 100 and an
+    outer-margin of 500 in one column' do
+      let(:data) { { red: 2 } }
+      let(:columns) { 1 }
+      let(:inner_margin) { 100 }
+      let(:outer_margin) { 500 }
+      include_examples 'has a width and height of', 1220, 1440
+    end
+    context 'two circles with an inner-margin of 100 and an
+    outer-margin of 100 in two columns' do
+      let(:data) { { red: 2 } }
+      let(:columns) { 2 }
+      let(:inner_margin) { 100 }
+      let(:outer_margin) { 500 }
+      include_examples 'has a width and height of', 1440, 1220
+    end
+  end
   describe 'root element' do
     it 'exists' do
       expect(svg).to have_css('svg')
