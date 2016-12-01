@@ -3,8 +3,22 @@ require 'count_graph'
 
 RSpec.describe CountGraph do
   let(:data) { { red: 1 } }
-  let(:options) { { columns: 2 } }
   let(:graph) { CountGraph.new(data, options) }
+
+  let(:columns) { 2 }
+  let(:item_width) { 20 }
+  let(:item_height) { 20 }
+  let(:inner_margin) { 0 }
+  let(:outer_margin) { 0 }
+  let(:options) do
+    {
+      columns:      columns,
+      item_width:   item_width,
+      item_height:  item_height,
+      inner_margin: inner_margin,
+      outer_margin: outer_margin
+    }
+  end
 
   describe '#default_options' do
     let(:options) { {} }
@@ -52,7 +66,8 @@ RSpec.describe CountGraph do
     end
     context 'width-margin of a single item' do
       let(:data) { { red: 1 } }
-      let(:options) { { item_width: 20, inner_margin: 2 } }
+      let(:item_width) { 20 }
+      let(:inner_margin) { 2 }
       it 'returns the correct outer_item_width' do
         expect(graph.outer_item_width).to eq(24)
       end
@@ -62,7 +77,8 @@ RSpec.describe CountGraph do
     end
     context 'height-margin of a single item' do
       let(:data) { { red: 1 } }
-      let(:options) { { item_height: 20, inner_margin: 2 } }
+      let(:item_height) { 20 }
+      let(:inner_margin) { 2 }
       it 'returns the correct outer_item_height' do
         expect(graph.outer_item_height).to eq(24)
       end
@@ -72,7 +88,8 @@ RSpec.describe CountGraph do
     end
     context 'width-margin of a several items' do
       let(:data) { { red: 8 } }
-      let(:options) { { item_width: 20, inner_margin: 12 } }
+      let(:item_width) { 20 }
+      let(:inner_margin) { 12 }
       it 'returns the correct outer_item_width' do
         expect(graph.outer_item_width).to eq(44)
       end
@@ -82,7 +99,8 @@ RSpec.describe CountGraph do
     end
     context 'height-margin of a several items' do
       let(:data) { { red: 8 } }
-      let(:options) { { item_height: 40, inner_margin: 12 } }
+      let(:item_height) { 40 }
+      let(:inner_margin) { 12 }
       it 'returns the correct outer_item_height' do
         expect(graph.outer_item_height).to eq(64)
       end
@@ -151,52 +169,28 @@ RSpec.describe CountGraph do
     end
     context 'one item' do
       let(:data) { { red: 1 } }
-      let(:options) do
-        {
-          item_width:   20,
-          item_height:  20,
-          inner_margin: 0,
-          outer_margin: 0
-        }
-      end
+      let(:item_width) { 20 }
+      let(:item_height) { 20 }
       include_examples 'has a width and height of', 20, 20
     end
     context 'one item with different item width' do
       let(:data) { { red: 1 } }
-      let(:options) do
-        {
-          item_width:   40,
-          item_height:  40,
-          inner_margin: 0,
-          outer_margin: 0
-        }
-      end
+      let(:item_width) { 40 }
+      let(:item_height) { 40 }
       include_examples 'has a width and height of', 40, 40
     end
     context 'one column two items' do
       let(:data) { { red: 2 } }
-      let(:options) do
-        {
-          columns:      1,
-          item_width:   20,
-          item_height:  20,
-          inner_margin: 0,
-          outer_margin: 0
-        }
-      end
+      let(:columns) { 1 }
+      let(:item_width) { 20 }
+      let(:item_height) { 20 }
       include_examples 'has a width and height of', 20, 40
     end
     context 'two columns two items' do
       let(:data) { { red: 2 } }
-      let(:options) do
-        {
-          columns:      2,
-          item_width:   20,
-          item_height:  20,
-          inner_margin: 0,
-          outer_margin: 0
-        }
-      end
+      let(:columns) { 2 }
+      let(:item_width) { 20 }
+      let(:item_height) { 20 }
       include_examples 'has a width and height of', 40, 20
     end
   end
@@ -210,7 +204,8 @@ RSpec.describe CountGraph do
     end
     context 'setup' do
       let(:data) { { red: 2 } }
-      let(:options) { { item_width: 50, item_height: 50 } }
+      let(:item_width) { 50 }
+      let(:item_height) { 50 }
       it 'item width gets correct value' do
         expect(graph.item_width).to eq(50)
       end

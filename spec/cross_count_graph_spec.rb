@@ -4,16 +4,26 @@ require 'capybara/rspec'
 
 RSpec.describe CrossCountGraph do
   include Capybara::RSpecMatchers
-
   let(:data) { { red: 1 } }
-  let(:options) do
-    { columns:      2,
-      type:         :svg,
-      inner_margin: 0,
-      outer_margin: 0 }
-  end
   let(:graph) { CrossCountGraph.new(data, options) }
   let(:svg) { Capybara.string(graph.render) }
+  let(:columns) { 2 }
+  let(:inner_margin) { 0 }
+  let(:outer_margin) { 0 }
+  let(:item_width) { 20 }
+  let(:item_height) { 20 }
+  let(:type) { :svg }
+  let(:options) do
+    {
+      columns:      columns,
+      item_width:   item_width,
+      item_height:  item_height,
+      inner_margin: inner_margin,
+      outer_margin: outer_margin,
+      type:         type
+    }
+  end
+  let(:type) { :svg }
 
   describe 'setup' do
     it 'sets the SVG header' do
@@ -36,24 +46,18 @@ RSpec.describe CrossCountGraph do
     end
     context 'one cross with a different width' do
       let(:data) { { red: 1 } }
-      let(:options) do
-        {
-          item_width: 40,
-        item_height: 40,
-        inner_margin: 0, 
-        outer_margin: 0
-        }
-      end
+      let(:item_width) { 40 }
+      let(:item_height) { 40 }
       include_examples 'has a width and height of', 40, 40
     end
     context 'one column two crosses' do
       let(:data) { { red: 2 } }
-      let(:options) { { columns: 1, inner_margin: 0, outer_margin: 0 } }
+      let(:columns) { 1 }
       include_examples 'has a width and height of', 20, 40
     end
     context 'two columns two crosses' do
       let(:data) { { red: 2 } }
-      let(:options) { { columns: 2, inner_margin: 0, outer_margin: 0 } }
+      let(:columns) { 2 }
       include_examples 'has a width and height of', 40, 20
     end
   end
@@ -66,7 +70,7 @@ RSpec.describe CrossCountGraph do
 
   context 'one cross' do
     let(:data) { { '#FACADE' => 1 } }
-    let(:options) { { item_width: 100, inner_margin: 0, outer_margin: 0 } }
+    let(:item_width) { 100 }
     let(:line) { svg.all('line').first }
     it 'renders one cross with the correct color' do
       expect(line[:stroke]).to eq('#FACADE')
@@ -82,14 +86,8 @@ RSpec.describe CrossCountGraph do
     let(:red_cross_left_bottom_right_top) { svg.all('line')[1] }
     let(:green_cross_left_top_right_bottom) { svg.all('line')[2] }
     let(:green_cross_left_bottom_right_top) { svg.all('line').last }
-    let(:options) do
-      {
-        item_width:   100,
-        item_height:  100,
-        inner_margin: 0,
-        outer_margin: 0
-      }
-    end
+    let(:item_width) { 100 }
+    let(:item_height) { 100 }
 
     it 'renders two crosses' do
       expect(svg.all('line').count).to eq(4)
@@ -173,18 +171,12 @@ RSpec.describe CrossCountGraph do
   end
 
   describe 'rmagick renderer' do
-    let(:data) { { red: 2 } }
-    let(:options) do
-      {
-        columns:      2,
-        item_width:   100,
-        item_height:  100,
-        type:         :png,
-        inner_margin: 0,
-        outer_margin: 0
-      }
-    end
     let(:graph) { CrossCountGraph.new(data, options) }
+    let(:data) { { red: 2 } }
+    let(:columns) { 2 }
+    let(:item_width) { 100 }
+    let(:item_height) { 100 }
+    let(:type) { :png }
 
     it 'instantiates a Magick::ImageList object' do
       expect(Magick::ImageList).to receive(:new).and_return(Magick::ImageList.new)

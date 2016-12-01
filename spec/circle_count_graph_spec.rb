@@ -4,11 +4,25 @@ require 'capybara/rspec'
 
 RSpec.describe CircleCountGraph do
   include Capybara::RSpecMatchers
-
   let(:data) { { red: 1 } }
-  let(:options) { { columns: 2, inner_margin: 0, outer_margin: 0 } }
   let(:graph) { CircleCountGraph.new(data, options) }
   let(:svg) { Capybara.string(graph.render) }
+  let(:columns) { 2 }
+  let(:inner_margin) { 0 }
+  let(:outer_margin) { 0 }
+  let(:item_width) { 20 }
+  let(:item_height) { 20 }
+  let(:type) { :svg }
+  let(:options) do
+    {
+      columns:      columns,
+      item_width:   item_width,
+      item_height:  item_height,
+      inner_margin: inner_margin,
+      outer_margin: outer_margin,
+      type:         type
+    }
+  end
 
   describe 'setup' do
     it 'sets the SVG header' do
@@ -31,36 +45,18 @@ RSpec.describe CircleCountGraph do
     end
     context 'one circle with a different width' do
       let(:data) { { red: 1 } }
-      let(:options) do
-        {
-          item_width:   40,
-          item_height:  40,
-          inner_margin: 0,
-          outer_margin: 0
-        }
-      end
+      let(:item_width) { 40 }
+      let(:item_height) { 40 }
       include_examples 'has a width and height of', 40, 40
     end
     context 'one column two circles' do
       let(:data) { { red: 2 } }
-      let(:options) do
-        {
-          columns:      1,
-          inner_margin: 0,
-          outer_margin: 0
-        }
-      end
+      let(:columns) { 1 }
       include_examples 'has a width and height of', 20, 40
     end
     context 'two columns two circles' do
       let(:data) { { red: 2 } }
-      let(:options) do
-        {
-          columns:      2,
-          inner_margin: 0,
-          outer_margin: 0
-        }
-      end
+      let(:columns) { 2 }
       include_examples 'has a width and height of', 40, 20
     end
   end
@@ -73,7 +69,7 @@ RSpec.describe CircleCountGraph do
 
   context 'one circle' do
     let(:data) { { '#FACADE' => 1 } }
-    let(:options) { { item_width: 100 } }
+    let(:item_width) { 100 }
     let(:circle) { svg.find('circle') }
     it 'renders one circle with the correct color' do
       expect(circle[:fill]).to eq('#FACADE')
@@ -120,9 +116,10 @@ RSpec.describe CircleCountGraph do
   end
 
   describe 'rmagick renderer' do
-    let(:data) { { red: 2, blue: 2 } }
-    let(:options) { { columns: 2, type: :png, inner_margin: 0, outer_margin: 0 } }
     let(:graph) { CircleCountGraph.new(data, options) }
+    let(:data) { { red: 2, blue: 2 } }
+    let(:columns) { 2 }
+    let(:type) { :png }
 
     it 'instantiates a Magick::ImageList object' do
       expect(Magick::ImageList).to receive(:new).and_return(Magick::ImageList.new)
