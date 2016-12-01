@@ -28,8 +28,8 @@ class CountGraph < Graph
   def draw
     prepared_data.each_with_index do |row, row_count|
       row.each_with_index do |color, column_count|
-        x = offset_x(column_count) + inner_margin
-        y = offset_y(row_count) + inner_margin
+        x = offset_x(column_count) + inner_margin + outer_margin
+        y = offset_y(row_count) + inner_margin + outer_margin
         draw_item(x, y, color)
       end
     end
@@ -39,8 +39,8 @@ class CountGraph < Graph
     column_count * outer_item_width
   end
 
-  def offset_y(column_count)
-    column_count * outer_item_height
+  def offset_y(row_count)
+    row_count * outer_item_height
   end
 
   def outer_item_width
@@ -55,16 +55,20 @@ class CountGraph < Graph
     @options[:inner_margin]
   end
 
+  def outer_margin
+    @options[:outer_margin]
+  end
+
   def draw_item(_x, _y, _color)
     raise NotImplementedError
   end
 
   def width
-    prepared_data.first.count * outer_item_width
+    prepared_data.first.count * outer_item_width + (2 * outer_margin)
   end
 
   def height
-    prepared_data.count * outer_item_height
+    prepared_data.count * outer_item_height + (2 * outer_margin)
   end
 
   def item_width
