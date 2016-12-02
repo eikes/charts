@@ -41,11 +41,9 @@ RSpec.describe CrossCountGraph do
       end
     end
     context 'one cross' do
-      let(:data) { { red: 1 } }
       include_examples 'has a width and height of', 20, 20
     end
     context 'one cross with a different width' do
-      let(:data) { { red: 1 } }
       let(:item_width) { 40 }
       let(:item_height) { 40 }
       include_examples 'has a width and height of', 40, 40
@@ -57,7 +55,6 @@ RSpec.describe CrossCountGraph do
     end
     context 'two columns two crosses' do
       let(:data) { { red: 2 } }
-      let(:columns) { 2 }
       include_examples 'has a width and height of', 40, 20
     end
   end
@@ -173,7 +170,6 @@ RSpec.describe CrossCountGraph do
   describe 'rmagick renderer' do
     let(:graph) { CrossCountGraph.new(data, options) }
     let(:data) { { red: 2 } }
-    let(:columns) { 2 }
     let(:item_width) { 100 }
     let(:item_height) { 100 }
     let(:type) { :png }

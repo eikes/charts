@@ -4,7 +4,6 @@ require 'count_graph'
 RSpec.describe CountGraph do
   let(:data) { { red: 1 } }
   let(:graph) { CountGraph.new(data, options) }
-
   let(:columns) { 2 }
   let(:item_width) { 20 }
   let(:item_height) { 20 }
@@ -65,8 +64,6 @@ RSpec.describe CountGraph do
       expect(graph).to respond_to(:inner_margin)
     end
     context 'width-margin of a single item' do
-      let(:data) { { red: 1 } }
-      let(:item_width) { 20 }
       let(:inner_margin) { 2 }
       it 'returns the correct outer_item_width' do
         expect(graph.outer_item_width).to eq(24)
@@ -76,7 +73,6 @@ RSpec.describe CountGraph do
       end
     end
     context 'height-margin of a single item' do
-      let(:data) { { red: 1 } }
       let(:item_height) { 20 }
       let(:inner_margin) { 2 }
       it 'returns the correct outer_item_height' do
@@ -88,7 +84,6 @@ RSpec.describe CountGraph do
     end
     context 'width-margin of a several items' do
       let(:data) { { red: 8 } }
-      let(:item_width) { 20 }
       let(:inner_margin) { 12 }
       it 'returns the correct outer_item_width' do
         expect(graph.outer_item_width).to eq(44)
@@ -168,13 +163,9 @@ RSpec.describe CountGraph do
       end
     end
     context 'one item' do
-      let(:data) { { red: 1 } }
-      let(:item_width) { 20 }
-      let(:item_height) { 20 }
       include_examples 'has a width and height of', 20, 20
     end
     context 'one item with different item width' do
-      let(:data) { { red: 1 } }
       let(:item_width) { 40 }
       let(:item_height) { 40 }
       include_examples 'has a width and height of', 40, 40
@@ -182,15 +173,10 @@ RSpec.describe CountGraph do
     context 'one column two items' do
       let(:data) { { red: 2 } }
       let(:columns) { 1 }
-      let(:item_width) { 20 }
-      let(:item_height) { 20 }
       include_examples 'has a width and height of', 20, 40
     end
     context 'two columns two items' do
       let(:data) { { red: 2 } }
-      let(:columns) { 2 }
-      let(:item_width) { 20 }
-      let(:item_height) { 20 }
       include_examples 'has a width and height of', 40, 20
     end
   end

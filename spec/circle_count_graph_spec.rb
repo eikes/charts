@@ -40,11 +40,9 @@ RSpec.describe CircleCountGraph do
       end
     end
     context 'one circle' do
-      let(:data) { { red: 1 } }
       include_examples 'has a width and height of', 20, 20
     end
     context 'one circle with a different width' do
-      let(:data) { { red: 1 } }
       let(:item_width) { 40 }
       let(:item_height) { 40 }
       include_examples 'has a width and height of', 40, 40
@@ -56,7 +54,6 @@ RSpec.describe CircleCountGraph do
     end
     context 'two columns two circles' do
       let(:data) { { red: 2 } }
-      let(:columns) { 2 }
       include_examples 'has a width and height of', 40, 20
     end
   end
@@ -71,13 +68,11 @@ RSpec.describe CircleCountGraph do
       end
     end
     context 'one circle with an inner-margin of 100' do
-      let(:data) { { red: 1 } }
       let(:inner_margin) { 100 }
       include_examples 'has a width and height of', 220, 220
     end
     context 'one circle with a width and height of 40 and an
     inner-margin of 100' do
-      let(:data) { { red: 1 } }
       let(:inner_margin) { 100 }
       let(:item_width) { 40 }
       let(:item_height) { 40 }
@@ -107,13 +102,11 @@ RSpec.describe CircleCountGraph do
       end
     end
     context 'one circle with an outer-margin of 500' do
-      let(:data) { { red: 1 } }
       let(:outer_margin) { 500 }
       include_examples 'has a width and height of', 1020, 1020
     end
     context 'one circle with a width and height of 40 and an
     outer-margin of 500' do
-      let(:data) { { red: 1 } }
       let(:outer_margin) { 500 }
       let(:item_width) { 40 }
       let(:item_height) { 40 }
@@ -144,14 +137,12 @@ RSpec.describe CircleCountGraph do
     end
     context 'one circle with an inner-margin of 100 and an
     outer-margin of 500' do
-      let(:data) { { red: 1 } }
       let(:inner_margin) { 100 }
       let(:outer_margin) { 500 }
       include_examples 'has a width and height of', 1220, 1220
     end
     context 'one circle with a width and height of 40, a inner-margin of 100
     and an outer-margin of 500' do
-      let(:data) { { red: 1 } }
       let(:inner_margin) { 100 }
       let(:outer_margin) { 500 }
       let(:item_width) { 40 }
