@@ -212,6 +212,82 @@ RSpec.describe CircleCountGraph do
     end
   end
 
+  context 'one circle with inner-margin' do
+    let(:inner_margin) { 2 }
+    let(:data) { { '#FACADE' => 1 } }
+    let(:circle) { svg.find('circle') }
+    it 'renders the correct position on x-axis of a circle with inner-margin' do
+      expect(circle[:cx]).to eq('12')
+    end
+    it 'renders the correct position on y-axis of a circle with inner-margin' do
+      expect(circle[:cy]).to eq('12')
+    end
+  end
+
+  context 'two circles in one column with inner-margin' do
+    let(:inner_margin) { 2 }
+    let(:columns) { 1 }
+    let(:data) { { red: 1, green: 1 } }
+    let(:red_circle) { svg.all('circle').first }
+    let(:green_circle) { svg.all('circle').last }
+    it 'renders the correct position of red circle with inner-margin' do
+      expect(red_circle[:cx]).to eq('12')
+      expect(red_circle[:cy]).to eq('12')
+    end
+    it 'renders the correct position of green circle with inner-margin' do
+      expect(green_circle[:cx]).to eq('12')
+      expect(green_circle[:cy]).to eq('36')
+    end
+  end
+
+  context 'two circles in two columns with inner-margin' do
+    let(:inner_margin) { 2 }
+    let(:data) { { red: 1, green: 1 } }
+    let(:red_circle) { svg.all('circle').first }
+    let(:green_circle) { svg.all('circle').last }
+    it 'renders the correct position of red circle with inner-margin' do
+      expect(red_circle[:cx]).to eq('12')
+      expect(red_circle[:cy]).to eq('12')
+    end
+    it 'renders the correct position of green circle with inner-margin' do
+      expect(green_circle[:cx]).to eq('36')
+      expect(green_circle[:cy]).to eq('12')
+    end
+  end
+
+  context 'two circles in one column with outer-margin' do
+    let(:outer_margin) { 20 }
+    let(:columns) { 1 }
+    let(:data) { { red: 1, green: 1 } }
+    let(:red_circle) { svg.all('circle').first }
+    let(:green_circle) { svg.all('circle').last }
+    it 'renders the correct position of red circle with outer-margin' do
+      expect(red_circle[:cx]).to eq('30')
+      expect(red_circle[:cy]).to eq('30')
+    end
+    it 'renders the correct position of green circle with outer-margin' do
+      expect(green_circle[:cx]).to eq('30')
+      expect(green_circle[:cy]).to eq('50')
+    end
+  end
+
+  context 'two circles in one column with inner- and outer-margin' do
+    let(:inner_margin) { 2 }
+    let(:outer_margin) { 20 }
+    let(:columns) { 1 }
+    let(:data) { { red: 1, green: 1 } }
+    let(:red_circle) { svg.all('circle').first }
+    let(:green_circle) { svg.all('circle').last }
+    it 'renders the correct position of red circle with inner- and outer-margin' do
+      expect(red_circle[:cx]).to eq('32')
+      expect(red_circle[:cy]).to eq('32')
+    end
+    it 'renders the correct position of green circle with inner- and outer-margin' do
+      expect(green_circle[:cx]).to eq('32')
+      expect(green_circle[:cy]).to eq('56')
+    end
+  end
+
   context 'filename is set' do
     let(:options) { { filename: 'dots.svg' } }
     it 'calls #save on the SVG' do
