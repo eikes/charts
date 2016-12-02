@@ -13,6 +13,7 @@ RSpec.describe CircleCountGraph do
   let(:item_width) { 20 }
   let(:item_height) { 20 }
   let(:type) { :svg }
+  let(:background) { 'white' }
   let(:options) do
     {
       columns:      columns,
@@ -20,13 +21,27 @@ RSpec.describe CircleCountGraph do
       item_height:  item_height,
       inner_margin: inner_margin,
       outer_margin: outer_margin,
-      type:         type
+      type:         type,
+      background:   background
     }
   end
 
   describe 'setup' do
     it 'sets the SVG header' do
       expect(graph.render).to match(/DOCTYPE svg PUBLIC/)
+    end
+  end
+
+  context 'background color default' do
+    it 'has white as default background-color' do
+      expect(svg.find('rect.background_color')[:fill]).to eq('white')
+    end
+  end
+
+  context 'background-color' do
+    let(:background) { 'red' }
+    it 'sets background-color correctly' do
+      expect(svg.find('rect.background_color')[:fill]).to eq('red')
     end
   end
 
@@ -297,6 +312,7 @@ RSpec.describe CircleCountGraph do
   end
 
   describe 'rmagick renderer' do
+    let(:background) { 'green' }
     let(:graph) { CircleCountGraph.new(data, options) }
     let(:data) { { red: 2, blue: 2 } }
     let(:columns) { 2 }
@@ -323,6 +339,7 @@ RSpec.describe CircleCountGraph do
     it 'calls #fill on the canvas' do
       expect_any_instance_of(Magick::Draw).to receive(:fill).with('red').twice
       expect_any_instance_of(Magick::Draw).to receive(:fill).with('blue').twice
+      expect_any_instance_of(Magick::Draw).to receive(:fill).with('green').once
       graph.render
     end
 

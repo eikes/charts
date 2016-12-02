@@ -7,7 +7,8 @@ class CountGraph < Graph
       item_width:   20,
       item_height:  20,
       inner_margin: 2,
-      outer_margin: 20
+      outer_margin: 20,
+      background:   'white'
     )
   end
 
@@ -26,6 +27,7 @@ class CountGraph < Graph
   end
 
   def draw
+    draw_background_color(width, height, background_color)
     prepared_data.each_with_index do |row, row_count|
       row.each_with_index do |color, column_count|
         x = offset_x(column_count) + inner_margin + outer_margin
@@ -52,11 +54,15 @@ class CountGraph < Graph
   end
 
   def inner_margin
-    @options[:inner_margin]
+    options[:inner_margin]
   end
 
   def outer_margin
-    @options[:outer_margin]
+    options[:outer_margin]
+  end
+
+  def background_color
+    options[:background]
   end
 
   def draw_item(_x, _y, _color)
@@ -72,10 +78,10 @@ class CountGraph < Graph
   end
 
   def item_width
-    @options[:item_width]
+    options[:item_width]
   end
 
   def item_height
-    @options[:item_height]
+    options[:item_height]
   end
 end

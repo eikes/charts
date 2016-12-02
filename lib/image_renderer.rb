@@ -36,6 +36,10 @@ module ImageRenderer
       svg.save filename
     end
 
+    def background_color(width, height, style = {})
+      svg.rect style.merge(width: width, height: height)
+    end
+
     def line(x1, y1, x2, y2, style = {})
       svg.line style.merge(x1: x1, y1: y1, x2: x2, y2: y2)
     end
@@ -81,6 +85,11 @@ module ImageRenderer
     def rect(x, y, width, height, style)
       apply_canvas_style style
       canvas.rectangle(x, y, x + width, y + height)
+    end
+
+    def background_color(width, height, style = {})
+      apply_canvas_style style 
+      canvas.rectangle(0, 0, width, height)
     end
 
     def apply_canvas_style(style)
