@@ -84,6 +84,7 @@ module ImageRenderer
     end
 
     def apply_canvas_style(style)
+      style.delete(:class)
       style.each do |key, value|
         canvas.send key, value
       end

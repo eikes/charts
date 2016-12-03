@@ -3,8 +3,107 @@ require 'count_graph'
 
 RSpec.describe CountGraph do
   let(:data) { { red: 1 } }
-  let(:options) { { columns: 2 } }
   let(:graph) { CountGraph.new(data, options) }
+  let(:columns) { 2 }
+  let(:item_width) { 20 }
+  let(:item_height) { 20 }
+  let(:inner_margin) { 0 }
+  let(:outer_margin) { 0 }
+  let(:options) do
+    {
+      columns:      columns,
+      item_width:   item_width,
+      item_height:  item_height,
+      inner_margin: inner_margin,
+      outer_margin: outer_margin
+    }
+  end
+
+  describe '#default_options' do
+    let(:options) { {} }
+    it 'has a default item width of 20' do
+      expect(graph.options[:item_width]).to eq(20)
+    end
+    it 'has a default item height of 20' do
+      expect(graph.options[:item_height]).to eq(20)
+    end
+    it 'has a default inner-margin of 2px' do
+      expect(graph.options[:inner_margin]).to eq(2)
+    end
+    it 'has a default outer-margin of 20px' do
+      expect(graph.options[:outer_margin]).to eq(20)
+    end
+    it 'has 10 default columns' do
+      expect(graph.options[:columns]).to eq(10)
+    end
+    context 'with item_width 40 and item_height 40 in the options' do
+      let(:options) { { item_width: 40, item_height: 40 } }
+      it 'has the item_width in the options attribute' do
+        expect(graph.options[:item_width]).to eq(40)
+      end
+      it 'has the item_height in the options attribute' do
+        expect(graph.options[:item_height]).to eq(40)
+      end
+    end
+  end
+
+  describe 'inner margin' do
+    it 'has a offset_x attribute' do
+      expect(graph).to respond_to(:offset_x)
+    end
+    it 'has a offset_y attribute' do
+      expect(graph).to respond_to(:offset_y)
+    end
+    it 'has a outer_item_width attribute' do
+      expect(graph).to respond_to(:outer_item_width)
+    end
+    it 'has a outer_item_height attribute' do
+      expect(graph).to respond_to(:outer_item_height)
+    end
+    it 'has a inner_margin attribute' do
+      expect(graph).to respond_to(:inner_margin)
+    end
+    context 'width-margin of a single item' do
+      let(:inner_margin) { 2 }
+      it 'returns the correct outer_item_width' do
+        expect(graph.outer_item_width).to eq(24)
+      end
+      it 'returns the correct offset_x' do
+        expect(graph.offset_x(data[:red])).to eq(24)
+      end
+    end
+    context 'height-margin of a single item' do
+      let(:item_height) { 20 }
+      let(:inner_margin) { 2 }
+      it 'returns the correct outer_item_height' do
+        expect(graph.outer_item_height).to eq(24)
+      end
+      it 'returns the correct offset_y' do
+        expect(graph.offset_y(data[:red])).to eq(24)
+      end
+    end
+    context 'width-margin of a several items' do
+      let(:data) { { red: 8 } }
+      let(:inner_margin) { 12 }
+      it 'returns the correct outer_item_width' do
+        expect(graph.outer_item_width).to eq(44)
+      end
+      it 'returns the correct offset_x' do
+        expect(graph.offset_x(data[:red])).to eq(352)
+      end
+    end
+    context 'height-margin of a several items' do
+      let(:data) { { red: 8 } }
+      let(:item_height) { 40 }
+      let(:inner_margin) { 12 }
+      it 'returns the correct outer_item_height' do
+        expect(graph.outer_item_height).to eq(64)
+      end
+      it 'returns the correct offset_y' do
+        expect(graph.offset_y(data[:red])).to eq(512)
+      end
+    end
+  end
 
   describe '#initialize' do
     it 'provides default options' do
@@ -34,35 +133,17 @@ RSpec.describe CountGraph do
     it 'creates the prepared_data for simple keys' do
       graph = CountGraph.new({ x: 3, o: 2 }, columns: 2)
       expect(graph.prepared_data).to eq([
-        %w(x x),
-        %w(x o),
-        ['o']
-      ])
+                                          %w(x x),
+                                          %w(x o),
+                                          ['o']
+                                        ])
     end
     it 'creates the prepared_data for complex keys' do
       graph = CountGraph.new({ '#FF0000' => 2, '#00FF00' => 2 }, columns: 2)
       expect(graph.prepared_data).to eq([
-        ['#FF0000', '#FF0000'],
-        ['#00FF00', '#00FF00']
-      ])
-    end
-  end
-
-  describe '#default_options' do
-    it 'has a default item width of 20' do
-      expect(graph.options[:item_width]).to eq(20)
-    end
-    it 'has a default item height of 20' do
-      expect(graph.options[:item_height]).to eq(20)
-    end
-    context 'with item_width 40 and item_height 40 in the options' do
-      let(:options) { { item_width: 40, item_height: 40 } }
-      it 'has the item_width in the options attribute' do
-        expect(graph.options[:item_width]).to eq(40)
-      end
-      it 'has the item_height in the options attribute' do
-        expect(graph.options[:item_height]).to eq(40)
-      end
+                                          ['#FF0000', '#FF0000'],
+                                          ['#00FF00', '#00FF00']
+                                        ])
     end
   end
 
@@ -82,23 +163,20 @@ RSpec.describe CountGraph do
       end
     end
     context 'one item' do
-      let(:data) { { red: 1 } }
-      let(:options) { { item_width: 20, item_height: 20 } }
       include_examples 'has a width and height of', 20, 20
     end
     context 'one item with different item width' do
-      let(:data) { { red: 1 } }
-      let(:options) { { item_width: 40, item_height: 40 } }
+      let(:item_width) { 40 }
+      let(:item_height) { 40 }
       include_examples 'has a width and height of', 40, 40
     end
     context 'one column two items' do
       let(:data) { { red: 2 } }
-      let(:options) { { columns: 1, item_width: 20, item_height: 20 } }
+      let(:columns) { 1 }
       include_examples 'has a width and height of', 20, 40
     end
     context 'two columns two items' do
       let(:data) { { red: 2 } }
-      let(:options) { { columns: 2, item_width: 20, item_height: 20 } }
       include_examples 'has a width and height of', 40, 20
     end
   end
@@ -112,11 +190,12 @@ RSpec.describe CountGraph do
     end
     context 'setup' do
       let(:data) { { red: 2 } }
-      let(:options) { { item_width: 50, item_height: 50 } }
+      let(:item_width) { 50 }
+      let(:item_height) { 50 }
       it 'item width gets correct value' do
         expect(graph.item_width).to eq(50)
       end
-      it 'item heigt gets correct value' do
+      it 'item height gets correct value' do
         expect(graph.item_height).to eq(50)
       end
     end
