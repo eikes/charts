@@ -61,8 +61,8 @@ class BarGraph < Graph
     @set_count = data.count
     @bars_pers_set = data.map(&:count).max
     @bar_count = set_count * bars_pers_set
-    @max_value = calc_max_value
-    @min_value = calc_min_value
+    @max_value = calc_max
+    @min_value = calc_min
     @base_line = calc_base_line
   end
 
@@ -124,13 +124,13 @@ class BarGraph < Graph
     height - 2 * outer_margin
   end
 
-  def calc_max_value
+  def calc_max
     max = data.map(&:max).max
     max = 0 if max < 0 && include_zero
     options[:max] || max
   end
 
-  def calc_min_value
+  def calc_min
     min = data.map(&:min).min
     min = 0 if min > 0 && include_zero
     options[:min] || min
