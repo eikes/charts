@@ -5,6 +5,7 @@ RSpec.describe BarGraph do
   let(:data) { [[0, 10, 15, 20]] }
   let(:options) do
     {
+      type:         type,
       width:        width,
       height:       height,
       group_margin: group_margin,
@@ -13,6 +14,7 @@ RSpec.describe BarGraph do
       include_zero: include_zero
     }
   end
+  let(:type) { :svg }
   let(:width) { 100 }
   let(:height) { 100 }
   let(:group_margin) { 0 }
@@ -195,6 +197,15 @@ RSpec.describe BarGraph do
       it "sets the graph.height to 200" do
         expect(graph.height).to eq(200)
       end
+    end
+  end
+
+  describe 'rmagick renderer' do
+    let(:type) { :png }
+
+    it 'calls #line on the canvas' do
+      expect_any_instance_of(Magick::Draw).to receive(:rectangle).exactly(6).times
+      graph.render
     end
   end
 
