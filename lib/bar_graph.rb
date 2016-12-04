@@ -55,14 +55,14 @@ class BarGraph < Graph
     end
   end
 
-  attr_reader :max, :min, :set_count, :bars_pers_set, :bar_count, :base_line
+  attr_reader :max_value, :min_value, :set_count, :bars_pers_set, :bar_count, :base_line
 
   def initialize_instance_variables
     @set_count = data.count
     @bars_pers_set = data.map(&:count).max
     @bar_count = set_count * bars_pers_set
-    @max = calc_max
-    @min = calc_min
+    @max_value = calc_max_value
+    @min_value = calc_min_value
     @base_line = calc_base_line
   end
 
@@ -124,16 +124,16 @@ class BarGraph < Graph
     height - 2 * outer_margin
   end
 
-  def calc_max
+  def calc_max_value
     max = data.map(&:max).max
     max = 0 if max < 0 && include_zero
-    max
+    options[:max] || max
   end
 
-  def calc_min
+  def calc_min_value
     min = data.map(&:min).min
     min = 0 if min > 0 && include_zero
-    min
+    options[:min] || min
   end
 
   def calc_base_line
@@ -141,6 +141,6 @@ class BarGraph < Graph
   end
 
   def normalize(value)
-    (value.to_f - min) / (max - min)
+    (value.to_f - min_value) / (max_value - min_value)
   end
 end

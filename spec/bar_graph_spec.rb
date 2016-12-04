@@ -129,6 +129,18 @@ RSpec.describe BarGraph do
     end
   end
 
+  context 'min and max are set' do
+    let(:data) { [[20, 40]] }
+    let(:min_max_options) { options.merge(min: 10, max: 50) }
+    let(:graph) { BarGraph.new(data, min_max_options) }
+    it 'correctly sets the ys' do
+      expect(ys).to eq(['75.0', '25.0'])
+    end
+    it 'correctly sets the heights' do
+      expect(heights).to eq(['25.0', '75.0'])
+    end
+  end
+
   context 'one dataset with four bars with negative values' do
     let(:data) { [[-10, 0, 10, 30]] }
     it 'renders three rect' do
