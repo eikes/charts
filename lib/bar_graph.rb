@@ -23,7 +23,7 @@ class BarGraph < Graph
     end
 
     def x_margin
-      graph.inner_left + graph.bar_margin + graph.group_margin * bar_nr_in_set
+      graph.outer_margin + graph.bar_margin + graph.group_margin * bar_nr_in_set
     end
 
     def x_offset
@@ -35,7 +35,7 @@ class BarGraph < Graph
     end
 
     def y_margin
-      graph.inner_top
+      graph.outer_margin
     end
 
     def y_offset
@@ -93,7 +93,7 @@ class BarGraph < Graph
   def pre_draw
     super
     renderer.rect 0, 0, width, height, fill: '#EEEEEE'
-    renderer.rect inner_left, inner_top, inner_width, inner_height, fill: '#FFFFFF'
+    renderer.rect outer_margin, outer_margin, inner_width, inner_height, fill: '#FFFFFF'
   end
 
   def draw
@@ -104,20 +104,8 @@ class BarGraph < Graph
     end
   end
 
-  def inner_left
-    options[:outer_margin]
-  end
-
-  def inner_top
-    options[:outer_margin]
-  end
-
-  def width
-    options[:width]
-  end
-
   def inner_width
-    width - 2 * options[:outer_margin]
+    width - 2 * outer_margin
   end
 
   def bar_width
@@ -132,32 +120,20 @@ class BarGraph < Graph
     inner_width - (bars_pers_set - 1) * group_margin
   end
 
-  def height
-    options[:height]
-  end
-
   def inner_height
-    height - 2 * options[:outer_margin]
-  end
-
-  def bar_margin
-    options[:bar_margin]
-  end
-
-  def group_margin
-    options[:group_margin]
+    height - 2 * outer_margin
   end
 
   def calc_max
     max = data.map(&:max).max
-    max = 0 if max < 0 && options[:include_zero]
-    options[:max] || max
+    max = 0 if max < 0 && include_zero
+    max
   end
 
   def calc_min
     min = data.map(&:min).min
-    min = 0 if min > 0 && options[:include_zero]
-    options[:min] || min
+    min = 0 if min > 0 && include_zero
+    min
   end
 
   def calc_base_line
@@ -166,10 +142,5 @@ class BarGraph < Graph
 
   def normalize(value)
     (value.to_f - min) / (max - min)
-  end
-
-  def colors
-    default_colors = ['#e41a1d', '#377eb9', '#4daf4b', '#984ea4', '#ff7f01', '#ffff34', '#a65629', '#f781c0', '#888888']
-    options[:colors] || default_colors
   end
 end

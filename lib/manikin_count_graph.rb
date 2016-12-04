@@ -49,6 +49,6 @@ class ManikinCountGraph < CountGraph
   end
 
   def center_(x)
-    x + @options[:item_width] / 2
+    x + item_width / 2
   end
 end

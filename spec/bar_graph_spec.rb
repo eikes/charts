@@ -30,10 +30,10 @@ RSpec.describe BarGraph do
 
   describe '#initialize' do
     it 'provides default options' do
-      expect(BarGraph.new(data).options[:width]).to eq(600)
+      expect(BarGraph.new(data).width).to eq(600)
     end
     it 'provides default options' do
-      expect(BarGraph.new(data).options[:height]).to eq(400)
+      expect(BarGraph.new(data).height).to eq(400)
     end
   end
 

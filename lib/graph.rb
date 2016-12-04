@@ -5,6 +5,7 @@ class Graph
     validate_arguments(data, options)
     @data = data
     @options = default_options.merge options
+    create_options_methods
     initialize_instance_variables
     @prepared_data = prepare_data
   end
@@ -15,7 +16,10 @@ class Graph
   end
 
   def default_options
-    { type: :svg }
+    {
+      type:   :svg,
+      colors: ['#e41a1d', '#377eb9', '#4daf4b', '#984ea4', '#ff7f01', '#ffff34', '#a65629', '#f781c0', '#888888']
+    }
   end
 
   def prepare_data
@@ -41,5 +45,11 @@ class Graph
   end
 
   def initialize_instance_variables
+  end
+
+  def create_options_methods
+    options.each do |key, value|
+      self.class.send(:define_method, key, Proc.new { value })
+    end
   end
 end

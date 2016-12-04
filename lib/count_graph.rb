@@ -22,7 +22,7 @@ class CountGraph < Graph
     data.each do |key, value|
       value.to_i.times { prepared_data << key.to_s }
     end
-    prepared_data.each_slice(options[:columns]).to_a
+    prepared_data.each_slice(columns).to_a
   end
 
   def draw
@@ -69,13 +69,5 @@ class CountGraph < Graph
 
   def height
     prepared_data.count * outer_item_height + (2 * outer_margin)
-  end
-
-  def item_width
-    @options[:item_width]
-  end
-
-  def item_height
-    @options[:item_height]
   end
 end
