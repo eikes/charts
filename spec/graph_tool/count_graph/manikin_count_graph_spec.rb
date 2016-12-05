@@ -67,7 +67,7 @@ RSpec.describe GraphTool::ManikinCountGraph do
     end
 
     it 'calls #stroke on the canvas' do
-      expect_any_instance_of(Magick::Draw).to receive(:fill).with('yellow').once
+      expect_any_instance_of(Magick::Draw).to receive(:fill).with('white').once
       expect_any_instance_of(Magick::Draw).to receive(:fill).with('red').at_least(4).times
       graph.render
     end
