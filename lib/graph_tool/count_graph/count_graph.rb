@@ -1,6 +1,4 @@
-require_relative 'graph'
-
-class CountGraph < Graph
+class GraphTool::CountGraph < GraphTool::Graph
   def default_options
     super.merge(
       columns:          10,

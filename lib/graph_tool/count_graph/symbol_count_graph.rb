@@ -1,6 +1,4 @@
-require_relative 'count_graph'
-
-class SymbolCountGraph < CountGraph
+class GraphTool::SymbolCountGraph < GraphTool::CountGraph
   def render
     render = prepared_data.map { |row| row.map(&:chr).join }.join("\n")
     if options[:filename]

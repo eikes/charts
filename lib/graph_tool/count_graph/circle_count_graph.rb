@@ -1,8 +1,5 @@
-require_relative 'count_graph'
-require_relative 'image_renderer'
-
-class CircleCountGraph < CountGraph
-  include ImageRenderer
+class GraphTool::CircleCountGraph < GraphTool::CountGraph
+  include GraphTool::ImageRenderer
 
   def draw_item(x, y, color)
     cx = x + item_width / 2

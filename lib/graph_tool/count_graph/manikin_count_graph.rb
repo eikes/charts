@@ -1,8 +1,5 @@
-require_relative 'count_graph'
-require_relative 'image_renderer'
-
-class ManikinCountGraph < CountGraph
-  include ImageRenderer
+class GraphTool::ManikinCountGraph < GraphTool::CountGraph
+  include GraphTool::ImageRenderer
 
   def draw_item(x, y, color)
     head x + width_percent(50), y, style(color)

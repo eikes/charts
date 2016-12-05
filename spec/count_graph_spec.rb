@@ -1,9 +1,8 @@
 require 'spec_helper'
-require 'count_graph'
 
-RSpec.describe CountGraph do
+RSpec.describe GraphTool::CountGraph do
   let(:data) { { red: 1 } }
-  let(:graph) { CountGraph.new(data, options) }
+  let(:graph) { GraphTool::CountGraph.new(data, options) }
   let(:columns) { 2 }
   let(:item_width) { 20 }
   let(:item_height) { 20 }
@@ -114,31 +113,31 @@ RSpec.describe CountGraph do
 
   describe '#initialize' do
     it 'provides default options' do
-      graph = CountGraph.new(x: 2)
+      graph = GraphTool::CountGraph.new(x: 2)
       expect(graph.columns).to eq(10)
     end
     it 'merges default options with passed in options' do
-      graph = CountGraph.new({ x: 2 }, extra: 123)
+      graph = GraphTool::CountGraph.new({ x: 2 }, extra: 123)
       expect(graph.columns).to eq(10)
       expect(graph.extra).to eq(123)
     end
     it 'accepts numbers as strings' do
-      expect { CountGraph.new(x: '2') }.to_not raise_error
+      expect { GraphTool::CountGraph.new(x: '2') }.to_not raise_error
     end
     it 'raises an error when the data is not a hash' do
-      expect { CountGraph.new('x') }.to raise_error(ArgumentError)
+      expect { GraphTool::CountGraph.new('x') }.to raise_error(ArgumentError)
     end
     it 'raises an error when value is not an Integer' do
-      expect { CountGraph.new(x: '@$') }.to raise_error(ArgumentError)
+      expect { GraphTool::CountGraph.new(x: '@$') }.to raise_error(ArgumentError)
     end
     it 'raises an error when a collection of values contains a Non-Integer' do
-      expect { CountGraph.new(a: 12, x: '@$') }.to raise_error(ArgumentError)
+      expect { GraphTool::CountGraph.new(a: 12, x: '@$') }.to raise_error(ArgumentError)
     end
   end
 
   describe '#prepare_data' do
     it 'creates the prepared_data for simple keys' do
-      graph = CountGraph.new({ x: 3, o: 2 }, columns: 2)
+      graph = GraphTool::CountGraph.new({ x: 3, o: 2 }, columns: 2)
       expect(graph.prepared_data).to eq([
                                           %w(x x),
                                           %w(x o),
@@ -146,7 +145,7 @@ RSpec.describe CountGraph do
                                         ])
     end
     it 'creates the prepared_data for complex keys' do
-      graph = CountGraph.new({ '#FF0000' => 2, '#00FF00' => 2 }, columns: 2)
+      graph = GraphTool::CountGraph.new({ '#FF0000' => 2, '#00FF00' => 2 }, columns: 2)
       expect(graph.prepared_data).to eq([
         ['#FF0000', '#FF0000'],
         ['#00FF00', '#00FF00']
@@ -209,11 +208,11 @@ RSpec.describe CountGraph do
   end
 
   context 'A child class has not implemented the required methods' do
-    class BogusCountGraph < CountGraph
+    class GraphTool::BogusCountGraph < GraphTool::CountGraph
     end
 
     it 'raises an exception when draw_item is called' do
-      expect { BogusCountGraph.new(x: 1).draw_item(1, 2, :red) }.to raise_error(NotImplementedError)
+      expect { GraphTool::BogusCountGraph.new(x: 1).draw_item(1, 2, :red) }.to raise_error(NotImplementedError)
     end
   end
 end

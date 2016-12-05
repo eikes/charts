@@ -1,4 +1,4 @@
-class Graph
+class GraphTool::Graph
   attr_reader :data, :options, :prepared_data
 
   def initialize(data, options = {})

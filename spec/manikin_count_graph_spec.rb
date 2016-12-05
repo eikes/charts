@@ -1,13 +1,11 @@
 require 'spec_helper'
-require 'manikin_count_graph'
-require 'capybara/rspec'
 
-RSpec.describe ManikinCountGraph do
+RSpec.describe GraphTool::ManikinCountGraph do
   include Capybara::RSpecMatchers
 
   let(:data) { { red: 1 } }
   let(:options) { { columns: 2, type: :svg } }
-  let(:graph) { ManikinCountGraph.new(data, options) }
+  let(:graph) { GraphTool::ManikinCountGraph.new(data, options) }
   let(:svg) { Capybara.string(graph.render) }
 
   context 'one manikin' do

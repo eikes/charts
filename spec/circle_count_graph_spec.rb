@@ -1,11 +1,9 @@
 require 'spec_helper'
-require 'circle_count_graph'
-require 'capybara/rspec'
 
-RSpec.describe CircleCountGraph do
+RSpec.describe GraphTool::CircleCountGraph do
   include Capybara::RSpecMatchers
   let(:data) { { red: 1 } }
-  let(:graph) { CircleCountGraph.new(data, options) }
+  let(:graph) { GraphTool::CircleCountGraph.new(data, options) }
   let(:svg) { Capybara.string(graph.render) }
   let(:columns) { 2 }
   let(:inner_margin) { 0 }
@@ -313,7 +311,7 @@ RSpec.describe CircleCountGraph do
 
   describe 'rmagick renderer' do
     let(:background_color) { 'green' }
-    let(:graph) { CircleCountGraph.new(data, options) }
+    let(:graph) { GraphTool::CircleCountGraph.new(data, options) }
     let(:data) { { red: 2, blue: 2 } }
     let(:columns) { 2 }
     let(:type) { :png }

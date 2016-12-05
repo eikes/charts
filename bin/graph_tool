@@ -1,10 +1,6 @@
 #!/usr/bin/env ruby
 
-require File.expand_path('../../lib/symbol_count_graph.rb', __FILE__)
-require File.expand_path('../../lib/circle_count_graph.rb', __FILE__)
-require File.expand_path('../../lib/cross_count_graph.rb', __FILE__)
-require File.expand_path('../../lib/manikin_count_graph.rb', __FILE__)
-
+require 'graph_tool'
 require 'optparse'
 
 formats = [:txt, :svg, :png, :jpg, :gif]
@@ -84,14 +80,14 @@ graph_options = options.select { |key, _value| [:filename, :type, :columns, :ite
 
 if data
   if options[:type] == :txt
-    graph = SymbolCountGraph.new(data, graph_options)
+    graph = GraphTool::SymbolCountGraph.new(data, graph_options)
   elsif [:svg, :png, :jpg, :gif].include? options[:type]
     if options[:style] == :circle
-      graph = CircleCountGraph.new(data, graph_options)
+      graph = GraphTool::CircleCountGraph.new(data, graph_options)
     elsif options[:style] == :cross
-      graph = CrossCountGraph.new(data, graph_options)
+      graph = GraphTool::CrossCountGraph.new(data, graph_options)
     elsif options[:style] == :manikin
-      graph = ManikinCountGraph.new(data, graph_options)
+      graph = GraphTool::ManikinCountGraph.new(data, graph_options)
     end
   end
   if options[:filename]

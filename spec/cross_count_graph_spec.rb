@@ -1,11 +1,9 @@
 require 'spec_helper'
-require 'cross_count_graph'
-require 'capybara/rspec'
 
-RSpec.describe CrossCountGraph do
+RSpec.describe GraphTool::CrossCountGraph do
   include Capybara::RSpecMatchers
   let(:data) { { red: 1 } }
-  let(:graph) { CrossCountGraph.new(data, options) }
+  let(:graph) { GraphTool::CrossCountGraph.new(data, options) }
   let(:svg) { Capybara.string(graph.render) }
   let(:columns) { 2 }
   let(:inner_margin) { 0 }
@@ -168,7 +166,7 @@ RSpec.describe CrossCountGraph do
   end
 
   describe 'rmagick renderer' do
-    let(:graph) { CrossCountGraph.new(data, options) }
+    let(:graph) { GraphTool::CrossCountGraph.new(data, options) }
     let(:data) { { red: 2 } }
     let(:item_width) { 100 }
     let(:item_height) { 100 }

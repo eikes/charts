@@ -1,7 +1,7 @@
 require 'rmagick'
 require 'victor'
 
-module ImageRenderer
+module GraphTool::ImageRenderer
   attr_reader :renderer
 
   def pre_draw

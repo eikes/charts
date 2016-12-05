@@ -1,8 +1,5 @@
-require_relative 'graph'
-require_relative 'image_renderer'
-
-class BarGraph < Graph
-  include ImageRenderer
+class GraphTool::BarGraph < GraphTool::Graph
+  include GraphTool::ImageRenderer
 
   class Bar
     attr_reader :graph, :data_value, :set_nr, :bar_nr_in_set
