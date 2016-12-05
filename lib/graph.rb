@@ -49,7 +49,7 @@ class Graph
 
   def create_options_methods
     options.each do |key, value|
-      self.class.send(:define_method, key, proc { value })
+      define_singleton_method key, proc { value }
     end
   end
 end
