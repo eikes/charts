@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe GraphTool::CrossCountGraph do
   include Capybara::RSpecMatchers
-  let(:data) { { red: 1 } }
+  let(:data) { [1] }
   let(:graph) { GraphTool::CrossCountGraph.new(data, options) }
   let(:svg) { Capybara.string(graph.render) }
   let(:columns) { 2 }
@@ -11,6 +11,7 @@ RSpec.describe GraphTool::CrossCountGraph do
   let(:item_width) { 20 }
   let(:item_height) { 20 }
   let(:type) { :svg }
+  let(:colors) { ['green'] }
   let(:options) do
     {
       columns:      columns,
@@ -18,7 +19,8 @@ RSpec.describe GraphTool::CrossCountGraph do
       item_height:  item_height,
       inner_margin: inner_margin,
       outer_margin: outer_margin,
-      type:         type
+      type:         type,
+      colors:       colors
     }
   end
   let(:type) { :svg }
@@ -47,12 +49,14 @@ RSpec.describe GraphTool::CrossCountGraph do
       include_examples 'has a width and height of', 40, 40
     end
     context 'one column two crosses' do
-      let(:data) { { red: 2 } }
+      let(:data) { [2] }
+      let(:colors) { ['red'] }
       let(:columns) { 1 }
       include_examples 'has a width and height of', 20, 40
     end
     context 'two columns two crosses' do
-      let(:data) { { red: 2 } }
+      let(:data) { [2] }
+      let(:colors) { ['red'] }
       include_examples 'has a width and height of', 40, 20
     end
   end
@@ -64,7 +68,8 @@ RSpec.describe GraphTool::CrossCountGraph do
   end
 
   context 'one cross' do
-    let(:data) { { '#FACADE' => 1 } }
+    let(:data) { [1] }
+    let(:colors) { ['#FACADE'] }
     let(:item_width) { 100 }
     let(:line) { svg.all('line').first }
     it 'renders one cross with the correct color' do
@@ -76,7 +81,8 @@ RSpec.describe GraphTool::CrossCountGraph do
   end
 
   context 'two different crosses' do
-    let(:data) { { red: 1, green: 1 } }
+    let(:data) { [1, 1] }
+    let(:colors) { ['red', 'green'] }
     let(:red_cross_left_top_right_bottom) { svg.all('line').first }
     let(:red_cross_left_bottom_right_top) { svg.all('line')[1] }
     let(:green_cross_left_top_right_bottom) { svg.all('line')[2] }
@@ -167,7 +173,8 @@ RSpec.describe GraphTool::CrossCountGraph do
 
   describe 'rmagick renderer' do
     let(:graph) { GraphTool::CrossCountGraph.new(data, options) }
-    let(:data) { { red: 2 } }
+    let(:data) { [2] }
+    let(:colors) { ['red'] }
     let(:item_width) { 100 }
     let(:item_height) { 100 }
     let(:type) { :png }

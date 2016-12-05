@@ -3,8 +3,16 @@ require 'spec_helper'
 RSpec.describe GraphTool::Dispatcher do
   let(:graph) { dispatcher.graph }
   let(:dispatcher) { GraphTool::Dispatcher.new(options) }
-  let(:options) { { data: data, type: type, style: style } }
-  let(:data) { { red: 5, gold: 2 } }
+  let(:options) do
+    {
+      data:   data,
+      type:   type,
+      style:  style,
+      colors: colors
+    }
+  end
+  let(:data) { [5, 2] }
+  let(:colors) { ['red', 'gold'] }
   let(:type) { 'svg' }
   let(:style) { 'circle' }
 
