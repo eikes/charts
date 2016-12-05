@@ -49,4 +49,5 @@ class ManikinCountGraph < CountGraph
   def height_percent(multiplicator)
     multiplicator * item_height / 100
   end
+
 end

@@ -36,6 +36,10 @@ module ImageRenderer
       svg.save filename
     end
 
+    def background_color(width, height, style = {})
+      svg.rect style.merge(width: width, height: height)
+    end
+
     def line(x1, y1, x2, y2, style = {})
       svg.line style.merge(x1: x1, y1: y1, x2: x2, y2: y2)
     end

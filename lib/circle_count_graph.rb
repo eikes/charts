@@ -11,4 +11,5 @@ class CircleCountGraph < CountGraph
 
     renderer.circle cx, cy, radius, fill: color
   end
+
 end

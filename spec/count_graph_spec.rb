@@ -48,6 +48,12 @@ RSpec.describe CountGraph do
     end
   end
 
+  describe '#background color' do
+    it 'has a background_color attribute' do
+      expect(graph).to respond_to(:background_color)
+    end
+  end
+
   describe 'inner margin' do
     it 'has a offset_x attribute' do
       expect(graph).to respond_to(:offset_x)

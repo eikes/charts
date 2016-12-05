@@ -15,4 +15,5 @@ class CrossCountGraph < CountGraph
     renderer.line left, top, right, bottom, style
     renderer.line left, bottom, right, top, style
   end
+
 end
