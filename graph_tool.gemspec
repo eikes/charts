@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
                    'lib/graph_tool/image_renderer.rb',
                    'lib/graph_tool/graph.rb',
                    'lib/graph_tool/bar_graph/bar_graph.rb',
+                   'lib/graph_tool/bar_graph/bar.rb',
                    'lib/graph_tool/count_graph/count_graph.rb',
                    'lib/graph_tool/count_graph/circle_count_graph.rb',
                    'lib/graph_tool/count_graph/cross_count_graph.rb',
