@@ -8,7 +8,7 @@ class CountGraph < Graph
       item_height:  20,
       inner_margin: 2,
       outer_margin: 20,
-      background:   'white'
+      background_color:   'white'
     )
   end
 
@@ -62,7 +62,7 @@ class CountGraph < Graph
   end
 
   def background_color
-    options[:background]
+    options[:background_color]
   end
 
   def draw_item(_x, _y, _color)

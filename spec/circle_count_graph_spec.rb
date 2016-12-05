@@ -13,7 +13,7 @@ RSpec.describe CircleCountGraph do
   let(:item_width) { 20 }
   let(:item_height) { 20 }
   let(:type) { :svg }
-  let(:background) { 'white' }
+  let(:background_color) { 'white' }
   let(:options) do
     {
       columns:      columns,
@@ -22,7 +22,7 @@ RSpec.describe CircleCountGraph do
       inner_margin: inner_margin,
       outer_margin: outer_margin,
       type:         type,
-      background:   background
+      background_color:   background_color
     }
   end
 
@@ -39,7 +39,7 @@ RSpec.describe CircleCountGraph do
   end
 
   context 'background-color' do
-    let(:background) { 'red' }
+    let(:background_color) { 'red' }
     it 'sets background-color correctly' do
       expect(svg.find('rect.background_color')[:fill]).to eq('red')
     end
@@ -312,7 +312,7 @@ RSpec.describe CircleCountGraph do
   end
 
   describe 'rmagick renderer' do
-    let(:background) { 'green' }
+    let(:background_color) { 'green' }
     let(:graph) { CircleCountGraph.new(data, options) }
     let(:data) { { red: 2, blue: 2 } }
     let(:columns) { 2 }
