@@ -17,3 +17,6 @@ Style/AlignHash:
 
 Style/AlignParameters:
   EnforcedStyle: with_fixed_indentation
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
