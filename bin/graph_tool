@@ -2,5 +2,5 @@
 
 require_relative '../lib/graph_tool'
 
-options = GraphTool::OptParser.new(ARGV.empty? ? ['--help'] : ARGV).parse
-GraphTool::Dispatcher.new(options).render
+options = GraphTool::OptParser.new(ARGV).parse
+GraphTool::Dispatcher.new(options).render unless options[:help]

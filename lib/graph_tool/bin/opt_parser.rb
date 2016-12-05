@@ -8,7 +8,7 @@ class GraphTool::OptParser
   STYLES = [:circle, :cross, :manikin]
 
   def initialize(args)
-    @args = args
+    @args = args.empty? ? ['--help'] : args
     # The options specified on the command line will be collected in *options*.
     # We set default values here.
     @options = {
@@ -28,24 +28,26 @@ class GraphTool::OptParser
   end
 
   def post_process_options
-    if options[:filename]
-      type = options[:filename].match(/.*\.(#{FORMATS.join("|")})/)
-      if type
-        options[:type] = type[1].to_sym
-      else
-        options[:type] = false
+    unless options[:help]
+      if options[:filename]
+        type = options[:filename].match(/.*\.(#{FORMATS.join("|")})/)
+        if type
+          options[:type] = type[1].to_sym
+        else
+          options[:type] = false
+        end
       end
     end
   end
 
   def validate_options
-    unless options[:type]
-      puts 'No type provided. Set a type with --type flag or by setting a valid --filename'
-      fail 'Invalid type'
-    end
-    unless options[:data]
-      puts "No data provided. Please pass in data using the --data flag: 'bin/graph_tool -d Red:8,Gold:7'"
-      fail 'Missing data'
+    unless options[:help]
+      unless options[:type]
+        fail 'No type provided. Set a type with --type flag or by setting a valid --filename'
+      end
+      unless options[:data]
+        fail "No data provided. Please pass in data using the --data flag: 'bin/graph_tool -d Red:8,Gold:7'"
+      end
     end
   end
 
@@ -104,7 +106,7 @@ class GraphTool::OptParser
               'Prints this help'
              ) do
         puts opts
-        exit
+        options[:help] = true
       end
     end
   end

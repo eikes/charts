@@ -69,4 +69,21 @@ RSpec.describe GraphTool::Dispatcher do
       expect(graph.options).not_to include(bogus_option: '123123')
     end
   end
+
+  describe '#render' do
+    it 'calls render on the graph and prints the result' do
+      expect_any_instance_of(GraphTool::CircleCountGraph).to receive(:render).and_return('SVG_CONTENT')
+      expect($stdout).to receive(:puts).with('SVG_CONTENT')
+      dispatcher.render
+    end
+  end
+
+  describe '#render when a filename is set' do
+    let(:options) { { data: data, type: type, style: style, filename: 'file.svg' } }
+    it 'calls render on the graph and prints nothing' do
+      expect_any_instance_of(GraphTool::CircleCountGraph).to receive(:render)
+      expect($stdout).not_to receive(:puts)
+      dispatcher.render
+    end
+  end
 end
