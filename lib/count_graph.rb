@@ -23,7 +23,7 @@ class CountGraph < Graph
     data.each do |key, value|
       value.to_i.times { prepared_data << key.to_s }
     end
-    prepared_data.each_slice(options[:columns]).to_a
+    prepared_data.each_slice(columns).to_a
   end
 
   def draw
@@ -58,18 +58,6 @@ class CountGraph < Graph
     item_height + 2 * inner_margin
   end
 
-  def inner_margin
-    options[:inner_margin]
-  end
-
-  def outer_margin
-    options[:outer_margin]
-  end
-
-  def background_color
-    options[:background_color]
-  end
-
   def draw_item(_x, _y, _color)
     raise NotImplementedError
   end
@@ -80,13 +68,5 @@ class CountGraph < Graph
 
   def height
     prepared_data.count * outer_item_height + (2 * outer_margin)
-  end
-
-  def item_width
-    options[:item_width]
-  end
-
-  def item_height
-    options[:item_height]
   end
 end

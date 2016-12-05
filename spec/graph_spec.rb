@@ -22,11 +22,9 @@ RSpec.describe Graph do
     end
 
     it 'stores the data in an instance attribute' do
-      graph = Graph.new(x: 2)
-      expect(graph.data).to eq(x: 2)
+      expect(graph.data).to eq(red: 1)
     end
     it 'stores the options in an instance attribute' do
-      graph = Graph.new({ x: 2 }, columns: 2)
       expect(graph.options).to include(columns: 2)
     end
   end
@@ -35,6 +33,29 @@ RSpec.describe Graph do
     it 'calls the prepare_data method' do
       expect_any_instance_of(Graph).to receive(:prepare_data)
       Graph.new(x: 1)
+    end
+  end
+
+  describe 'each option gets converted to an instance_method of the same name returning its value' do
+    let(:options) do
+      {
+        columns:      5,
+        colors:       ['#ABCDEF'],
+        type:         'png',
+        bogus_option: 123
+      }
+    end
+    it 'has a columns method' do
+      expect(graph.columns).to eq(5)
+    end
+    it 'has a colors method' do
+      expect(graph.colors).to eq(['#ABCDEF'])
+    end
+    it 'has a type method' do
+      expect(graph.type).to eq('png')
+    end
+    it 'has a bogus_option method' do
+      expect(graph.bogus_option).to eq(123)
     end
   end
 

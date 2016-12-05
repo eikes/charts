@@ -5,51 +5,49 @@ class ManikinCountGraph < CountGraph
   include ImageRenderer
 
   def draw_item(x, y, color)
-    head(x, y, color)
-    body(x, y, color)
-    arms(x, y, color)
+    head x + width_percent(50), y, style(color)
+    body x + width_percent(50), y, style(color)
+    arms x + width_percent(50), y, style(color)
   end
 
-  def head(x, y, color)
-    center_x = center_(x)
-    cy = y + item_height / 4
-    radius = item_height / 8
+  def head(x, y, style)
+    cy = y + height_percent(20)
+    radius = height_percent(10)
 
-    renderer.circle center_x, cy, radius, fill: color
+    renderer.circle x, cy, radius, style.merge(class: 'head')
   end
 
-  def body(x, y, color)
-    center_x = center_(x)
-    top    = y + item_height / 2
-    bottom = y + item_height
-    style  = {
-      stroke:         color,
-      stroke_width:   item_width / 4,
-      stroke_linecap: 'round',
-      class:          'body'
+  def body(x, y, style)
+    top    = y + height_percent(40)
+    bottom = y + height_percent(95)
+
+    renderer.line x, top, x, bottom, style.merge(stroke_width: width_percent(30), class: 'body')
+  end
+
+  def arms(x, y, style)
+    top    = y + height_percent(40)
+    bottom = y + height_percent(70)
+    left_x = x - width_percent(25)
+    right_x = x + width_percent(25)
+
+    renderer.line left_x, top, left_x, bottom, style.merge(class: 'left-arm')
+    renderer.line right_x, top, right_x, bottom, style.merge(class: 'right-arm')
+  end
+
+  def style(color)
+    {
+      fill:         color,
+      stroke:       color,
+      stroke_width: width_percent(10)
     }
-
-    renderer.line center_x, top, center_x, bottom, style
   end
 
-  def arms(x, y, color)
-    center_x = center_(x)
-    top    = y + item_height / 2 - item_height * 0.12
-    bottom = y + item_height - item_height * 0.15
-    style  = {
-      stroke:         color,
-      stroke_width:   item_width / 14,
-      stroke_linecap: 'round'
-    }
-
-    style_left_arm = style.merge(class: 'left-arm', transform: "rotate(45 #{center_x} #{top})")
-    renderer.line center_x, top, center_x, bottom, style_left_arm
-    style_right_arm = style.merge(class: 'right-arm', transform: "rotate(-45 #{center_x} #{top})")
-    renderer.line center_x, top, center_x, bottom, style_right_arm
+  def width_percent(multiplicator)
+    multiplicator * item_width / 100
   end
 
-  def center_(x)
-    x + @options[:item_width] / 2
+  def height_percent(multiplicator)
+    multiplicator * item_height / 100
   end
 
 end

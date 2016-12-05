@@ -5,6 +5,7 @@ RSpec.describe BarGraph do
   let(:data) { [[0, 10, 15, 20]] }
   let(:options) do
     {
+      type:         type,
       width:        width,
       height:       height,
       group_margin: group_margin,
@@ -13,6 +14,7 @@ RSpec.describe BarGraph do
       include_zero: include_zero
     }
   end
+  let(:type) { :svg }
   let(:width) { 100 }
   let(:height) { 100 }
   let(:group_margin) { 0 }
@@ -30,10 +32,10 @@ RSpec.describe BarGraph do
 
   describe '#initialize' do
     it 'provides default options' do
-      expect(BarGraph.new(data).options[:width]).to eq(600)
+      expect(BarGraph.new(data).width).to eq(600)
     end
     it 'provides default options' do
-      expect(BarGraph.new(data).options[:height]).to eq(400)
+      expect(BarGraph.new(data).height).to eq(400)
     end
   end
 
@@ -127,6 +129,18 @@ RSpec.describe BarGraph do
     end
   end
 
+  context 'min and max are set' do
+    let(:data) { [[20, 40]] }
+    let(:min_max_options) { options.merge(min: 10, max: 50) }
+    let(:graph) { BarGraph.new(data, min_max_options) }
+    it 'correctly sets the ys' do
+      expect(ys).to eq(['75.0', '25.0'])
+    end
+    it 'correctly sets the heights' do
+      expect(heights).to eq(['25.0', '75.0'])
+    end
+  end
+
   context 'one dataset with four bars with negative values' do
     let(:data) { [[-10, 0, 10, 30]] }
     it 'renders three rect' do
@@ -195,6 +209,15 @@ RSpec.describe BarGraph do
       it "sets the graph.height to 200" do
         expect(graph.height).to eq(200)
       end
+    end
+  end
+
+  describe 'rmagick renderer' do
+    let(:type) { :png }
+
+    it 'calls #line on the canvas' do
+      expect_any_instance_of(Magick::Draw).to receive(:rectangle).exactly(6).times
+      graph.render
     end
   end
 

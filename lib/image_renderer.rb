@@ -5,7 +5,7 @@ module ImageRenderer
   attr_reader :renderer
 
   def pre_draw
-    @renderer = if options[:type] == :svg
+    @renderer = if type == :svg
                   SvgGraph.new(width, height)
                 else
                   BitmapGraph.new(width, height)
