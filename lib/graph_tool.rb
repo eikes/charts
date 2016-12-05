@@ -2,7 +2,9 @@ module GraphTool
 end
 
 # Includes:
-require_relative 'graph_tool/image_renderer'
+require_relative 'graph_tool/renderer/renderer'
+require_relative 'graph_tool/renderer/magick_renderer'
+require_relative 'graph_tool/renderer/svg_renderer'
 
 # Classes:
 require_relative 'graph_tool/graph'

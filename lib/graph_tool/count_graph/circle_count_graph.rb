@@ -1,5 +1,5 @@
 class GraphTool::CircleCountGraph < GraphTool::CountGraph
-  include GraphTool::ImageRenderer
+  include GraphTool::Renderer
 
   def draw_item(x, y, color)
     cx = x + item_width / 2

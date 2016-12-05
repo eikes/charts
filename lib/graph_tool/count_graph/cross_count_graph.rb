@@ -1,5 +1,5 @@
 class GraphTool::CrossCountGraph < GraphTool::CountGraph
-  include GraphTool::ImageRenderer
+  include GraphTool::Renderer
 
   def draw_item(x, y, color)
     left   = x + 4
