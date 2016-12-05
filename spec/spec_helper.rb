@@ -2,6 +2,8 @@ require 'capybara'
 require 'capybara/rspec'
 require 'simplecov'
 
-SimpleCov.start
+SimpleCov.start do
+  add_filter '/spec/'
+end
 
 require 'graph_tool'
