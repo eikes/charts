@@ -87,11 +87,6 @@ module ImageRenderer
       canvas.rectangle(x, y, x + width, y + height)
     end
 
-    def background_color(width, height, style = {})
-      apply_canvas_style style 
-      canvas.rectangle(0, 0, width, height)
-    end
-
     def apply_canvas_style(style)
       style.delete(:class)
       style.each do |key, value|

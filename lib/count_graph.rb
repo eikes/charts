@@ -8,7 +8,7 @@ class CountGraph < Graph
       item_height:  20,
       inner_margin: 2,
       outer_margin: 20,
-      background_color:   'white'
+      background_color:   'yellow'
     )
   end
 
