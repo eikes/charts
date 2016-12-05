@@ -16,8 +16,4 @@ class CrossCountGraph < CountGraph
     renderer.line left, bottom, right, top, style
   end
 
-  def draw_background_color(width, height, color)
-    x, y = 0, 0
-    renderer.rect x, y, width, height, fill: color, class: 'background_color'
-  end
 end

@@ -37,6 +37,11 @@ class CountGraph < Graph
     end
   end
 
+  def draw_background_color(width, height, color)
+    x, y = 0, 0
+    renderer.rect x, y, width, height, fill: color, class: 'background_color'
+  end
+
   def offset_x(column_count)
     column_count * outer_item_width
   end

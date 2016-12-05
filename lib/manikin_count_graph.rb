@@ -52,8 +52,4 @@ class ManikinCountGraph < CountGraph
     x + @options[:item_width] / 2
   end
 
-  def draw_background_color(width, height, color)
-    x, y = 0, 0
-    renderer.rect x, y, width, height, fill: color, class: 'background_color'
-  end
 end

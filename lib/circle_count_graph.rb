@@ -12,8 +12,4 @@ class CircleCountGraph < CountGraph
     renderer.circle cx, cy, radius, fill: color
   end
 
-  def draw_background_color(width, height, color)
-    x, y = 0, 0
-    renderer.rect x, y, width, height, fill: color, class: 'background_color'
-  end
 end
