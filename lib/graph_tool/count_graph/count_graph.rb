@@ -1,3 +1,4 @@
+require 'pry-byebug'
 class GraphTool::CountGraph < GraphTool::Graph
   def default_options
     super.merge(
@@ -38,6 +39,17 @@ class GraphTool::CountGraph < GraphTool::Graph
         draw_item(x, y, color)
       end
     end
+    draw_label
+  end
+
+  def draw_label
+    @options[:labels] = ['red', 'blue']
+    @options[:labels].each_with_index do |value, index|
+      x = + inner_margin + outer_margin
+      y = offset_y(prepared_data.count + (index + 1)) + inner_margin + outer_margin
+      draw_item(x, y, value)
+    end
+
   end
 
   def draw_background_color(width, height, color)
@@ -70,6 +82,7 @@ class GraphTool::CountGraph < GraphTool::Graph
   end
 
   def height
-    prepared_data.count * outer_item_height + (2 * outer_margin)
+    item_label = 40
+    (prepared_data.count + item_label) * outer_item_height + (2 * outer_margin)
   end
 end
