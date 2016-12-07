@@ -43,13 +43,12 @@ class GraphTool::CountGraph < GraphTool::Graph
   end
 
   def draw_label
-    @options[:labels] = ['red', 'blue']
-    @options[:labels].each_with_index do |value, index|
+    data.each_with_index do |data, index| 
       x = + inner_margin + outer_margin
       y = offset_y(prepared_data.count + (index + 1)) + inner_margin + outer_margin
-      draw_item(x, y, value)
+      draw_label_item(x, y, @options[:colors][index])
+      draw_label_text(x, y, @options[:labels][index])
     end
-
   end
 
   def draw_background_color(width, height, color)
