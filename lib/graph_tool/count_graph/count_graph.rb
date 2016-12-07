@@ -41,7 +41,8 @@ class GraphTool::CountGraph < GraphTool::Graph
   end
 
   def draw_background_color(width, height, color)
-    x, y = 0, 0
+    x = 0
+    y = 0
     renderer.rect x, y, width, height, fill: color, class: 'background_color'
   end
 
