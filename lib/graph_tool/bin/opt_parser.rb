@@ -83,6 +83,13 @@ class GraphTool::OptParser
         options[:colors] = colors
       end
       opts.on(
+        '--labels Labels',
+        Array,
+        "Set the labels to be used, ie: 'bin/graph_tool #{DATA_EXAMPLE_ARGS} #{COLOR_EXAMPLE_ARGS}' "
+      ) do |labels|
+        options[:labels] = labels
+      end
+      opts.on(
         '--columns COLUMNS',
         Integer,
         'Set number of columns'
