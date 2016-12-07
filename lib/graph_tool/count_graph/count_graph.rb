@@ -12,14 +12,19 @@ class GraphTool::CountGraph < GraphTool::Graph
 
   def validate_arguments(data, options)
     super(data, options)
-    raise ArgumentError unless data.is_a? Hash
-    raise ArgumentError unless data.values.all? { |x| Integer(x) }
+    raise ArgumentError unless data.is_a? Array
+    raise ArgumentError unless data.all? { |x| Integer(x) }
+    raise ArgumentError if item_and_color_input_differ(data, options)
+  end
+
+  def item_and_color_input_differ(data, options)
+    options[:colors] && data.count != options[:colors].count
   end
 
   def prepare_data
     prepared_data = []
-    data.each do |key, value|
-      value.to_i.times { prepared_data << key.to_s }
+    data.each_with_index do |value, index|
+      value.to_i.times { prepared_data << colors[index].to_s }
     end
     prepared_data.each_slice(columns).to_a
   end

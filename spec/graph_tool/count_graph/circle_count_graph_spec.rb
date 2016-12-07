@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe GraphTool::CircleCountGraph do
   include Capybara::RSpecMatchers
-  let(:data) { { red: 1 } }
+  let(:data) { [1] }
   let(:graph) { GraphTool::CircleCountGraph.new(data, options) }
   let(:svg) { Capybara.string(graph.render) }
   let(:columns) { 2 }
@@ -12,15 +12,17 @@ RSpec.describe GraphTool::CircleCountGraph do
   let(:item_height) { 20 }
   let(:type) { :svg }
   let(:background_color) { 'white' }
+  let(:colors) { ['green'] }
   let(:options) do
     {
-      columns:      columns,
-      item_width:   item_width,
-      item_height:  item_height,
-      inner_margin: inner_margin,
-      outer_margin: outer_margin,
-      type:         type,
-      background_color:   background_color
+      columns:          columns,
+      item_width:       item_width,
+      item_height:      item_height,
+      inner_margin:     inner_margin,
+      outer_margin:     outer_margin,
+      type:             type,
+      background_color: background_color,
+      colors:           colors
     }
   end
 
@@ -61,12 +63,12 @@ RSpec.describe GraphTool::CircleCountGraph do
       include_examples 'has a width and height of', 40, 40
     end
     context 'one column two circles' do
-      let(:data) { { red: 2 } }
+      let(:data) { [2] }
       let(:columns) { 1 }
       include_examples 'has a width and height of', 20, 40
     end
     context 'two columns two circles' do
-      let(:data) { { red: 2 } }
+      let(:data) { [2] }
       include_examples 'has a width and height of', 40, 20
     end
   end
@@ -92,13 +94,13 @@ RSpec.describe GraphTool::CircleCountGraph do
       include_examples 'has a width and height of', 240, 240
     end
     context 'two circles with an inner-margin of 100 in one column ' do
-      let(:data) { { red: 2 } }
+      let(:data) { [2] }
       let(:columns) { 1 }
       let(:inner_margin) { 100 }
       include_examples 'has a width and height of', 220, 440
     end
     context 'two circles with an inner-margin of 100 in two columns' do
-      let(:data) { { red: 2 } }
+      let(:data) { [2] }
       let(:columns) { 2 }
       let(:inner_margin) { 100 }
       include_examples 'has a width and height of', 440, 220
@@ -126,13 +128,13 @@ RSpec.describe GraphTool::CircleCountGraph do
       include_examples 'has a width and height of', 1040, 1040
     end
     context 'two circles with an outer-margin of 500 in one column' do
-      let(:data) { { red: 2 } }
+      let(:data) { [2] }
       let(:columns) { 1 }
       let(:outer_margin) { 500 }
       include_examples 'has a width and height of', 1020, 1040
     end
     context 'two circles with an outer-margin of 100 in two columns' do
-      let(:data) { { red: 2 } }
+      let(:data) { [2] }
       let(:columns) { 2 }
       let(:outer_margin) { 500 }
       include_examples 'has a width and height of', 1040, 1020
@@ -164,7 +166,7 @@ RSpec.describe GraphTool::CircleCountGraph do
     end
     context 'two circles with an inner-margin of 100 and an
     outer-margin of 500 in one column' do
-      let(:data) { { red: 2 } }
+      let(:data) { [2] }
       let(:columns) { 1 }
       let(:inner_margin) { 100 }
       let(:outer_margin) { 500 }
@@ -172,7 +174,7 @@ RSpec.describe GraphTool::CircleCountGraph do
     end
     context 'two circles with an inner-margin of 100 and an
     outer-margin of 100 in two columns' do
-      let(:data) { { red: 2 } }
+      let(:data) { [2] }
       let(:columns) { 2 }
       let(:inner_margin) { 100 }
       let(:outer_margin) { 500 }
@@ -186,7 +188,8 @@ RSpec.describe GraphTool::CircleCountGraph do
   end
 
   context 'one circle' do
-    let(:data) { { '#FACADE' => 1 } }
+    let(:data) { [1] }
+    let(:colors) { ['#FACADE'] }
     let(:item_width) { 100 }
     let(:circle) { svg.find('circle') }
     it 'renders one circle with the correct color' do
@@ -198,7 +201,8 @@ RSpec.describe GraphTool::CircleCountGraph do
   end
 
   context 'two different circles' do
-    let(:data) { { red: 1, green: 1 } }
+    let(:data) { [1, 1] }
+    let(:colors) { ['red', 'green'] }
     let(:red_circle) { svg.all('circle').first }
     let(:green_circle) { svg.all('circle').last }
     it 'renders two circles' do
@@ -227,7 +231,8 @@ RSpec.describe GraphTool::CircleCountGraph do
 
   context 'one circle with inner-margin' do
     let(:inner_margin) { 2 }
-    let(:data) { { '#FACADE' => 1 } }
+    let(:data) { [1] }
+    let(:colors) { ['#FACADE'] }
     let(:circle) { svg.find('circle') }
     it 'renders the correct position on x-axis of a circle with inner-margin' do
       expect(circle[:cx]).to eq('12')
@@ -240,7 +245,8 @@ RSpec.describe GraphTool::CircleCountGraph do
   context 'two circles in one column with inner-margin' do
     let(:inner_margin) { 2 }
     let(:columns) { 1 }
-    let(:data) { { red: 1, green: 1 } }
+    let(:data) { [1, 1] }
+    let(:colors) { ['red', 'green'] }
     let(:red_circle) { svg.all('circle').first }
     let(:green_circle) { svg.all('circle').last }
     it 'renders the correct position of red circle with inner-margin' do
@@ -255,7 +261,8 @@ RSpec.describe GraphTool::CircleCountGraph do
 
   context 'two circles in two columns with inner-margin' do
     let(:inner_margin) { 2 }
-    let(:data) { { red: 1, green: 1 } }
+    let(:data) { [1, 1] }
+    let(:colors) { ['red', 'green'] }
     let(:red_circle) { svg.all('circle').first }
     let(:green_circle) { svg.all('circle').last }
     it 'renders the correct position of red circle with inner-margin' do
@@ -271,7 +278,8 @@ RSpec.describe GraphTool::CircleCountGraph do
   context 'two circles in one column with outer-margin' do
     let(:outer_margin) { 20 }
     let(:columns) { 1 }
-    let(:data) { { red: 1, green: 1 } }
+    let(:data) { [1, 1] }
+    let(:colors) { ['red', 'green'] }
     let(:red_circle) { svg.all('circle').first }
     let(:green_circle) { svg.all('circle').last }
     it 'renders the correct position of red circle with outer-margin' do
@@ -288,7 +296,8 @@ RSpec.describe GraphTool::CircleCountGraph do
     let(:inner_margin) { 2 }
     let(:outer_margin) { 20 }
     let(:columns) { 1 }
-    let(:data) { { red: 1, green: 1 } }
+    let(:data) { [1, 1] }
+    let(:colors) { ['red', 'green'] }
     let(:red_circle) { svg.all('circle').first }
     let(:green_circle) { svg.all('circle').last }
     it 'renders the correct position of red circle with inner- and outer-margin' do
@@ -312,7 +321,8 @@ RSpec.describe GraphTool::CircleCountGraph do
   describe 'rmagick renderer' do
     let(:background_color) { 'green' }
     let(:graph) { GraphTool::CircleCountGraph.new(data, options) }
-    let(:data) { { red: 2, blue: 2 } }
+    let(:data) { [2, 2] }
+    let(:colors) { ['red', 'blue'] }
     let(:columns) { 2 }
     let(:type) { :png }
 
