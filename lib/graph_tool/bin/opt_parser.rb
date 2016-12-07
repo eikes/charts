@@ -5,6 +5,8 @@ class GraphTool::OptParser
 
   FORMATS = [:txt, :svg, :png, :jpg, :gif].freeze
   STYLES = [:circle, :cross, :manikin].freeze
+  DATA_EXAMPLE_ARGS =  '-d 8,7'
+  COLOR_EXAMPLE_ARGS =  '--colors red,gold'
 
   def initialize(args)
     @args = args.empty? ? ['--help'] : args
@@ -43,7 +45,7 @@ class GraphTool::OptParser
       raise 'No type provided. Set a type with --type flag or by setting a valid --filename'
     end
     unless options[:data]
-      raise "No data provided. Please pass in data using the --data flag: 'bin/graph_tool -d Red:8,Gold:7'"
+      raise "No data provided. Please pass in data using the --data flag: 'bin/graph_tool #{DATA_EXAMPLE_ARGS}'"
     end
   end
 
@@ -54,9 +56,9 @@ class GraphTool::OptParser
         '-d DATA',
         '--data DATA',
         Array,
-        "Provide multiple data points, ie: 'bin/graph_tool -d Red:8,Gold:7'"
+        "Provide multiple data points, ie: 'bin/graph_tool #{DATA_EXAMPLE_ARGS}'"
       ) do |data|
-        options[:data] = data.map { |d| d.split(':') }.to_h
+        options[:data] = data
       end
       opts.on(
         '-f FILENAME',
@@ -74,7 +76,13 @@ class GraphTool::OptParser
         options[:style] = style
       end
       opts.on(
-        '-c COLUMNS',
+        '--colors COLORS',
+        Array,
+        "Set the colors to be used, ie: 'bin/graph_tool #{DATA_EXAMPLE_ARGS}' #{COLOR_EXAMPLE_ARGS}' "
+      ) do |colors|
+        options[:colors] = colors
+      end
+      opts.on(
         '--columns COLUMNS',
         Integer,
         'Set number of columns'

@@ -12,7 +12,7 @@ RSpec.describe GraphTool::Dispatcher do
     }
   end
   let(:data) { [5, 2] }
-  let(:colors) { ['red', 'gold'] }
+  let(:colors) { ['blue', 'green'] }
   let(:type) { 'svg' }
   let(:style) { 'circle' }
 
@@ -51,6 +51,7 @@ RSpec.describe GraphTool::Dispatcher do
         style:        style,
         type:         type,
         filename:     filename,
+        colors:       colors,
         columns:      7,
         item_width:   111,
         item_height:  222,
@@ -72,6 +73,9 @@ RSpec.describe GraphTool::Dispatcher do
     end
     it 'sets the graph columns' do
       expect(graph.options).to include(columns: 7)
+    end
+    it 'sets the graph colors' do
+      expect(graph.options).to include(colors: colors)
     end
     it 'does not set unknown options' do
       expect(graph.options).not_to include(bogus_option: '123123')
