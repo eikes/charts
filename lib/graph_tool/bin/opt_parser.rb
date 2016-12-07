@@ -5,8 +5,8 @@ class GraphTool::OptParser
 
   FORMATS = [:txt, :svg, :png, :jpg, :gif].freeze
   STYLES = [:circle, :cross, :manikin].freeze
-  DATA_EXAMPLE_ARGS =  '-d 8,7'
-  COLOR_EXAMPLE_ARGS =  '--colors red,gold'
+  DATA_EXAMPLE_ARGS = '-d 8,7'
+  COLOR_EXAMPLE_ARGS = '--colors red,gold'
 
   def initialize(args)
     @args = args.empty? ? ['--help'] : args
@@ -78,7 +78,7 @@ class GraphTool::OptParser
       opts.on(
         '--colors COLORS',
         Array,
-        "Set the colors to be used, ie: 'bin/graph_tool #{DATA_EXAMPLE_ARGS}' #{COLOR_EXAMPLE_ARGS}' "
+        "Set the colors to be used, ie: 'bin/graph_tool #{DATA_EXAMPLE_ARGS} #{COLOR_EXAMPLE_ARGS}' "
       ) do |colors|
         options[:colors] = colors
       end
