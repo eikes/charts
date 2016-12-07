@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe 'bin/graph_tool' do
-  let(:data_args) { GraphTool::OptParser::DATA_EXAMPLE_ARGS.split(' ') }
-  let(:color_args) { GraphTool::OptParser::COLOR_EXAMPLE_ARGS.split(' ') }
 
   context 'the important part of the script is loaded' do
     let(:script) do
@@ -17,11 +15,12 @@ RSpec.describe 'bin/graph_tool' do
       end
     end
     context 'data and colors args are provided' do
-      let(:args) { data_args + color_args }
+      let(:args) { ['--data', '1,1', '--colors', 'red,gold'] }
       it 'prints the svg to stdout' do
         expect { eval script }.to output(/DOCTYPE svg PUBLIC/).to_stdout
         expect { eval script }.to output(/red/).to_stdout
         expect { eval script }.to output(/gold/).to_stdout
+        expect { eval script }.to output(/circle/).to_stdout
       end
     end
   end
