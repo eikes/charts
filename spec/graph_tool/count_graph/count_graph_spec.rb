@@ -8,6 +8,7 @@ RSpec.describe GraphTool::CountGraph do
   let(:item_height) { 20 }
   let(:inner_margin) { 0 }
   let(:outer_margin) { 0 }
+  let(:labels) { [] }
   let(:colors) { ['green'] }
   let(:options) do
     {
@@ -16,7 +17,8 @@ RSpec.describe GraphTool::CountGraph do
       item_height:  item_height,
       inner_margin: inner_margin,
       outer_margin: outer_margin,
-      colors:       colors
+      colors:       colors,
+      labels:       labels
     }
   end
 
@@ -72,6 +74,12 @@ RSpec.describe GraphTool::CountGraph do
   describe '#background color' do
     it 'has a background_color attribute' do
       expect(graph).to respond_to(:background_color)
+    end
+  end
+
+  describe '#draw label' do
+    it 'has a draw_label attribute' do
+      expect(graph).to respond_to(:draw_label)
     end
   end
 
@@ -214,6 +222,63 @@ RSpec.describe GraphTool::CountGraph do
       include_examples 'has a width and height of', 40, 20
     end
   end
+
+  describe '#height and #width with inner & outer margin' do
+    shared_examples 'has a width and height of' do |width, height|
+      it "sets the graph.width to #{width}" do
+        expect(graph.width).to eq(width)
+      end
+      it "sets the graph.height to #{height}" do
+        expect(graph.height).to eq(height)
+      end
+    end
+    context 'one item with inner margin' do
+      let(:inner_margin) { 2 }
+      include_examples 'has a width and height of', 24, 24
+    end
+    context 'two items with outer margin' do
+      let(:data) { [2] }
+      let(:outer_margin) { 20 }
+      include_examples 'has a width and height of', 80, 60
+    end
+    context 'two items with inner- & outer margin' do
+      let(:data) { [2] }
+      let(:inner_margin) { 2 }
+      let(:outer_margin) { 20 }
+      include_examples 'has a width and height of', 88, 64
+    end
+  end
+  
+  describe '#height and #width with presence of labels' do
+    shared_examples 'has a width and height of' do |width, height|
+      it "sets the graph.width to #{width}" do
+        expect(graph.width).to eq(width)
+      end
+      it "sets the graph.height to #{height}" do
+        expect(graph.height).to eq(height)
+      end
+    end
+    context 'three items with three labels' do
+      let(:data) { [3] }
+      let(:labels) { ['Cars', 'Buses', 'Bikes'] }
+      let(:item_height) { 20 }
+      include_examples 'has a width and height of', 40, 100
+    end
+    context 'five items with five labels' do
+      let(:data) { [5] }
+      let(:labels) { ['Cars', 'Buses', 'Bikes', 'Planes', 'Ferries'] }
+      let(:item_height) { 20 }
+      include_examples 'has a width and height of', 40, 160
+    end
+    context 'five items in three columns with five labels' do
+      let(:data) { [5] }
+      let(:columns) { 3 }
+      let(:labels) { ['Cars', 'Buses', 'Bikes', 'Planes', 'Ferries'] }
+      let(:item_height) { 20 }
+      include_examples 'has a width and height of', 60, 140
+    end
+  end
+
 
   describe '#item_height and #item_width' do
     it 'has a item width attribute' do

@@ -44,10 +44,10 @@ class GraphTool::CountGraph < GraphTool::Graph
 
   def draw_label
     data.each_with_index do |data, index| 
-      x = + inner_margin + outer_margin
+      x = inner_margin + outer_margin
       y = offset_y(prepared_data.count + (index + 1)) + inner_margin + outer_margin
-      draw_label_item(x, y, @options[:colors][index])
-      draw_label_text(x, y, @options[:labels][index])
+      draw_item(x, y, options[:colors][index])
+      draw_label_text(x, y, options[:labels][index]) # expand total image size according to labels
     end
   end
 
@@ -77,11 +77,18 @@ class GraphTool::CountGraph < GraphTool::Graph
   end
 
   def width
-    prepared_data.first.count * outer_item_width + (2 * outer_margin)
+    prepared_data.first.count * outer_item_width + (2 * outer_margin) # + label_count?
   end
 
   def height
-    item_label = 40
-    (prepared_data.count + item_label) * outer_item_height + (2 * outer_margin)
+    (prepared_data.count + label_count) * outer_item_height + (2 * outer_margin)
+  end
+
+  def label_count
+    if options[:labels]
+      labels.count
+    else
+      0
+    end
   end
 end
