@@ -14,11 +14,11 @@ You can use the command line tool, get help with:
 
 Create images:
 
-    bin/graph_tool --data Purple:33,Gold:22,Olive:8 --filename images/dots.jpg
+    $ bin/graph_tool --data 33,22,8 --filename images/dots.jpg
 
 ![example dot image](https://raw.githubusercontent.com/eikes/graph_tool/master/images/dots.jpg)
 
-    bin/graph_tool --data Navy:18,Teal:16 --style manikin -w 50 -h 50 --filename images/manikin.jpg
+    $ bin/graph_tool --data 18,16 --colors Navy,Teal --style manikin -w 50 -h 50 --filename images/manikin.jpg
 
 ![example manikin image](https://raw.githubusercontent.com/eikes/graph_tool/master/images/manikin.jpg)
 
@@ -26,13 +26,13 @@ See https://en.wikipedia.org/wiki/Web_colors#X11_color_names to find more color 
 
 Create text:
 
-    $ bin/graph_tool --columns 20 --data X:55,O:33,*:22 -t txt
+    $ bin/graph_tool --columns 20 --data 55,33,22 --colors x,o,* -t txt
 
-    XXXXXXXXXXXXXXXXXXXX
-    XXXXXXXXXXXXXXXXXXXX
-    XXXXXXXXXXXXXXXOOOOO
-    OOOOOOOOOOOOOOOOOOOO
-    OOOOOOOO************
+    xxxxxxxxxxxxxxxxxxxx
+    xxxxxxxxxxxxxxxxxxxx
+    xxxxxxxxxxxxxxxooooo
+    oooooooooooooooooooo
+    oooooooo************
     **********
 
 # Development
