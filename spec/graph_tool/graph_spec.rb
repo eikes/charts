@@ -10,7 +10,7 @@ RSpec.describe GraphTool::Graph do
       expect { GraphTool::Graph.new }.to raise_error(ArgumentError)
     end
     it 'calls the validate_arguments method' do
-      expect_any_instance_of(GraphTool::Graph).to receive(:validate_arguments)
+      expect_any_instance_of(GraphTool::Graph).to receive(:validate_data_arguments)
       GraphTool::Graph.new({})
     end
     it 'raises an error when the data hash is empty' do

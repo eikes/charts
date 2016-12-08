@@ -310,6 +310,11 @@ RSpec.describe GraphTool::CircleCountGraph do
       expect(green_circle[:cy]).to eq('56')
     end
   end
+  describe 'test positions of rendered circle labels here' do
+    pending('test positions of rendered circle labels here')
+    it 'todo' do
+    end
+  end
 
   context 'filename is set' do
     let(:options) { { filename: 'dots.svg' } }

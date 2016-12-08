@@ -2,16 +2,20 @@ class GraphTool::Graph
   attr_reader :data, :options, :prepared_data
 
   def initialize(data, opts = {})
+    validate_data_arguments(data)
+    validate_options_arguments(opts, data)
     @data = data
     @options = default_options.merge opts
-    validate_arguments(data, options)
     create_options_methods
     initialize_instance_variables
     @prepared_data = prepare_data
   end
 
-  def validate_arguments(data, options)
+  def validate_data_arguments(data)
     raise ArgumentError if data.empty?
+  end
+
+  def validate_options_arguments(options, data = nil)
     raise ArgumentError unless options.is_a? Hash
   end
 

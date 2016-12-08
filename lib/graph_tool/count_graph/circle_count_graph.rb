@@ -10,11 +10,4 @@ class GraphTool::CircleCountGraph < GraphTool::CountGraph
     renderer.circle cx, cy, radius, fill: color
   end
 
-  def draw_label_text(x, y, labels)
-    x = x + item_width * 2
-    y = y + item_height / 2
-
-    renderer.text(x, y, labels)
-  end
-
 end

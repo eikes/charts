@@ -23,7 +23,7 @@ RSpec.describe GraphTool::CountGraph do
   end
 
   describe '#default_options' do
-    let(:graph) { GraphTool::CountGraph.new([1])}
+    let(:graph) { GraphTool::CountGraph.new [1] }
     it 'has a default item-colors' do
       expect(graph.colors).to eq([
         '#e41a1d',
@@ -89,6 +89,12 @@ RSpec.describe GraphTool::CountGraph do
   describe '#draw label text' do
     it 'has a draw_label_text attribute' do
       expect(graph).to respond_to(:draw_label_text)
+    end
+  end
+
+  describe '#label count' do
+    it 'has a label_count attribute' do
+      expect(graph).to respond_to(:label_count)
     end
   end
 

@@ -1,3 +1,4 @@
+require 'pry-byebug'
 class GraphTool::CountGraph < GraphTool::Graph
   def default_options
     super.merge(
@@ -14,11 +15,16 @@ class GraphTool::CountGraph < GraphTool::Graph
     super(data, options)
     raise ArgumentError unless data.is_a? Array
     raise ArgumentError unless data.all? { |x| Integer(x) }
-    raise ArgumentError if item_and_color_input_differ(data, options)
+    raise ArgumentError if number_of_items_is_samller_then_number_of_colors(data, options)
+    raise ArgumentError if number_of_items_is_samller_then_number_of_labels(data, options)
   end
 
-  def item_and_color_input_differ(data, options)
-    options[:colors].any? && data.count > options[:colors].count
+  def number_of_items_is_samller_then_number_of_colors(data, options)
+    !options[:colors].nil? && options[:colors].any? && data.count > options[:colors].count
+  end
+
+  def number_of_items_is_samller_then_number_of_labels(data, options)
+    !options[:labels].nil? && options[:labels].any? && data.count > options[:labels].count
   end
 
   def prepare_data
@@ -54,7 +60,7 @@ class GraphTool::CountGraph < GraphTool::Graph
     x = x + item_width * 2
     y = y + item_height / 2
 
-    renderer.text(x, y, labels)
+    renderer.text(x, y, labels, class: 'label_text')
   end
 
   def draw_background_color(width, height, color)

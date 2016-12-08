@@ -7,13 +7,6 @@ class GraphTool::ManikinCountGraph < GraphTool::CountGraph
     arms x + width_percent(50), y, style(color)
   end
 
-  def draw_label_text(x, y, labels)
-    x = x + item_width * 2
-    y = y + item_height / 2
-
-    renderer.text(x, y, labels)
-  end
-
   def head(x, y, style)
     cy = y + height_percent(20)
     radius = height_percent(10)
