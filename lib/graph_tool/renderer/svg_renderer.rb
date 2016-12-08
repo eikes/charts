@@ -26,4 +26,8 @@ class GraphTool::Renderer::SvgRenderer
   def rect(x, y, width, height, style = {})
     svg.rect style.merge(x: x, y: y, width: width, height: height)
   end
+
+  def text(text, x, y, style = {})
+    svg.text text, style.merge(x: x, y: y)
+  end
 end

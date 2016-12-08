@@ -3,7 +3,7 @@ end
 
 # Includes:
 require_relative 'graph_tool/renderer/renderer'
-require_relative 'graph_tool/renderer/magick_renderer'
+require_relative 'graph_tool/renderer/rvg_renderer'
 require_relative 'graph_tool/renderer/svg_renderer'
 
 # Classes:
