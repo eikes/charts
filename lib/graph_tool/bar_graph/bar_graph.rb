@@ -1,5 +1,6 @@
 class GraphTool::BarGraph < GraphTool::Graph
   include GraphTool::Renderer
+  include GraphTool::Grid
 
   attr_reader :max_value, :min_value, :set_count, :bars_pers_set, :bar_count, :base_line
 
@@ -38,6 +39,11 @@ class GraphTool::BarGraph < GraphTool::Graph
 
   def pre_draw
     super
+    draw_background
+    draw_grid
+  end
+
+  def draw_background
     renderer.rect 0, 0, width, height, fill: '#EEEEEE'
     renderer.rect outer_margin, outer_margin, inner_width, inner_height, fill: '#FFFFFF'
   end
@@ -54,16 +60,20 @@ class GraphTool::BarGraph < GraphTool::Graph
     width - 2 * outer_margin
   end
 
-  def bar_width
+  def bar_outer_width
     all_bars_width.to_f / bar_count
   end
 
   def bar_inner_width
-    bar_width - 2 * bar_margin
+    bar_outer_width - 2 * bar_margin
   end
 
   def all_bars_width
-    inner_width - (bars_pers_set - 1) * group_margin
+    inner_width - sum_of_group_margins
+  end
+
+  def sum_of_group_margins
+    (bars_pers_set - 1) * group_margin
   end
 
   def inner_height
@@ -83,7 +93,7 @@ class GraphTool::BarGraph < GraphTool::Graph
   end
 
   def calc_base_line
-    [[normalize(0), 0].max, 1].min # zero value normalized and clamp between 0 and 1
+    [[normalize(0), 0].max, 1].min # zero value normalized and clamped between 0 and 1
   end
 
   def normalize(value)

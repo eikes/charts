@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
                    'lib/graph_tool/renderer/rvg_renderer.rb',
                    'lib/graph_tool/renderer/svg_renderer.rb',
                    'lib/graph_tool/graph.rb',
+                   'lib/graph_tool/bar_graph/grid.rb',
                    'lib/graph_tool/bar_graph/bar_graph.rb',
                    'lib/graph_tool/bar_graph/bar.rb',
                    'lib/graph_tool/count_graph/count_graph.rb',
