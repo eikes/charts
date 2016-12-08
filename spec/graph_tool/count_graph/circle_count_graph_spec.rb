@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe GraphTool::CircleCountGraph do
   include Capybara::RSpecMatchers
   let(:data) { [1] }

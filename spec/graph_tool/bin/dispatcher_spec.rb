@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe GraphTool::Dispatcher do
   let(:graph) { dispatcher.graph }
   let(:dispatcher) { GraphTool::Dispatcher.new(options) }

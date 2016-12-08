@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe 'bin/graph_tool' do
 
   context 'script is loaded' do

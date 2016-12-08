@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe GraphTool::Graph do
   let(:data) { { red: 1 } }
   let(:options) { { columns: 2 } }

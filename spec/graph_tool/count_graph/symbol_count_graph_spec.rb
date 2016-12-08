@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe GraphTool::SymbolCountGraph do
   let(:colors) { ['x'] }
   let(:options) do

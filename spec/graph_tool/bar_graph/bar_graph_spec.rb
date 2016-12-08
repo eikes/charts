@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe GraphTool::BarGraph do
   let(:data) { [[0, 10, 15, 20]] }
   let(:options) do

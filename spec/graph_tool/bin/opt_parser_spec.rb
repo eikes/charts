@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe GraphTool::OptParser do
   describe 'the parsed options' do
     let(:subject) { parser.parse }
