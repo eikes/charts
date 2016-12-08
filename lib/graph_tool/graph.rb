@@ -1,10 +1,10 @@
 class GraphTool::Graph
   attr_reader :data, :options, :prepared_data
 
-  def initialize(data, options = {})
-    validate_arguments(data, options)
+  def initialize(data, opts = {})
     @data = data
-    @options = default_options.merge options
+    @options = default_options.merge opts
+    validate_arguments(data, options)
     create_options_methods
     initialize_instance_variables
     @prepared_data = prepare_data
