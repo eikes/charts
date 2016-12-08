@@ -1,4 +1,3 @@
-require 'pry-byebug'
 class GraphTool::CountGraph < GraphTool::Graph
   def default_options
     super.merge(
@@ -19,7 +18,7 @@ class GraphTool::CountGraph < GraphTool::Graph
   end
 
   def item_and_color_input_differ(data, options)
-    options[:colors] && data.count != options[:colors].count
+    options[:colors].any? && data.count > options[:colors].count
   end
 
   def prepare_data
@@ -49,6 +48,13 @@ class GraphTool::CountGraph < GraphTool::Graph
       draw_item(x, y, colors[index])
       draw_label_text(x, y, labels[index]) # expand total image size according to labels
     end
+  end
+
+  def draw_label_text(x, y, labels)
+    x = x + item_width * 2
+    y = y + item_height / 2
+
+    renderer.text(x, y, labels)
   end
 
   def draw_background_color(width, height, color)
@@ -81,10 +87,10 @@ class GraphTool::CountGraph < GraphTool::Graph
   end
 
   def height
-    (prepared_data.count + (label_count + 1)) * outer_item_height + (2 * outer_margin)
+    (prepared_data.count + label_count) * outer_item_height + (2 * outer_margin)
   end
 
   def label_count
-    labels.any? ? labels.count : 0
+    labels.any? ? (labels.count + 1) : 0
   end
 end

@@ -9,7 +9,7 @@ RSpec.describe GraphTool::CountGraph do
   let(:inner_margin) { 0 }
   let(:outer_margin) { 0 }
   let(:labels) { [] }
-  let(:colors) { ['green'] }
+  let(:colors) { [] }
   let(:options) do
     {
       columns:      columns,
@@ -23,7 +23,7 @@ RSpec.describe GraphTool::CountGraph do
   end
 
   describe '#default_options' do
-    let(:graph) { GraphTool::CountGraph.new([1]) }
+    let(:graph) { GraphTool::CountGraph.new([1])}
     it 'has a default item-colors' do
       expect(graph.colors).to eq([
         '#e41a1d',
@@ -86,6 +86,18 @@ RSpec.describe GraphTool::CountGraph do
     end
   end
 
+  describe '#draw label text' do
+    it 'has a draw_label_text attribute' do
+      expect(graph).to respond_to(:draw_label_text)
+    end
+  end
+
+  # let(:data) { [2] }
+  # let(:labels) { ['See', 'Fire'] }
+  # let(:colors) { ['Blue', 'Fed'] }
+  # it 'renders two labels when two different itmes and colors are given' do
+  # expect(graph).to respond_to(:offset_x)
+  # end
   describe 'inner margin' do
     it 'has a offset_x attribute' do
       expect(graph).to respond_to(:offset_x)
@@ -251,7 +263,7 @@ RSpec.describe GraphTool::CountGraph do
       include_examples 'has a width and height of', 88, 64
     end
   end
-  
+
   describe '#height and #width with presence of labels' do
     shared_examples 'has a width and height of' do |width, height|
       it "sets the graph.width to #{width}" do
@@ -265,20 +277,20 @@ RSpec.describe GraphTool::CountGraph do
       let(:data) { [3] }
       let(:labels) { ['Cars', 'Buses', 'Bikes'] }
       let(:item_height) { 20 }
-      include_examples 'has a width and height of', 40, 100
+      include_examples 'has a width and height of', 40, 120
     end
     context 'five items with five labels' do
       let(:data) { [5] }
       let(:labels) { ['Cars', 'Buses', 'Bikes', 'Planes', 'Ferries'] }
       let(:item_height) { 20 }
-      include_examples 'has a width and height of', 40, 160
+      include_examples 'has a width and height of', 40, 180
     end
     context 'five items in three columns with five labels' do
       let(:data) { [5] }
       let(:columns) { 3 }
       let(:labels) { ['Cars', 'Buses', 'Bikes', 'Planes', 'Ferries'] }
       let(:item_height) { 20 }
-      include_examples 'has a width and height of', 60, 140
+      include_examples 'has a width and height of', 60, 160
     end
   end
 
