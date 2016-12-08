@@ -18,7 +18,18 @@ class GraphTool::Graph
   def default_options
     {
       type:   :svg,
-      colors: ['#e41a1d', '#377eb9', '#4daf4b', '#984ea4', '#ff7f01', '#ffff34', '#a65629', '#f781c0', '#888888']
+      colors: [
+        '#e41a1d', 
+        '#377eb9', 
+        '#4daf4b', 
+        '#984ea4', 
+        '#ff7f01', 
+        '#ffff34', 
+        '#a65629', 
+        '#f781c0', 
+        '#888888'
+      ],
+      labels: []
     }
   end
 

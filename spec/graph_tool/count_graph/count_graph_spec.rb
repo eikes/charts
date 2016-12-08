@@ -58,6 +58,9 @@ RSpec.describe GraphTool::CountGraph do
     it 'has 10 default columns' do
       expect(graph.columns).to eq(10)
     end
+    it 'has an empty labels attribute' do
+      expect(graph.labels).to eq([])
+    end
     context 'with item_width 40 and item_height 40 in the options' do
       let(:graph) { GraphTool::CountGraph.new(data, options) }
       let(:item_width) { 40 }

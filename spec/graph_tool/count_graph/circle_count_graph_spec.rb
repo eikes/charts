@@ -13,6 +13,7 @@ RSpec.describe GraphTool::CircleCountGraph do
   let(:type) { :svg }
   let(:background_color) { 'white' }
   let(:colors) { ['green'] }
+  let(:labels) { [] }
   let(:options) do
     {
       columns:          columns,
