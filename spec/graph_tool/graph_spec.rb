@@ -13,11 +13,14 @@ RSpec.describe GraphTool::Graph do
       expect_any_instance_of(GraphTool::Graph).to receive(:validate_arguments)
       GraphTool::Graph.new({})
     end
-    it 'raises an error when the data hash is empty' do
-      expect { GraphTool::Graph.new({}) }.to raise_error(ArgumentError)
+    it 'raises an error when the data array is empty' do
+      expect { GraphTool::Graph.new([]) }.to raise_error(ArgumentError)
     end
     it 'raises an error when the options are not a hash' do
       expect { GraphTool::Graph.new([2], 'x') }.to raise_error(ArgumentError)
+    end
+    it 'raises an error when the data is not an array' do
+      expect { GraphTool::Graph.new({}, {}) }.to raise_error(ArgumentError)
     end
     it 'stores the data in an instance attribute' do
       expect(graph.data).to eq([1])

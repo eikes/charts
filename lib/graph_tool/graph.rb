@@ -12,6 +12,7 @@ class GraphTool::Graph
 
   def validate_arguments(data, options)
     raise ArgumentError if data.empty?
+    raise ArgumentError unless data.is_a? Array
     raise ArgumentError unless options.is_a? Hash
   end
 

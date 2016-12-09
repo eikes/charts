@@ -22,6 +22,38 @@ RSpec.describe GraphTool::CountGraph do
     }
   end
 
+  describe '#initialize' do
+    it 'calls the number_of_items_is_samller_then_number_of_colors method' do
+      expect_any_instance_of(GraphTool::CountGraph).to receive(:number_of_items_is_samller_then_number_of_colors)
+      GraphTool::CountGraph.new([1])
+    end
+    it 'calls the number_of_items_is_samller_then_number_of_labels method' do
+      expect_any_instance_of(GraphTool::CountGraph).to receive(:number_of_items_is_samller_then_number_of_labels)
+      GraphTool::CountGraph.new([1])
+    end
+    it 'provides default options' do
+      graph = GraphTool::CountGraph.new([2])
+      expect(graph.columns).to eq(10)
+    end
+    it 'merges default options with passed in options' do
+      graph = GraphTool::CountGraph.new([2], extra: 123)
+      expect(graph.columns).to eq(10)
+      expect(graph.extra).to eq(123)
+    end
+    it 'raises an error when value is not an Integer' do
+      expect { GraphTool::CountGraph.new(['k']) }.to raise_error(ArgumentError)
+    end
+    it 'raises an error when a collection of values contains a Non-Integer' do
+      expect { GraphTool::CountGraph.new([23, '@$']) }.to raise_error(ArgumentError)
+    end
+    it 'raises an error when the number of items is smaller then the number of colors' do
+      expect { GraphTool::CountGraph.new([14, 12, 66], colors: ['red', 'blue']) }.to raise_error(ArgumentError)
+    end
+    it 'raises an error when the number of items is smaller then the number of labels' do
+      expect { GraphTool::CountGraph.new([14, 12, 66], labels: ['Guns', 'Roses']) }.to raise_error(ArgumentError)
+    end
+  end
+
   describe '#default_options' do
     let(:graph) { GraphTool::CountGraph.new [1] }
     it 'has a default item-colors' do
@@ -153,33 +185,6 @@ RSpec.describe GraphTool::CountGraph do
       it 'returns the correct offset_y' do
         expect(graph.offset_y(data.first)).to eq(512)
       end
-    end
-  end
-
-  describe '#initialize' do
-    it 'provides default options' do
-      graph = GraphTool::CountGraph.new([2])
-      expect(graph.columns).to eq(10)
-    end
-    it 'merges default options with passed in options' do
-      graph = GraphTool::CountGraph.new([2], extra: 123)
-      expect(graph.columns).to eq(10)
-      expect(graph.extra).to eq(123)
-    end
-    it 'raises an error when the data is not an array' do
-      expect { GraphTool::CountGraph.new('x') }.to raise_error(ArgumentError)
-    end
-    it 'raises an error when value is not an Integer' do
-      expect { GraphTool::CountGraph.new(['k']) }.to raise_error(ArgumentError)
-    end
-    it 'raises an error when a collection of values contains a Non-Integer' do
-      expect { GraphTool::CountGraph.new([23, '@$']) }.to raise_error(ArgumentError)
-    end
-    it 'raises an error when the number of items is smaller then the number of colors' do
-      expect { GraphTool::CountGraph.new([14, 12, 66], colors: ['red', 'blue']) }.to raise_error(ArgumentError)
-    end
-    it 'raises an error when the number of items is smaller then the number of labels' do
-      expect { GraphTool::CountGraph.new([14, 12, 66], labels: ['Guns', 'Roses']) }.to raise_error(ArgumentError)
     end
   end
 

@@ -13,7 +13,6 @@ class GraphTool::CountGraph < GraphTool::Graph
 
   def validate_arguments(data, options)
     super(data, options)
-    raise ArgumentError unless data.is_a? Array
     raise ArgumentError unless data.all? { |x| Integer(x) }
     raise ArgumentError if number_of_items_is_samller_then_number_of_colors(data, options)
     raise ArgumentError if number_of_items_is_samller_then_number_of_labels(data, options)
