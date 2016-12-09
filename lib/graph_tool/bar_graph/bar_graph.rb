@@ -32,7 +32,7 @@ class GraphTool::BarGraph < GraphTool::Graph
   def prepare_data
     data.map do |set|
       set.map do |value|
-        normalize(value)
+        value.nil? ? nil : normalize(value) 
       end
     end
   end
@@ -51,7 +51,7 @@ class GraphTool::BarGraph < GraphTool::Graph
   def draw
     prepared_data.each_with_index do |set, set_nr|
       set.each_with_index do |data_value, bar_nr_in_set|
-        Bar.new(self, data_value, set_nr, bar_nr_in_set).draw
+        Bar.new(self, data_value, set_nr, bar_nr_in_set).draw unless data_value.nil?
       end
     end
   end
@@ -81,13 +81,13 @@ class GraphTool::BarGraph < GraphTool::Graph
   end
 
   def calc_max
-    max = data.map(&:max).max
+    max = data.map{ |d| d.reject(&:nil?).max }.max
     max = 0 if max < 0 && include_zero
     options[:max] || max
   end
 
   def calc_min
-    min = data.map(&:min).min
+    min = data.map{ |d| d.reject(&:nil?).min }.min
     min = 0 if min > 0 && include_zero
     options[:min] || min
   end
