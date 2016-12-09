@@ -26,16 +26,16 @@ RSpec.describe GraphTool::CountGraph do
     let(:graph) { GraphTool::CountGraph.new [1] }
     it 'has a default item-colors' do
       expect(graph.colors).to eq([
-        '#e41a1d',
-        '#377eb9',
-        '#4daf4b',
-        '#984ea4',
-        '#ff7f01',
-        '#ffff34',
-        '#a65629',
-        '#f781c0',
-        '#888888'
-      ])
+                                   '#e41a1d',
+                                   '#377eb9',
+                                   '#4daf4b',
+                                   '#984ea4',
+                                   '#ff7f01',
+                                   '#ffff34',
+                                   '#a65629',
+                                   '#f781c0',
+                                   '#888888'
+                                 ])
     end
     it 'has a default background-colors' do
       expect(graph.background_color).to eq('white')
@@ -98,12 +98,6 @@ RSpec.describe GraphTool::CountGraph do
     end
   end
 
-  # let(:data) { [2] }
-  # let(:labels) { ['See', 'Fire'] }
-  # let(:colors) { ['Blue', 'Fed'] }
-  # it 'renders two labels when two different itmes and colors are given' do
-  # expect(graph).to respond_to(:offset_x)
-  # end
   describe 'inner margin' do
     it 'has a offset_x attribute' do
       expect(graph).to respond_to(:offset_x)
@@ -181,32 +175,35 @@ RSpec.describe GraphTool::CountGraph do
     it 'raises an error when a collection of values contains a Non-Integer' do
       expect { GraphTool::CountGraph.new([23, '@$']) }.to raise_error(ArgumentError)
     end
-    it 'raises an error when the number of items does not match number of colors' do
+    it 'raises an error when the number of items is smaller then the number of colors' do
       expect { GraphTool::CountGraph.new([14, 12, 66], colors: ['red', 'blue']) }.to raise_error(ArgumentError)
+    end
+    it 'raises an error when the number of items is smaller then the number of labels' do
+      expect { GraphTool::CountGraph.new([14, 12, 66], labels: ['Guns', 'Roses']) }.to raise_error(ArgumentError)
     end
   end
 
   describe '#prepare_data' do
     it 'creates the prepared_data for simple keys' do
-      graph = GraphTool::CountGraph.new([3, 2], colors: %w(x o), columns: 2)
+      graph = GraphTool::CountGraph.new([3, 2], colors: ['x', 'o'], columns: 2)
       expect(graph.prepared_data).to eq([
-        ['x', 'x'],
-        ['x', 'o'],
-        ['o']
-      ])
+                                          ['x', 'x'],
+                                          ['x', 'o'],
+                                          ['o']
+                                        ])
     end
     it 'creates the prepared_data for complex keys' do
       graph = GraphTool::CountGraph.new([2, 2], colors: ['#FF0000', '#00FF00'], columns: 2)
       expect(graph.prepared_data).to eq([
-        ['#FF0000', '#FF0000'],
-        ['#00FF00', '#00FF00']
-      ])
+                                          ['#FF0000', '#FF0000'],
+                                          ['#00FF00', '#00FF00']
+                                        ])
     end
     it 'default colors get assigned when no colors are specified' do
       graph = GraphTool::CountGraph.new([1, 1, 1])
       expect(graph.prepared_data).to eq([
-        ['#e41a1d', '#377eb9', '#4daf4b']
-      ])
+                                          ['#e41a1d', '#377eb9', '#4daf4b']
+                                        ])
     end
   end
 
@@ -299,7 +296,6 @@ RSpec.describe GraphTool::CountGraph do
       include_examples 'has a width and height of', 60, 160
     end
   end
-
 
   describe '#item_height and #item_width' do
     it 'has a item width attribute' do

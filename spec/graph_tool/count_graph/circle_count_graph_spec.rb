@@ -23,7 +23,8 @@ RSpec.describe GraphTool::CircleCountGraph do
       outer_margin:     outer_margin,
       type:             type,
       background_color: background_color,
-      colors:           colors
+      colors:           colors,
+      labels:           labels
     }
   end
 
@@ -310,9 +311,34 @@ RSpec.describe GraphTool::CircleCountGraph do
       expect(green_circle[:cy]).to eq('56')
     end
   end
-  describe 'test positions of rendered circle labels here' do
-    pending('test positions of rendered circle labels here')
-    it 'todo' do
+
+  context 'labels' do
+    let(:data) { [2, 2] }
+    let(:labels) { ['See', 'Fire'] }
+    let(:colors) { ['red', 'green'] }
+    describe 'presence of labels' do
+      it 'renders two labels for two different types of circles' do
+        expect(svg.all('text.label_text').count).to eq(2)
+      end
+    end
+    describe 'position of labels' do
+      let(:data) { [1, 1] }
+      let(:labels) { ['See', 'Fire'] }
+      let(:colors) { ['red', 'green'] }
+      let(:item_height) { 10 }
+      let(:columns) { 1 }
+      let(:first_graph_circle_cy) { svg.all('circle')[0][:cy].to_i }
+      let(:second_graph_circle_cy) { svg.all('circle')[1][:cy].to_i }
+      let(:first_label_circle_cy) { svg.all('circle')[2][:cy].to_i }
+      let(:second_label_circle_cy) { svg.all('circle')[3][:cy].to_i }
+      it 'renders first label-circle two lengths underneath last graph-circle' do
+        expect(first_graph_circle_cy).to eq(5)
+        expect(second_graph_circle_cy).to eq(15)
+        expect(first_label_circle_cy).to eq(35)
+      end
+      it 'renders label-circles with the same height-distance as graph-circles' do
+        expect(second_graph_circle_cy - first_graph_circle_cy).to eq(second_label_circle_cy - first_label_circle_cy)
+      end
     end
   end
 

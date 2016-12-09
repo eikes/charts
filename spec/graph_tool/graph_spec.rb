@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 RSpec.describe GraphTool::Graph do
-  let(:data) { { red: 1 } }
-  let(:options) { { columns: 2 } }
+  let(:data) { [1] }
+  let(:options) { { columns: 2, colors: 'red' } }
   let(:graph) { GraphTool::Graph.new(data, options) }
 
   describe '#initialize' do
@@ -10,18 +10,17 @@ RSpec.describe GraphTool::Graph do
       expect { GraphTool::Graph.new }.to raise_error(ArgumentError)
     end
     it 'calls the validate_arguments method' do
-      expect_any_instance_of(GraphTool::Graph).to receive(:validate_data_arguments)
+      expect_any_instance_of(GraphTool::Graph).to receive(:validate_arguments)
       GraphTool::Graph.new({})
     end
     it 'raises an error when the data hash is empty' do
       expect { GraphTool::Graph.new({}) }.to raise_error(ArgumentError)
     end
     it 'raises an error when the options are not a hash' do
-      expect { GraphTool::Graph.new({ x: 2 }, 'x') }.to raise_error(ArgumentError)
+      expect { GraphTool::Graph.new([2], 'x') }.to raise_error(ArgumentError)
     end
-
     it 'stores the data in an instance attribute' do
-      expect(graph.data).to eq(red: 1)
+      expect(graph.data).to eq([1])
     end
     it 'stores the options in an instance attribute' do
       expect(graph.options).to include(columns: 2)
@@ -31,7 +30,7 @@ RSpec.describe GraphTool::Graph do
   describe '#prepare_data' do
     it 'calls the prepare_data method' do
       expect_any_instance_of(GraphTool::Graph).to receive(:prepare_data)
-      GraphTool::Graph.new(x: 1)
+      GraphTool::Graph.new([1])
     end
   end
 
@@ -63,15 +62,15 @@ RSpec.describe GraphTool::Graph do
     end
 
     it 'raises an exception when pre_draw is called' do
-      expect { GraphTool::BogusGraph.new(x: 1).pre_draw }.to raise_error(NotImplementedError)
+      expect { GraphTool::BogusGraph.new([1]).pre_draw }.to raise_error(NotImplementedError)
     end
 
     it 'raises an exception when draw_item is called' do
-      expect { GraphTool::BogusGraph.new(x: 1).draw }.to raise_error(NotImplementedError)
+      expect { GraphTool::BogusGraph.new([1]).draw }.to raise_error(NotImplementedError)
     end
 
     it 'raises an exception when post_draw is called' do
-      expect { GraphTool::BogusGraph.new(x: 1).post_draw }.to raise_error(NotImplementedError)
+      expect { GraphTool::BogusGraph.new([1]).post_draw }.to raise_error(NotImplementedError)
     end
   end
 end
