@@ -16,9 +16,17 @@ RSpec.describe GraphTool::Grid do
       let(:data) { [[0, 1]] }
       it { is_expected.to eq [0.0, 0.2, 0.4, 0.6, 0.8, 1.0] }
     end
-    context 'for numbers betweem -1 and 1' do
-      let(:data) { [[-1, 1]] }
-      it { is_expected.to eq [-1.0, -0.5, 0.0, 0.5, 1.0] }
+    context 'for numbers betweem 0 and 2' do
+      let(:data) { [[0, 2]] }
+      it { is_expected.to eq [0.0, 0.5, 1.0, 1.5, 2.0] }
+    end
+    context 'for numbers betweem 0 and 3' do
+      let(:data) { [[0, 3]] }
+      it { is_expected.to eq [0.0, 1.0, 2.0, 3.0] }
+    end
+    context 'for numbers betweem 0 and 4' do
+      let(:data) { [[0, 4]] }
+      it { is_expected.to eq [0.0, 1.0, 2.0, 3.0, 4.0] }
     end
     context 'for numbers betweem 0 and 0.1' do
       let(:data) { [[0, 0.1]] }
@@ -33,9 +41,17 @@ RSpec.describe GraphTool::Grid do
       let(:data) { [[1000, 2000]] }
       it { is_expected.to eq [1000.0, 1200.0, 1400.0, 1600.0, 1800.0, 2000.0] }
     end
-    context 'for numbers betweem 0 and 4' do
-      let(:data) { [[0, 4]] }
-      it { is_expected.to eq [0.0, 1.0, 2.0, 3.0, 4.0] }
+    context 'for numbers betweem 0 and -1' do
+      let(:data) { [[0, -1]] }
+      it { is_expected.to eq [-1.0, -0.8, -0.6, -0.4, -0.2, 0.0] }
+    end
+    context 'for numbers betweem 0 and -1' do
+      let(:data) { [[0, -10]] }
+      it { is_expected.to eq [-10, -8, -6, -4, -2, 0] }
+    end
+    context 'for numbers betweem -1 and 1' do
+      let(:data) { [[-1, 1]] }
+      it { is_expected.to eq [-1.0, -0.5, 0.0, 0.5, 1.0] }
     end
   end
 
