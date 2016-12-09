@@ -3,6 +3,10 @@
 Metrics/LineLength:
   Max: 120
 
+Style/WordArray:
+  Description: 'Use %w or %W for arrays of words.'
+  EnforcedStyle: brackets
+
 Style/Documentation:
   Enabled: false
 
