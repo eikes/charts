@@ -9,7 +9,7 @@ module GraphTool::Grid
 
     def draw
       graph.renderer.line x1, y, x2, y, line_style
-      graph.renderer.text value, label_x, label_y, font_style
+      graph.renderer.text label_text, label_x, label_y, font_style
     end
 
     def x1
@@ -30,6 +30,14 @@ module GraphTool::Grid
 
     def label_y
       y + font_size / 3
+    end
+
+    def label_text
+      if graph.spread_order_of_magnitude <= 0
+        value.to_f
+      else
+        value
+      end
     end
 
     def line_style
@@ -53,20 +61,48 @@ module GraphTool::Grid
   end
 
   def draw_grid
-    grid_line_values.map { |v| GridLine.new(self, v).draw }
+    lines.each { |l| l.draw }
+  end
+
+  def lines
+    grid_line_values.map { |v| GridLine.new(self, v) }
   end
 
   def grid_line_values
-    (0..(number_of_lines-1)).map do |i|
-      (i * spread / (number_of_lines - 1)).round
+    (0..number_of_grid_lines).map do |i|
+      value = i.to_f * rounded_spread / number_of_grid_lines + min_value
+      if spread_log10 < 1
+        value.round(-spread_order_of_magnitude + 1)
+      else
+        value.round
+      end
     end
   end
 
-  def number_of_lines
-    5
+  def number_of_grid_lines
+    (3..7).find { |line_count| spread_factor % line_count == 0 } || 4
   end
 
   def spread
     max_value - min_value
   end
+
+  def spread_order_of_magnitude
+    spread_log10.floor
+  end
+
+  def spread_log10
+    Math.log10(spread)
+  end
+
+  def rounded_spread
+    rs = spread_factor * 10 ** spread_order_of_magnitude
+    spread_log10 % 1 == 0 ? rs / 10 : rs
+  end
+
+  def spread_factor
+    f = (spread.to_f / 10 ** spread_order_of_magnitude).floor
+    spread_log10 % 1 == 0 ? 10 * f : f
+  end
+
 end
