@@ -83,9 +83,16 @@ class GraphTool::OptParser
         options[:colors] = colors
       end
       opts.on(
-        '--labels Labels',
+        '-t TITLE',
+        '--title TITLE',
+        "Set the title"
+      ) do |title|
+        options[:title] = title
+      end
+      opts.on(
+        '--labels LABELS',
         Array,
-        "Set the labels to be used, ie: 'bin/graph_tool #{DATA_EXAMPLE_ARGS} #{COLOR_EXAMPLE_ARGS}' "
+        "Set the labels to be used, ie: 'bin/graph_tool #{DATA_EXAMPLE_ARGS} --labels Failures,Successes' "
       ) do |labels|
         options[:labels] = labels
       end
@@ -113,7 +120,6 @@ class GraphTool::OptParser
         options[:item_height] = item_height
       end
       opts.on(
-        '-t TYPE',
         '--type TYPE',
         FORMATS,
         "If no filename is provided, output is sent to STDOUT, choose the format: #{FORMATS.join(', ')}"
