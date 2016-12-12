@@ -20,14 +20,14 @@ class GraphTool::Graph
     {
       type:   :svg,
       colors: [
-        '#e41a1d', 
-        '#377eb9', 
-        '#4daf4b', 
-        '#984ea4', 
-        '#ff7f01', 
-        '#ffff34', 
-        '#a65629', 
-        '#f781c0', 
+        '#e41a1d',
+        '#377eb9',
+        '#4daf4b',
+        '#984ea4',
+        '#ff7f01',
+        '#ffff34',
+        '#a65629',
+        '#f781c0',
         '#888888'
       ],
       labels: []
@@ -63,5 +63,16 @@ class GraphTool::Graph
     options.each do |key, value|
       define_singleton_method key, proc { value }
     end
+  end
+
+  def font_style
+    {
+      font_family: 'arial',
+      font_size:   font_size
+    }
+  end
+
+  def font_size
+    16
   end
 end

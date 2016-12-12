@@ -5,8 +5,8 @@ class GraphTool::OptParser
 
   FORMATS = [:txt, :svg, :png, :jpg, :gif].freeze
   STYLES = [:circle, :cross, :manikin].freeze
-  DATA_EXAMPLE_ARGS = '-d 8,7'
-  COLOR_EXAMPLE_ARGS = '--colors red,gold'
+  DATA_EXAMPLE_ARGS = '-d 8,7'.freeze
+  COLOR_EXAMPLE_ARGS = '--colors red,gold'.freeze
 
   def initialize(args)
     @args = args.empty? ? ['--help'] : args

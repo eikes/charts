@@ -1,5 +1,4 @@
 class GraphTool::Dispatcher
-
   attr_reader :options
 
   def initialize(options)

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe GraphTool::CountGraph do
   let(:data) { [1] }
   let(:graph) { GraphTool::CountGraph.new(data, options) }

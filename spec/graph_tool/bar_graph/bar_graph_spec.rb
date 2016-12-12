@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe GraphTool::BarGraph do
   let(:data) { [[0, 10, 15, 20]] }
   let(:options) do
@@ -59,6 +57,12 @@ RSpec.describe GraphTool::BarGraph do
         expect(graph.base_line).to eq(0.5)
       end
     end
+    context 'data has nil values' do
+      let(:data) { [[0, nil, 20]] }
+      it 'maps the data to a value between 0 and 1' do
+        expect(graph.prepared_data).to eq([[0.0, nil, 1.0]])
+      end
+    end
     describe 'base_line' do
       context 'zero is 0' do
         let(:data) { [[0, 10]] }
@@ -83,6 +87,19 @@ RSpec.describe GraphTool::BarGraph do
         it 'sets the base_line' do
           expect(graph.base_line).to eq(0)
         end
+      end
+    end
+  end
+
+  describe '#initialize_instance_variables' do
+    context 'data contains nil values' do
+      let(:data) { [[10, nil, 20]] }
+      let(:options) { { include_zero: false } }
+      it 'sets max' do
+        expect(graph.max_value).to eq(20)
+      end
+      it 'sets min' do
+        expect(graph.min_value).to eq(10)
       end
     end
   end

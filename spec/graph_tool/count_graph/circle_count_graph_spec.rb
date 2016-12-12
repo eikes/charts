@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe GraphTool::CircleCountGraph do
   include Capybara::RSpecMatchers
   let(:data) { [1] }
@@ -353,40 +351,24 @@ RSpec.describe GraphTool::CircleCountGraph do
   describe 'rmagick renderer' do
     let(:background_color) { 'green' }
     let(:graph) { GraphTool::CircleCountGraph.new(data, options) }
-    let(:data) { [2, 2] }
-    let(:colors) { ['red', 'blue'] }
-    let(:columns) { 2 }
+    let(:data) { [1] }
+    let(:colors) { ['red'] }
     let(:type) { :png }
 
-    it 'instantiates a Magick::ImageList object' do
-      expect(Magick::ImageList).to receive(:new).and_return(Magick::ImageList.new)
+    it 'calls #circle on Magick::RVG' do
+      expect_any_instance_of(Magick::RVG).to receive(:circle).with(10, 10, 10).and_return(double(styles: nil))
       graph.render
     end
 
-    it 'instantiates a Magick::Draw object' do
-      expect(Magick::Draw).to receive(:new).and_return(Magick::Draw.new)
-      graph.render
-    end
-
-    it 'calls #circle on the canvas' do
-      expect_any_instance_of(Magick::Draw).to receive(:circle).with(10, 10,  0, 10)
-      expect_any_instance_of(Magick::Draw).to receive(:circle).with(30, 10, 20, 10)
-      expect_any_instance_of(Magick::Draw).to receive(:circle).with(10, 30,  0, 30)
-      expect_any_instance_of(Magick::Draw).to receive(:circle).with(30, 30, 20, 30)
-      graph.render
-    end
-
-    it 'calls #fill on the canvas' do
-      expect_any_instance_of(Magick::Draw).to receive(:fill).with('red').twice
-      expect_any_instance_of(Magick::Draw).to receive(:fill).with('blue').twice
-      expect_any_instance_of(Magick::Draw).to receive(:fill).with('green').once
+    it 'calls #styles on Magick::RVG::Circle' do
+      expect_any_instance_of(Magick::RVG::Circle).to receive(:styles).with(fill: 'red')
       graph.render
     end
 
     context 'filename is set' do
       let(:options) { { type: :png, filename: 'dots.jpg' } }
-      it 'calls #write on the image' do
-        expect_any_instance_of(Magick::ImageList).to receive(:write)
+      it 'calls #write on Magick::Image' do
+        expect_any_instance_of(Magick::Image).to receive(:write)
         graph.render
       end
     end

@@ -47,7 +47,7 @@ class GraphTool::CountGraph < GraphTool::Graph
   end
 
   def draw_label
-    data.each_with_index do |data, index| 
+    data.each_with_index do |data, index|
       x = inner_margin + outer_margin
       y = offset_y(prepared_data.count + (index + 1)) + inner_margin + outer_margin
       draw_item(x, y, colors[index])
@@ -55,15 +55,16 @@ class GraphTool::CountGraph < GraphTool::Graph
     end
   end
 
-  def draw_label_text(x, y, labels)
-    x = x + item_width * 2
-    y = y + item_height / 2
+  def draw_label_text(x, y, label)
+    x = x + item_width + inner_margin
+    y = y + item_height / 2 + 2 * font_size / 5
 
-    renderer.text(x, y, labels, class: 'label_text')
+    renderer.text(label, x, y, font_style.merge(class: 'label_text'))
   end
 
   def draw_background_color(width, height, color)
-    x, y = 0, 0
+    x = 0
+    y = 0
     renderer.rect x, y, width, height, fill: color, class: 'background_color'
   end
 

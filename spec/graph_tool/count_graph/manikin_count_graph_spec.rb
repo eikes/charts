@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe GraphTool::ManikinCountGraph do
   include Capybara::RSpecMatchers
 

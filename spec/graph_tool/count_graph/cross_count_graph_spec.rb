@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe GraphTool::CrossCountGraph do
   include Capybara::RSpecMatchers
   let(:data) { [1] }
@@ -168,46 +166,6 @@ RSpec.describe GraphTool::CrossCountGraph do
     it 'calls #save on the SVG' do
       expect_any_instance_of(SVG).to receive(:save)
       graph.render
-    end
-  end
-
-  describe 'rmagick renderer' do
-    let(:graph) { GraphTool::CrossCountGraph.new(data, options) }
-    let(:data) { [2] }
-    let(:colors) { ['red'] }
-    let(:item_width) { 100 }
-    let(:item_height) { 100 }
-    let(:type) { :png }
-
-    it 'instantiates a Magick::ImageList object' do
-      expect(Magick::ImageList).to receive(:new).and_return(Magick::ImageList.new)
-      graph.render
-    end
-
-    it 'instantiates a Magick::Draw object' do
-      expect(Magick::Draw).to receive(:new).and_return(Magick::Draw.new)
-      graph.render
-    end
-
-    it 'calls #line on the canvas' do
-      expect_any_instance_of(Magick::Draw).to receive(:line).with(4, 4, 96, 96)
-      expect_any_instance_of(Magick::Draw).to receive(:line).with(4, 96, 96, 4)
-      expect_any_instance_of(Magick::Draw).to receive(:line).with(104, 4,  196, 96)
-      expect_any_instance_of(Magick::Draw).to receive(:line).with(104, 96, 196, 4)
-      graph.render
-    end
-
-    it 'calls #stroke on the canvas' do
-      expect_any_instance_of(Magick::Draw).to receive(:stroke).with('red').exactly(4).times
-      graph.render
-    end
-
-    context 'filename is set' do
-      let(:options) { { type: :png, filename: 'dots.jpg' } }
-      it 'calls #write on the image' do
-        expect_any_instance_of(Magick::ImageList).to receive(:write)
-        graph.render
-      end
     end
   end
 end

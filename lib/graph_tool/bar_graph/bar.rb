@@ -21,7 +21,7 @@ class GraphTool::BarGraph::Bar
   end
 
   def x_offset
-    graph.bar_width * bar_number_in_graph
+    graph.bar_outer_width * bar_number_in_graph
   end
 
   def y
