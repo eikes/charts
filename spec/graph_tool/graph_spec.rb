@@ -1,6 +1,6 @@
 RSpec.describe GraphTool::Graph do
   let(:data) { [1] }
-  let(:options) { { columns: 2, colors: 'red' } }
+  let(:options) { { columns: 2, colors: ['red']} }
   let(:graph) { GraphTool::Graph.new(data, options) }
 
   describe '#initialize' do
@@ -18,7 +18,19 @@ RSpec.describe GraphTool::Graph do
       expect { GraphTool::Graph.new([2], 'x') }.to raise_error(ArgumentError)
     end
     it 'raises an error when the data is not an array' do
-      expect { GraphTool::Graph.new({}, {}) }.to raise_error(ArgumentError)
+      expect { GraphTool::Graph.new('', {}) }.to raise_error(ArgumentError)
+    end
+    it 'raises an error when the colors are not an array' do
+      expect { GraphTool::Graph.new([2], colors: 'red') }.to raise_error(ArgumentError)
+    end
+    it 'raises an error when there are less colors then data item' do
+      expect { GraphTool::Graph.new([2, 4], colors: ['red']) }.to raise_error(ArgumentError)
+    end
+    it 'raises an error when the labels are not an array' do
+      expect { GraphTool::Graph.new([2], labels: 'red') }.to raise_error(ArgumentError)
+    end
+    it 'raises an error when there are less labels then data item' do
+      expect { GraphTool::Graph.new([2, 4], labels: ['red']) }.to raise_error(ArgumentError)
     end
     it 'stores the data in an instance attribute' do
       expect(graph.data).to eq([1])

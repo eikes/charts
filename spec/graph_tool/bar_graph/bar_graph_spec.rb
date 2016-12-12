@@ -232,7 +232,7 @@ RSpec.describe GraphTool::BarGraph do
     let(:type) { :png }
 
     it 'calls #line on the canvas' do
-      expect_any_instance_of(Magick::Draw).to receive(:rectangle).exactly(6).times
+      expect_any_instance_of(Magick::Draw).to receive(:rectangle).exactly(5).times
       graph.render
     end
   end

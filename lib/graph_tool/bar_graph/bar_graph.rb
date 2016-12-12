@@ -1,7 +1,12 @@
 class GraphTool::BarGraph < GraphTool::Graph
   include GraphTool::Grid
 
-  attr_reader :max_value, :min_value, :set_count, :group_count, :total_bar_count, :base_line
+  attr_reader :max_value,
+              :min_value,
+              :set_count,
+              :group_count,
+              :total_bar_count,
+              :base_line
 
   def initialize_instance_variables
     @set_count = data.count
@@ -17,7 +22,6 @@ class GraphTool::BarGraph < GraphTool::Graph
       width:        600,
       height:       400,
       include_zero: true,
-      outer_margin: 50,
       group_margin: 20,
       bar_margin:   1
     )
@@ -38,15 +42,8 @@ class GraphTool::BarGraph < GraphTool::Graph
 
   def pre_draw
     super
-    draw_background
     draw_grid
-    draw_title
     draw_group_labels
-  end
-
-  def draw_title
-    return unless options[:title]
-    renderer.text options[:title], width / 2, outer_margin / 2, font_style.merge(text_anchor: 'middle')
   end
 
   def draw_group_labels
@@ -54,14 +51,9 @@ class GraphTool::BarGraph < GraphTool::Graph
     raise ArgumentError if group_labels.count != group_count
     group_labels.each_with_index do |group_label, i|
       x = outer_margin + (i + 0.5) * all_bars_width / group_count + i * group_margin
-      y = outer_margin + inner_height + font_size
-      renderer.text group_label, x, y, font_style.merge(text_anchor: 'middle')
+      y = outer_margin + inner_height + renderer.font_size
+      renderer.text group_label, x, y, text_anchor: 'middle'
     end
-  end
-
-  def draw_background
-    renderer.rect 0, 0, width, height, fill: '#EEEEEE'
-    renderer.rect outer_margin, outer_margin, inner_width, inner_height, fill: '#FFFFFF'
   end
 
   def draw

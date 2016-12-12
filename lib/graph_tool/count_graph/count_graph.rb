@@ -1,28 +1,17 @@
 class GraphTool::CountGraph < GraphTool::Graph
   def default_options
     super.merge(
-      columns:          10,
-      item_width:       20,
-      item_height:      20,
-      inner_margin:     2,
-      outer_margin:     20,
-      background_color: 'white'
+      columns:      10,
+      inner_margin: 2,
+      item_width:   20,
+      item_height:  20
     )
   end
 
   def validate_arguments(data, options)
     super(data, options)
+    raise ArgumentError if options[:inner_margin] and !options[:inner_margin].is_a?(Numeric)
     raise ArgumentError unless data.all? { |x| Integer(x) }
-    raise ArgumentError if number_of_items_is_samller_then_number_of_colors(data, options)
-    raise ArgumentError if number_of_items_is_samller_then_number_of_labels(data, options)
-  end
-
-  def number_of_items_is_samller_then_number_of_colors(data, options)
-    !options[:colors].nil? && options[:colors].any? && data.count > options[:colors].count
-  end
-
-  def number_of_items_is_samller_then_number_of_labels(data, options)
-    !options[:labels].nil? && options[:labels].any? && data.count > options[:labels].count
   end
 
   def prepare_data
@@ -34,7 +23,6 @@ class GraphTool::CountGraph < GraphTool::Graph
   end
 
   def draw
-    draw_background_color(width, height, background_color)
     prepared_data.each_with_index do |row, row_count|
       row.each_with_index do |color, column_count|
         x = offset_x(column_count) + inner_margin + outer_margin
@@ -57,14 +45,7 @@ class GraphTool::CountGraph < GraphTool::Graph
   def draw_label_text(x, y, label)
     x = x + item_width + inner_margin
     y = y + item_height / 2 + 2 * renderer.font_size / 5
-
     renderer.text(label, x, y, class: 'label_text')
-  end
-
-  def draw_background_color(width, height, color)
-    x = 0
-    y = 0
-    renderer.rect x, y, width, height, fill: color, class: 'background_color'
   end
 
   def offset_x(column_count)

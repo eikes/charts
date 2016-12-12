@@ -21,14 +21,6 @@ RSpec.describe GraphTool::CountGraph do
   end
 
   describe '#initialize' do
-    it 'calls the number_of_items_is_samller_then_number_of_colors method' do
-      expect_any_instance_of(GraphTool::CountGraph).to receive(:number_of_items_is_samller_then_number_of_colors)
-      GraphTool::CountGraph.new([1])
-    end
-    it 'calls the number_of_items_is_samller_then_number_of_labels method' do
-      expect_any_instance_of(GraphTool::CountGraph).to receive(:number_of_items_is_samller_then_number_of_labels)
-      GraphTool::CountGraph.new([1])
-    end
     it 'provides default options' do
       graph = GraphTool::CountGraph.new([2])
       expect(graph.columns).to eq(10)
@@ -43,12 +35,6 @@ RSpec.describe GraphTool::CountGraph do
     end
     it 'raises an error when a collection of values contains a Non-Integer' do
       expect { GraphTool::CountGraph.new([23, '@$']) }.to raise_error(ArgumentError)
-    end
-    it 'raises an error when the number of items is smaller then the number of colors' do
-      expect { GraphTool::CountGraph.new([14, 12, 66], colors: ['red', 'blue']) }.to raise_error(ArgumentError)
-    end
-    it 'raises an error when the number of items is smaller then the number of labels' do
-      expect { GraphTool::CountGraph.new([14, 12, 66], labels: ['Guns', 'Roses']) }.to raise_error(ArgumentError)
     end
   end
 
@@ -82,8 +68,8 @@ RSpec.describe GraphTool::CountGraph do
     it 'has a default inner-margin of 2px' do
       expect(graph.inner_margin).to eq(2)
     end
-    it 'has a default outer-margin of 20px' do
-      expect(graph.outer_margin).to eq(20)
+    it 'has a default outer-margin of 30px' do
+      expect(graph.outer_margin).to eq(30)
     end
     it 'has 10 default columns' do
       expect(graph.columns).to eq(10)

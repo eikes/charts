@@ -1,5 +1,8 @@
 class GraphTool::Graph
-  attr_reader :data, :options, :prepared_data, :renderer
+  attr_reader :data,
+              :options,
+              :prepared_data,
+              :renderer
 
   def initialize(data, opts = {})
     validate_arguments(data, opts)
@@ -11,15 +14,38 @@ class GraphTool::Graph
   end
 
   def validate_arguments(data, options)
-    raise ArgumentError if data.empty?
-    raise ArgumentError unless data.is_a? Array
-    raise ArgumentError unless options.is_a? Hash
+    raise ArgumentError.new('Data missing') if data.empty?
+    raise ArgumentError.new('Data not an array') unless data.is_a? Array
+    raise ArgumentError.new('Options missing') unless options.is_a? Hash
+    if options[:outer_margin] and !options[:outer_margin].is_a?(Numeric)
+      raise ArgumentError.new('outer_margin not a number')
+    end
+    if options[:colors]
+      unless options[:colors].is_a? Array
+        raise ArgumentError.new('colors not an array')
+      end
+      if options[:colors].any? and data.count > options[:colors].count
+        raise ArgumentError.new('not enough colors')
+      end
+    end
+    if options[:labels]
+      unless options[:labels].is_a? Array
+        raise ArgumentError.new('labels not an array')
+      end
+      if options[:labels].any? and data.count > options[:labels].count
+        raise ArgumentError.new('not enough labels')
+      end
+    end
   end
 
   def default_options
     {
-      type:   :svg,
-      colors: [
+      title:            nil,
+      type:             :svg,
+      outer_margin:     30,
+      background_color: 'white',
+      labels:           [],
+      colors:           [
         '#e41a1d',
         '#377eb9',
         '#4daf4b',
@@ -29,8 +55,7 @@ class GraphTool::Graph
         '#a65629',
         '#f781c0',
         '#888888'
-      ],
-      labels: []
+      ]
     }
   end
 
@@ -46,6 +71,8 @@ class GraphTool::Graph
 
   def pre_draw
     @renderer = GraphTool::Renderer.new(self)
+    draw_background
+    draw_title
   end
 
   def draw
@@ -54,6 +81,17 @@ class GraphTool::Graph
 
   def post_draw
     renderer.post_draw
+  end
+
+  def draw_background
+    renderer.rect 0, 0, width, height, fill: background_color, class: 'background_color'
+  end
+
+  def draw_title
+    return unless options[:title]
+    x = width / 2
+    y = outer_margin / 2 + 2 * renderer.font_size / 5
+    renderer.text options[:title], x, y, text_anchor: 'middle'
   end
 
   def initialize_instance_variables
