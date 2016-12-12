@@ -1,5 +1,5 @@
 class GraphTool::Graph
-  attr_reader :data, :options, :prepared_data
+  attr_reader :data, :options, :prepared_data, :renderer
 
   def initialize(data, opts = {})
     validate_arguments(data, opts)
@@ -45,7 +45,7 @@ class GraphTool::Graph
   end
 
   def pre_draw
-    raise NotImplementedError
+    @renderer = GraphTool::Renderer.new(self)
   end
 
   def draw
@@ -53,7 +53,7 @@ class GraphTool::Graph
   end
 
   def post_draw
-    raise NotImplementedError
+    renderer.post_draw
   end
 
   def initialize_instance_variables
@@ -63,16 +63,5 @@ class GraphTool::Graph
     options.each do |key, value|
       define_singleton_method key, proc { value }
     end
-  end
-
-  def font_style
-    {
-      font_family: 'arial',
-      font_size:   font_size
-    }
-  end
-
-  def font_size
-    16
   end
 end

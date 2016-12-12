@@ -1,5 +1,4 @@
 class GraphTool::BarGraph < GraphTool::Graph
-  include GraphTool::Renderer
   include GraphTool::Grid
 
   attr_reader :max_value, :min_value, :set_count, :group_count, :total_bar_count, :base_line

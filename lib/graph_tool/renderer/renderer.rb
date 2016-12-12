@@ -1,20 +1,22 @@
-module GraphTool::Renderer
-  attr_reader :renderer
+class GraphTool::Renderer
+  attr_reader :graph
 
-  def pre_draw
-    if type == :svg
-      @renderer = SvgRenderer.new(width, height)
+  def initialize(graph)
+    @graph = graph
+    if graph.type == :svg
+      extend GraphTool::Renderer::SvgRenderer
     else
-      @renderer = RvgRenderer.new(width, height)
+      extend GraphTool::Renderer::RvgRenderer
     end
+    pre_draw
   end
 
   def post_draw
-    filename = options[:filename]
+    filename = graph.options[:filename]
     if filename
-      renderer.save filename
+      save filename
     else
-      renderer.render
+      print
     end
   end
 

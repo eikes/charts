@@ -1,6 +1,4 @@
 class GraphTool::ManikinCountGraph < GraphTool::CountGraph
-  include GraphTool::Renderer
-
   def draw_item(x, y, color)
     head x + width_percent(50), y, style(color)
     body x + width_percent(50), y, style(color)

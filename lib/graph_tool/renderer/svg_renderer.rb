@@ -1,13 +1,13 @@
 require 'victor'
 
-class GraphTool::Renderer::SvgRenderer
+module GraphTool::Renderer::SvgRenderer
   attr_reader :svg
 
-  def initialize(width, height)
-    @svg = SVG.new width: width, height: height
+  def pre_draw
+    @svg = SVG.new width: graph.width, height: graph.height
   end
 
-  def render
+  def print
     svg.render
   end
 
@@ -28,7 +28,7 @@ class GraphTool::Renderer::SvgRenderer
   end
 
   def text(text, x, y, style = {})
-    svg.text text, style.merge(x: x, y: y)
+    svg.text text, font_style.merge(style).merge(x: x, y: y)
   end
 end
 

@@ -62,16 +62,8 @@ RSpec.describe GraphTool::Graph do
     class GraphTool::BogusGraph < GraphTool::Graph
     end
 
-    it 'raises an exception when pre_draw is called' do
-      expect { GraphTool::BogusGraph.new([1]).pre_draw }.to raise_error(NotImplementedError)
-    end
-
     it 'raises an exception when draw_item is called' do
       expect { GraphTool::BogusGraph.new([1]).draw }.to raise_error(NotImplementedError)
-    end
-
-    it 'raises an exception when post_draw is called' do
-      expect { GraphTool::BogusGraph.new([1]).post_draw }.to raise_error(NotImplementedError)
     end
   end
 end

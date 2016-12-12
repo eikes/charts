@@ -1,4 +1,3 @@
-require 'pry-byebug'
 class GraphTool::CountGraph < GraphTool::Graph
   def default_options
     super.merge(
@@ -57,9 +56,9 @@ class GraphTool::CountGraph < GraphTool::Graph
 
   def draw_label_text(x, y, label)
     x = x + item_width + inner_margin
-    y = y + item_height / 2 + 2 * font_size / 5
+    y = y + item_height / 2 + 2 * renderer.font_size / 5
 
-    renderer.text(label, x, y, font_style.merge(class: 'label_text'))
+    renderer.text(label, x, y, class: 'label_text')
   end
 
   def draw_background_color(width, height, color)

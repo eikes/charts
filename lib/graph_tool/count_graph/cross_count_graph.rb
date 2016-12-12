@@ -1,6 +1,4 @@
 class GraphTool::CrossCountGraph < GraphTool::CountGraph
-  include GraphTool::Renderer
-
   def draw_item(x, y, color)
     left   = x + 4
     right  = x + item_width - 4

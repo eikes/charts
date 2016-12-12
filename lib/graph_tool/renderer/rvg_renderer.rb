@@ -1,18 +1,15 @@
 require 'rvg/rvg'
 
-class GraphTool::Renderer::RvgRenderer
-  attr_reader :rvg, :image_width, :image_height
+module GraphTool::Renderer::RvgRenderer
+  attr_reader :rvg
 
-  def initialize(image_width, image_height)
-    @image_width = image_width
-    @image_height = image_height
-
-    @rvg = Magick::RVG.new(image_width, image_height) do |canvas|
+  def pre_draw
+    @rvg = Magick::RVG.new(graph.width, graph.height) do |canvas|
       canvas.background_fill = 'white'
     end
   end
 
-  def render
+  def print
     rvg.draw.to_blob { |attrs| attrs.format = 'PNG' }
   end
 
@@ -33,12 +30,12 @@ class GraphTool::Renderer::RvgRenderer
   end
 
   def text(text, x, y, style = {})
-    canvas(style) { |c| c.text x, y, text }
+    canvas(font_style.merge(style)) { |c| c.text x, y, text }
   end
 
   def canvas(style)
     style.delete(:class)
-    rvg.rvg(image_width, image_height) do |canvas|
+    rvg.rvg(graph.width, graph.height) do |canvas|
       yield(canvas).styles(style)
     end
   end

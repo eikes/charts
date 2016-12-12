@@ -8,7 +8,7 @@ class GraphTool::Grid::GridLine
 
   def draw
     graph.renderer.line x1, y, x2, y, line_style
-    graph.renderer.text label_text, label_x, label_y, graph.font_style.merge(text_anchor: 'end')
+    graph.renderer.text label_text, label_x, label_y, text_anchor: 'end'
   end
 
   def x1
@@ -28,7 +28,7 @@ class GraphTool::Grid::GridLine
   end
 
   def label_y
-    y + graph.font_size / 3
+    y + graph.renderer.font_size / 3
   end
 
   def label_text
