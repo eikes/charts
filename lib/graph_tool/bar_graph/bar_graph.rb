@@ -2,12 +2,12 @@ class GraphTool::BarGraph < GraphTool::Graph
   include GraphTool::Renderer
   include GraphTool::Grid
 
-  attr_reader :max_value, :min_value, :set_count, :bars_pers_set, :bar_count, :base_line
+  attr_reader :max_value, :min_value, :set_count, :group_count, :total_bar_count, :base_line
 
   def initialize_instance_variables
     @set_count = data.count
-    @bars_pers_set = data.map(&:count).max
-    @bar_count = set_count * bars_pers_set
+    @group_count = data.map(&:count).max
+    @total_bar_count = set_count * group_count
     @max_value = calc_max
     @min_value = calc_min
     @base_line = calc_base_line
@@ -27,12 +27,13 @@ class GraphTool::BarGraph < GraphTool::Graph
   def validate_arguments(data, options)
     super(data, options)
     raise ArgumentError unless data.is_a? Array
+    # raise ArgumentError if options[:group_labels] && options[:group_labels].count != group_count
   end
 
   def prepare_data
     data.map do |set|
       set.map do |value|
-        value.nil? ? nil : normalize(value) 
+        value.nil? ? nil : normalize(value)
       end
     end
   end
@@ -41,6 +42,22 @@ class GraphTool::BarGraph < GraphTool::Graph
     super
     draw_background
     draw_grid
+    draw_title
+    draw_group_labels
+  end
+
+  def draw_title
+    return unless options[:title]
+    renderer.text options[:title], width / 2, outer_margin / 2, font_style.merge(text_anchor: 'middle')
+  end
+
+  def draw_group_labels
+    return unless options[:group_labels]
+    group_labels.each_with_index do |group_label, i|
+      x = outer_margin + (i + 0.5) * all_bars_width / group_count + i * group_margin
+      y = outer_margin + inner_height + font_size
+      renderer.text group_label, x, y, font_style.merge(text_anchor: 'middle')
+    end
   end
 
   def draw_background
@@ -61,7 +78,7 @@ class GraphTool::BarGraph < GraphTool::Graph
   end
 
   def bar_outer_width
-    all_bars_width.to_f / bar_count
+    all_bars_width.to_f / total_bar_count
   end
 
   def bar_inner_width
@@ -73,7 +90,7 @@ class GraphTool::BarGraph < GraphTool::Graph
   end
 
   def sum_of_group_margins
-    (bars_pers_set - 1) * group_margin
+    (group_count - 1) * group_margin
   end
 
   def inner_height
@@ -98,5 +115,16 @@ class GraphTool::BarGraph < GraphTool::Graph
 
   def normalize(value)
     (value.to_f - min_value) / (max_value - min_value)
+  end
+
+  def font_style
+    {
+      font_family: 'arial',
+      font_size:   font_size
+    }
+  end
+
+  def font_size
+    16
   end
 end

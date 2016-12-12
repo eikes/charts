@@ -8,6 +8,18 @@ RSpec.describe GraphTool::Grid do
       let(:data) { [[0, 1]] }
       it { is_expected.to eq 5 }
     end
+    context 'for numbers betweem 0 and 2' do
+      let(:data) { [[0, 2]] }
+      it { is_expected.to eq 4 }
+    end
+    context 'for numbers betweem 0 and 3' do
+      let(:data) { [[0, 3]] }
+      it { is_expected.to eq 3 }
+    end
+    context 'for numbers betweem 0 and 4' do
+      let(:data) { [[0, 4]] }
+      it { is_expected.to eq 4 }
+    end
   end
 
   describe '#grid_line_values' do
@@ -27,6 +39,14 @@ RSpec.describe GraphTool::Grid do
     context 'for numbers betweem 0 and 4' do
       let(:data) { [[0, 4]] }
       it { is_expected.to eq [0.0, 1.0, 2.0, 3.0, 4.0] }
+    end
+    context 'for numbers betweem 0 and 10' do
+      let(:data) { [[0, 10]] }
+      it { is_expected.to eq [0.0, 2.0, 4.0, 6.0, 8.0, 10.0] }
+    end
+    context 'for numbers betweem 0 and 55' do
+      let(:data) { [[0, 55]] }
+      it { is_expected.to eq [0, 10, 20, 30, 40, 50] }
     end
     context 'for numbers betweem 0 and 0.1' do
       let(:data) { [[0, 0.1]] }
