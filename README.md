@@ -18,7 +18,7 @@ Create images:
 
 ![example dot image](https://raw.githubusercontent.com/eikes/graph_tool/master/images/dots.jpg)
 
-    $ bin/graph_tool --data 18,16 --colors Navy,Teal --style manikin -w 50 -h 50 --filename images/manikin.jpg
+    $ bin/graph_tool --data 18,16 --labels Swimmers,Divers --colors Navy,Teal --style manikin -w 50 -h 50 --filename images/manikin.jpg
 
 ![example manikin image](https://raw.githubusercontent.com/eikes/graph_tool/master/images/manikin.jpg)
 
