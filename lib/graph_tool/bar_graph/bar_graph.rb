@@ -26,7 +26,6 @@ class GraphTool::BarGraph < GraphTool::Graph
   def validate_arguments(data, options)
     super(data, options)
     raise ArgumentError unless data.is_a? Array
-    # raise ArgumentError if options[:group_labels] && options[:group_labels].count != group_count
   end
 
   def prepare_data
@@ -52,6 +51,7 @@ class GraphTool::BarGraph < GraphTool::Graph
 
   def draw_group_labels
     return unless options[:group_labels]
+    raise ArgumentError if group_labels.count != group_count
     group_labels.each_with_index do |group_label, i|
       x = outer_margin + (i + 0.5) * all_bars_width / group_count + i * group_margin
       y = outer_margin + inner_height + font_size

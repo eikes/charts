@@ -1,4 +1,3 @@
-require 'pry-byebug'
 class GraphTool::CircleCountGraph < GraphTool::CountGraph
   def draw_item(x, y, color)
     cx = x + item_width / 2
