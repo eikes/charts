@@ -6,6 +6,8 @@ RSpec.describe GraphTool::BarGraph do
       width:        width,
       height:       height,
       group_margin: group_margin,
+      title:        title,
+      group_labels: group_labels,
       bar_margin:   bar_margin,
       outer_margin: outer_margin,
       include_zero: include_zero
@@ -15,6 +17,8 @@ RSpec.describe GraphTool::BarGraph do
   let(:width) { 100 }
   let(:height) { 100 }
   let(:group_margin) { 0 }
+  let(:title) { nil }
+  let(:group_labels) { [] }
   let(:bar_margin) { 0 }
   let(:outer_margin) { 0 }
   let(:include_zero) { true }
@@ -225,6 +229,23 @@ RSpec.describe GraphTool::BarGraph do
       it "sets the graph.height to 200" do
         expect(graph.height).to eq(200)
       end
+    end
+  end
+
+  describe 'option group_labels' do
+    let(:group_labels) { ['one', 'two', 'three', 'four'] }
+    it 'has text elements with the labels' do
+      expect(svg).to have_css('text.group_label', text: 'one')
+      expect(svg).to have_css('text.group_label', text: 'two')
+      expect(svg).to have_css('text.group_label', text: 'three')
+      expect(svg).to have_css('text.group_label', text: 'four')
+    end
+  end
+
+  describe 'option title' do
+    let(:title) { 'headline' }
+    it 'has a title text element' do
+      expect(svg).to have_css('text.title', text: 'headline')
     end
   end
 

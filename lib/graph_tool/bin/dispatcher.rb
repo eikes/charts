@@ -23,6 +23,8 @@ class GraphTool::Dispatcher
         GraphTool::CrossCountGraph.new(data, graph_options)
       elsif style == :manikin
         GraphTool::ManikinCountGraph.new(data, graph_options)
+      elsif style == :bar
+        GraphTool::BarGraph.new(data, graph_options)
       end
     end
   end
@@ -33,7 +35,7 @@ class GraphTool::Dispatcher
 
   def graph_options
     options.select do |key, _value|
-      [:filename, :type, :columns, :item_width, :item_height, :colors, :labels, :title].include? key
+      [:filename, :type, :columns, :item_width, :item_height, :colors, :title, :labels, :group_labels].include? key
     end
   end
 

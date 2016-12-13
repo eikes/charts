@@ -6,13 +6,17 @@ RSpec.describe GraphTool::OptParser do
     let(:color_args) { GraphTool::OptParser::COLOR_EXAMPLE_ARGS.split(' ') }
     context 'valid arguments' do
       let(:args) { data_args }
-      it { is_expected.to include(data: ['8', '7']) }
+      it { is_expected.to include(data: [8.0, 7.0]) }
       it { is_expected.to include(style: :circle) }
       it { is_expected.to include(type: :svg) }
     end
     context 'a png filename is set' do
       let(:args) { data_args + ['--filename', 'file.png'] }
       it { is_expected.to include(type: :png) }
+    end
+    context 'type is set' do
+      let(:args) { data_args + ['--title', 'Headline'] }
+      it { is_expected.to include(title: 'Headline') }
     end
     context 'type is set' do
       let(:args) { data_args + ['--type', 'png'] }
@@ -25,6 +29,14 @@ RSpec.describe GraphTool::OptParser do
     context 'colors are set' do
       let(:args) { data_args + color_args }
       it { is_expected.to include(colors: ['red', 'gold']) }
+    end
+    context 'labels are set' do
+      let(:args) { data_args + ['--labels', 'label_1,label_2'] }
+      it { is_expected.to include(labels: ['label_1', 'label_2']) }
+    end
+    context 'group-labels are set' do
+      let(:args) { data_args + ['--group-labels', 'group_label_1,group_label_2'] }
+      it { is_expected.to include(group_labels: ['group_label_1', 'group_label_2']) }
     end
     context 'item-width is set' do
       let(:args) { data_args + ['--item-width', '111'] }
@@ -39,6 +51,10 @@ RSpec.describe GraphTool::OptParser do
       it 'raises an error' do
         expect { subject }.to raise_error(RuntimeError, "No data provided. Please pass in data using the --data flag: 'bin/graph_tool -d 8,7'")
       end
+    end
+    context 'bar graph one data set is provided' do
+      let(:args) { data_args + ['--style', 'bar'] }
+      it { is_expected.to include(data: [[8.0, 7.0]]) }
     end
     context 'a filename is set with an unknown extension' do
       let(:args) { data_args + ['--filename', 'file.pdf'] }

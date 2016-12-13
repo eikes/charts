@@ -91,7 +91,7 @@ class GraphTool::Graph
     return unless options[:title]
     x = width / 2
     y = outer_margin / 2 + 2 * renderer.font_size / 5
-    renderer.text options[:title], x, y, text_anchor: 'middle'
+    renderer.text options[:title], x, y, text_anchor: 'middle', class: 'title'
   end
 
   def initialize_instance_variables

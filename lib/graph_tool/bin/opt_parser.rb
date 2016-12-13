@@ -4,9 +4,10 @@ class GraphTool::OptParser
   attr_reader :args, :options, :parser
 
   FORMATS = [:txt, :svg, :png, :jpg, :gif].freeze
-  STYLES = [:circle, :cross, :manikin].freeze
+  STYLES = [:circle, :cross, :manikin, :bar].freeze
   DATA_EXAMPLE_ARGS = '-d 8,7'.freeze
   COLOR_EXAMPLE_ARGS = '--colors red,gold'.freeze
+  FLOAT_INTEGER_REGEX = /^(?=.)([+-]?([0-9]*)(\.([0-9]+))?)$/.freeze
 
   def initialize(args)
     @args = args.empty? ? ['--help'] : args
@@ -23,12 +24,20 @@ class GraphTool::OptParser
   def parse
     parser.parse!(args) # this sets the options
     post_process_options
+    infer_type_from_filename
     validate_options
 
     options
   end
 
   def post_process_options
+    # force 2-dimensional array for bar graph if only one data set is provided
+    if options[:style] == :bar and !options[:data].first.is_a? Array
+      options[:data] = [options[:data]]
+    end
+  end
+
+  def infer_type_from_filename
     return if options[:help]
     return unless options[:filename]
     type = options[:filename].match(/.*\.(#{FORMATS.join("|")})/)
@@ -58,7 +67,15 @@ class GraphTool::OptParser
         Array,
         "Provide multiple data points, ie: 'bin/graph_tool #{DATA_EXAMPLE_ARGS}'"
       ) do |data|
-        options[:data] = data
+        data = data.map { |d| d.match(FLOAT_INTEGER_REGEX) ? Float(d) : nil }
+        # if multiple --data arguments are provided,
+        # the data option becomes a two dimensional array
+        if !options[:data]
+          options[:data] = data
+        else
+          options[:data] = [options[:data]] unless options[:data].first.is_a? Array
+          options[:data].push(data)
+        end
       end
       opts.on(
         '-f FILENAME',
@@ -76,13 +93,6 @@ class GraphTool::OptParser
         options[:style] = style
       end
       opts.on(
-        '--colors COLORS',
-        Array,
-        "Set the colors to be used, ie: 'bin/graph_tool #{DATA_EXAMPLE_ARGS} #{COLOR_EXAMPLE_ARGS}' "
-      ) do |colors|
-        options[:colors] = colors
-      end
-      opts.on(
         '-t TITLE',
         '--title TITLE',
         "Set the title"
@@ -95,6 +105,20 @@ class GraphTool::OptParser
         "Set the labels to be used, ie: 'bin/graph_tool #{DATA_EXAMPLE_ARGS} --labels Failures,Successes' "
       ) do |labels|
         options[:labels] = labels
+      end
+      opts.on(
+        '--group-labels GROUP_LABELS',
+        Array,
+        "Set the group-labels to be used, ie: 'bin/graph_tool #{DATA_EXAMPLE_ARGS} --style bar --group-labels Summer,Winter' "
+      ) do |group_labels|
+        options[:group_labels] = group_labels
+      end
+      opts.on(
+        '--colors COLORS',
+        Array,
+        "Set the colors to be used, ie: 'bin/graph_tool #{DATA_EXAMPLE_ARGS} #{COLOR_EXAMPLE_ARGS}' "
+      ) do |colors|
+        options[:colors] = colors
       end
       opts.on(
         '--columns COLUMNS',

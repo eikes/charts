@@ -23,7 +23,7 @@ class GraphTool::BarGraph < GraphTool::Graph
       height:       400,
       include_zero: true,
       group_margin: 20,
-      bar_margin:   1
+      bar_margin:   3
     )
   end
 
@@ -47,12 +47,12 @@ class GraphTool::BarGraph < GraphTool::Graph
   end
 
   def draw_group_labels
-    return unless options[:group_labels]
+    return if options[:group_labels].nil? || group_labels.empty?
     raise ArgumentError if group_labels.count != group_count
     group_labels.each_with_index do |group_label, i|
       x = outer_margin + (i + 0.5) * all_bars_width / group_count + i * group_margin
       y = outer_margin + inner_height + renderer.font_size
-      renderer.text group_label, x, y, text_anchor: 'middle'
+      renderer.text group_label, x, y, text_anchor: 'middle', class: 'group_label'
     end
   end
 
