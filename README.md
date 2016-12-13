@@ -18,11 +18,11 @@ Create images:
 
 ![example dot image](https://raw.githubusercontent.com/eikes/graph_tool/master/images/dots.jpg)
 
-    $ bin/graph_tool --data 18,16 --labels Swimmers,Divers --colors Navy,Teal --style manikin -w 50 -h 50 --filename images/manikin.jpg
+    $ bin/graph_tool --data 18,16 --data 12,21 --style bar --title Seats --group-labels 2016,2017 --filename images/bars.jpg
 
 ![example bar graph](https://raw.githubusercontent.com/eikes/graph_tool/master/images/bars.jpg)
 
-    $ bin/graph_tool --data 18,16 --data 12,21 --style bar --title Seats --group-labels 2016,2017 --filename images/bars.jpg
+    $ bin/graph_tool --data 18,16 --labels Swimmers,Divers --colors Navy,Teal --style manikin -w 50 -h 50 --filename images/manikin.jpg
 
 ![example manikin image](https://raw.githubusercontent.com/eikes/graph_tool/master/images/manikin.jpg)
 
