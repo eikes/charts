@@ -35,7 +35,18 @@ class GraphTool::Dispatcher
 
   def graph_options
     options.select do |key, _value|
-      [:filename, :type, :columns, :item_width, :item_height, :colors, :title, :labels, :group_labels].include? key
+      [
+        :filename, 
+        :type, 
+        :columns, 
+        :item_width, 
+        :item_height, 
+        :colors, 
+        :title, 
+        :labels, 
+        :group_labels, 
+        :background_color
+      ].include? key
     end
   end
 

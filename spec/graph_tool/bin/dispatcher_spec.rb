@@ -53,15 +53,16 @@ RSpec.describe GraphTool::Dispatcher do
   describe 'graph options' do
     let(:options) do
       {
-        data:         data,
-        style:        style,
-        type:         type,
-        filename:     filename,
-        colors:       colors,
-        columns:      7,
-        item_width:   111,
-        item_height:  222,
-        bogus_option: '123123'
+        data:             data,
+        style:            style,
+        type:             type,
+        filename:         filename,
+        colors:           colors,
+        columns:          7,
+        item_width:       111,
+        item_height:      222,
+        background_color: 'Silver',
+        bogus_option:     '123123'
       }
     end
     let(:filename) { 'some_file.png' }
@@ -82,6 +83,9 @@ RSpec.describe GraphTool::Dispatcher do
     end
     it 'sets the graph colors' do
       expect(graph.options).to include(colors: colors)
+    end
+    it 'sets the graph backgroundcolor' do
+      expect(graph.options).to include(background_color: 'Silver')
     end
     it 'does not set unknown options' do
       expect(graph.options).not_to include(bogus_option: '123123')
