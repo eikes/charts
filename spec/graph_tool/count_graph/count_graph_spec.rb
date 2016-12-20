@@ -196,20 +196,21 @@ RSpec.describe GraphTool::CountGraph do
     end
   end
 
+  shared_examples 'has a width and height of' do |width, height|
+    it "sets the graph.width to #{width}" do
+      expect(graph.width).to eq(width)
+    end
+    it "sets the graph.height to #{height}" do
+      expect(graph.height).to eq(height)
+    end
+  end
+
   describe '#height and #width' do
     it 'has a width attribute' do
       expect(graph).to respond_to(:width)
     end
     it 'has a height attribute' do
       expect(graph).to respond_to(:height)
-    end
-    shared_examples 'has a width and height of' do |width, height|
-      it "sets the graph.width to #{width}" do
-        expect(graph.width).to eq(width)
-      end
-      it "sets the graph.height to #{height}" do
-        expect(graph.height).to eq(height)
-      end
     end
     context 'one item' do
       include_examples 'has a width and height of', 20, 20
@@ -231,14 +232,6 @@ RSpec.describe GraphTool::CountGraph do
   end
 
   describe '#height and #width with inner & outer margin' do
-    shared_examples 'has a width and height of' do |width, height|
-      it "sets the graph.width to #{width}" do
-        expect(graph.width).to eq(width)
-      end
-      it "sets the graph.height to #{height}" do
-        expect(graph.height).to eq(height)
-      end
-    end
     context 'one item with inner margin' do
       let(:inner_margin) { 2 }
       include_examples 'has a width and height of', 24, 24
@@ -257,14 +250,6 @@ RSpec.describe GraphTool::CountGraph do
   end
 
   describe '#height and #width with presence of labels' do
-    shared_examples 'has a width and height of' do |width, height|
-      it "sets the graph.width to #{width}" do
-        expect(graph.width).to eq(width)
-      end
-      it "sets the graph.height to #{height}" do
-        expect(graph.height).to eq(height)
-      end
-    end
     context 'three items with three labels' do
       let(:data) { [3] }
       let(:labels) { ['Cars', 'Buses', 'Bikes'] }
