@@ -157,6 +157,13 @@ class GraphTool::OptParser
         puts opts
         options[:help] = true
       end
+      opts.on(
+        '--background_color BACKGROUNDCOLOR',
+        Array,
+        "Set the backgroundcolor to be used, ie: 'bin/graph_tool #{DATA_EXAMPLE_ARGS} --background_color Silver"
+      ) do |background_color|
+        options[:background_color] = background_color
+      end
     end
   end
 end

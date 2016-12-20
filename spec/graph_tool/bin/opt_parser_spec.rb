@@ -46,6 +46,10 @@ RSpec.describe GraphTool::OptParser do
       let(:args) { data_args + ['--item-height', '222'] }
       it { is_expected.to include(item_height: 222) }
     end
+    context 'background_color is set' do
+      let(:args) { data_args + ['--background_color', 'Silver'] }
+      it { is_expected.to include(background_color: ['Silver']) }
+    end
     context 'no data is set' do
       let(:args) { ['--style', 'circle'] }
       it 'raises an error' do
