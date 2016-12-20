@@ -1,5 +1,4 @@
-require 'capybara'
-require 'capybara/rspec'
+require 'nokogiri'
 require 'simplecov'
 
 SimpleCov.start do

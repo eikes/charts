@@ -25,9 +25,9 @@ RSpec.describe GraphTool::BarGraph do
   let(:outer_margin) { 0 }
   let(:include_zero) { true }
   let(:graph) { GraphTool::BarGraph.new(data, options) }
-  let(:svg) { Capybara.string(graph.render) }
+  let(:svg) { Nokogiri::XML(graph.render) }
 
-  let(:rectangles) { svg.all('rect.bar') }
+  let(:rectangles) { svg.css('rect.bar') }
   let(:widths) { rectangles.map { |r| r[:width] } }
   let(:heights) { rectangles.map { |r| r[:height] } }
   let(:ys) { rectangles.map { |r| r[:y] } }
@@ -237,10 +237,8 @@ RSpec.describe GraphTool::BarGraph do
   describe 'option group_labels' do
     let(:group_labels) { ['one', 'two', 'three', 'four'] }
     it 'has text elements with the labels' do
-      expect(svg).to have_css('text.group_label', text: 'one')
-      expect(svg).to have_css('text.group_label', text: 'two')
-      expect(svg).to have_css('text.group_label', text: 'three')
-      expect(svg).to have_css('text.group_label', text: 'four')
+      group_labels_texts = svg.css('text.group_label').map{ |t| t.text.tr("\n", '') }
+      expect(group_labels_texts).to eq(group_labels)
     end
     describe 'too few group_labels' do
       let(:group_labels) { ['one', 'two'] }
@@ -254,10 +252,8 @@ RSpec.describe GraphTool::BarGraph do
     let(:data) { [[0, 10], [15, 20], [30, 10], [25, 35]] }
     let(:labels) { ['Alpha', 'Beta', 'Gamma', 'Delta'] }
     it 'has text elements with the labels' do
-      expect(svg).to have_css('text.label', text: 'Alpha')
-      expect(svg).to have_css('text.label', text: 'Beta')
-      expect(svg).to have_css('text.label', text: 'Gamma')
-      expect(svg).to have_css('text.label', text: 'Delta')
+      labels_texts = svg.css('text.label').map{ |t| t.text.tr("\n", '') }
+      expect(labels_texts).to eq(labels)
     end
     describe 'too few labels' do
       let(:labels) { ['Alpha', 'Beta'] }
@@ -270,7 +266,7 @@ RSpec.describe GraphTool::BarGraph do
   describe 'option title' do
     let(:title) { 'headline' }
     it 'has a title text element' do
-      expect(svg).to have_css('text.title', text: 'headline')
+      expect(svg.at_css('text.title').text.tr("\n", '')).to eq('headline')
     end
   end
 

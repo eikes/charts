@@ -1,9 +1,7 @@
 RSpec.describe GraphTool::ManikinCountGraph do
-  include Capybara::RSpecMatchers
-
   let(:data) { [1] }
   let(:graph) { GraphTool::ManikinCountGraph.new(data, options) }
-  let(:svg) { Capybara.string(graph.render) }
+  let(:svg) { Nokogiri::XML(graph.render) }
   let(:columns) { 2 }
   let(:item_width) { 20 }
   let(:item_height) { 20 }
@@ -24,10 +22,10 @@ RSpec.describe GraphTool::ManikinCountGraph do
     let(:colors) { ['#FACADE'] }
     let(:item_width) { 100 }
     let(:item_height) { 100 }
-    let(:head) { svg.find('circle') }
-    let(:body) { svg.find('line.body') }
-    let(:left_arm) { svg.find('line.left-arm') }
-    let(:right_arm) { svg.find('line.right-arm') }
+    let(:head) { svg.at_css('circle') }
+    let(:body) { svg.at_css('line.body') }
+    let(:left_arm) { svg.at_css('line.left-arm') }
+    let(:right_arm) { svg.at_css('line.right-arm') }
 
     it 'renders one manikin with the correct color' do
       expect(head[:fill]).to eq('#FACADE')
@@ -48,8 +46,8 @@ RSpec.describe GraphTool::ManikinCountGraph do
     let(:colors) { ['red', 'green'] }
     let(:item_width) { 100 }
     let(:item_height) { 100 }
-    let(:red_head) { svg.all('circle').first }
-    let(:green_head) { svg.all('circle').last }
+    let(:red_head) { svg.css('circle').first }
+    let(:green_head) { svg.css('circle').last }
 
     it 'renders the first manikin-head with the correct color' do
       expect(red_head[:fill]).to eq('red')

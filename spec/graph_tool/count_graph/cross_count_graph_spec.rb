@@ -1,8 +1,7 @@
 RSpec.describe GraphTool::CrossCountGraph do
-  include Capybara::RSpecMatchers
   let(:data) { [1] }
   let(:graph) { GraphTool::CrossCountGraph.new(data, options) }
-  let(:svg) { Capybara.string(graph.render) }
+  let(:svg) { Nokogiri::XML(graph.render) }
   let(:columns) { 2 }
   let(:inner_margin) { 0 }
   let(:outer_margin) { 0 }
@@ -32,10 +31,10 @@ RSpec.describe GraphTool::CrossCountGraph do
   describe '#height and #width' do
     shared_examples 'has a width and height of' do |width, height|
       it "sets the svg root width to #{width}" do
-        expect(svg.find('svg')[:width]).to eq(width.to_s)
+        expect(svg.at_css('svg')[:width]).to eq(width.to_s)
       end
       it "sets the svg root height to #{height}" do
-        expect(svg.find('svg')[:height]).to eq(height.to_s)
+        expect(svg.at_css('svg')[:height]).to eq(height.to_s)
       end
     end
     context 'one cross' do
@@ -59,17 +58,11 @@ RSpec.describe GraphTool::CrossCountGraph do
     end
   end
 
-  describe 'root element' do
-    it 'exists' do
-      expect(svg).to have_css('svg')
-    end
-  end
-
   context 'one cross' do
     let(:data) { [1] }
     let(:colors) { ['#FACADE'] }
     let(:item_width) { 100 }
-    let(:line) { svg.all('line').first }
+    let(:line) { svg.css('line').first }
     it 'renders one cross with the correct color' do
       expect(line[:stroke]).to eq('#FACADE')
     end
@@ -81,15 +74,15 @@ RSpec.describe GraphTool::CrossCountGraph do
   context 'two different crosses' do
     let(:data) { [1, 1] }
     let(:colors) { ['red', 'green'] }
-    let(:red_cross_left_top_right_bottom) { svg.all('line').first }
-    let(:red_cross_left_bottom_right_top) { svg.all('line')[1] }
-    let(:green_cross_left_top_right_bottom) { svg.all('line')[2] }
-    let(:green_cross_left_bottom_right_top) { svg.all('line').last }
+    let(:red_cross_left_top_right_bottom) { svg.css('line').first }
+    let(:red_cross_left_bottom_right_top) { svg.css('line')[1] }
+    let(:green_cross_left_top_right_bottom) { svg.css('line')[2] }
+    let(:green_cross_left_bottom_right_top) { svg.css('line').last }
     let(:item_width) { 100 }
     let(:item_height) { 100 }
 
     it 'renders two crosses' do
-      expect(svg.all('line').count).to eq(4)
+      expect(svg.css('line').count).to eq(4)
     end
     context 'red cross' do
       it 'renders one red cross' do

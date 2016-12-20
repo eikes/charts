@@ -4,7 +4,7 @@ gem 'rmagick'
 gem 'victor'
 
 group :test do
-  gem 'capybara'
+  gem 'nokogiri'
   gem 'codeclimate-test-reporter', '~> 1.0.0'
   gem 'rspec'
   gem 'simplecov'
