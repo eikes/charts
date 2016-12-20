@@ -96,9 +96,9 @@ RSpec.describe GraphTool::CountGraph do
     end
   end
 
-  describe '#draw label' do
-    it 'has a draw_label attribute' do
-      expect(graph).to respond_to(:draw_label)
+  describe '#draw labels' do
+    it 'has a draw_labels attribute' do
+      expect(graph).to respond_to(:draw_labels)
     end
   end
 

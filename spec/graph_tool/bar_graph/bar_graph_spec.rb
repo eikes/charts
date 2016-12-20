@@ -7,6 +7,7 @@ RSpec.describe GraphTool::BarGraph do
       height:       height,
       group_margin: group_margin,
       title:        title,
+      labels:       labels,
       group_labels: group_labels,
       bar_margin:   bar_margin,
       outer_margin: outer_margin,
@@ -18,6 +19,7 @@ RSpec.describe GraphTool::BarGraph do
   let(:height) { 100 }
   let(:group_margin) { 0 }
   let(:title) { nil }
+  let(:labels) { [] }
   let(:group_labels) { [] }
   let(:bar_margin) { 0 }
   let(:outer_margin) { 0 }
@@ -239,6 +241,29 @@ RSpec.describe GraphTool::BarGraph do
       expect(svg).to have_css('text.group_label', text: 'two')
       expect(svg).to have_css('text.group_label', text: 'three')
       expect(svg).to have_css('text.group_label', text: 'four')
+    end
+    describe 'too few group_labels' do
+      let(:group_labels) { ['one', 'two'] }
+      it 'raises an error' do
+        expect{ graph.render }.to raise_error(ArgumentError)
+      end
+    end
+  end
+
+  describe 'option labels' do
+    let(:data) { [[0, 10], [15, 20], [30, 10], [25, 35]] }
+    let(:labels) { ['Alpha', 'Beta', 'Gamma', 'Delta'] }
+    it 'has text elements with the labels' do
+      expect(svg).to have_css('text.label', text: 'Alpha')
+      expect(svg).to have_css('text.label', text: 'Beta')
+      expect(svg).to have_css('text.label', text: 'Gamma')
+      expect(svg).to have_css('text.label', text: 'Delta')
+    end
+    describe 'too few labels' do
+      let(:labels) { ['Alpha', 'Beta'] }
+      it 'raises an error' do
+        expect{ graph.render }.to raise_error(ArgumentError)
+      end
     end
   end
 

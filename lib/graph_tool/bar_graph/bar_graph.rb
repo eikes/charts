@@ -44,6 +44,7 @@ class GraphTool::BarGraph < GraphTool::Graph
     super
     draw_grid
     draw_group_labels
+    draw_labels
   end
 
   def draw_group_labels
@@ -53,6 +54,27 @@ class GraphTool::BarGraph < GraphTool::Graph
       x = outer_margin + (i + 0.5) * all_bars_width / group_count + i * group_margin
       y = outer_margin + inner_height + renderer.font_size
       renderer.text group_label, x, y, text_anchor: 'middle', class: 'group_label'
+    end
+  end
+
+  def draw_labels
+    return if options[:labels].nil? || labels.empty?
+    label_row_height = 20
+    label_row_margin = 10
+    label_length = 0
+    label_row = 0
+    labels.each_with_index do |label, index|
+      x = outer_margin + label_length
+      y = outer_margin + inner_height + label_row_height + label_row * (label_row_height + label_row_margin)
+      label_length += label.length * 10 + label_row_height + label_row_margin
+      if label_length > inner_width
+        label_length = 0
+        label_row += 1
+      end
+      renderer.rect x, y, label_row_height, label_row_height, fill: colors[index], stroke: colors[index]
+      label_x = x + label_row_height + label_row_margin
+      label_y = y + label_row_height - renderer.font_size / 3
+      renderer.text label, label_x, label_y, text_anchor: 'start', class: 'label'
     end
   end
 

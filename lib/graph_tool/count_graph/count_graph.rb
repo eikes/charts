@@ -30,10 +30,11 @@ class GraphTool::CountGraph < GraphTool::Graph
         draw_item(x, y, color)
       end
     end
-    draw_label unless labels.empty?
+    draw_labels
   end
 
-  def draw_label
+  def draw_labels
+    return if labels.empty?
     data.each_with_index do |data, index|
       x = inner_margin + outer_margin
       y = offset_y(prepared_data.count + (index + 1)) + inner_margin + outer_margin
