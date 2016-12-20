@@ -1,12 +1,16 @@
 source 'https://rubygems.org'
 
+gem 'rmagick'
+gem 'victor'
+
 group :test do
-  gem 'rake'
+  gem 'capybara'
+  gem 'codeclimate-test-reporter', '~> 1.0.0'
   gem 'rspec'
   gem 'simplecov'
-  gem 'codeclimate-test-reporter', '~> 1.0.0'
+end
+
+group :test, :develpment do
   gem 'pry-byebug'
-  gem 'victor'
-  gem 'capybara'
-  gem 'rmagick'
+  gem 'rake'
 end
