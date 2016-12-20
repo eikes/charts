@@ -53,16 +53,16 @@ RSpec.describe GraphTool::Dispatcher do
   describe 'graph options' do
     let(:options) do
       {
-        data:         data,
-        style:        style,
-        type:         type,
-        filename:     filename,
-        colors:       colors,
-        columns:      7,
-        item_width:   111,
-        item_height:  222,
+        data:             data,
+        style:            style,
+        type:             type,
+        filename:         filename,
+        colors:           colors,
+        columns:          7,
+        item_width:       111,
+        item_height:      222,
         background_color: 'Silver',
-        bogus_option: '123123'
+        bogus_option:     '123123'
       }
     end
     let(:filename) { 'some_file.png' }
