@@ -310,67 +310,80 @@ RSpec.describe GraphTool::CircleCountGraph do
     end
   end
 
-  context 'labels' do
-    let(:data) { [2, 2] }
+context 'label-items' do
+  describe 'position of labels-items' do
+    let(:data) { [1, 1] }
     let(:labels) { ['See', 'Fire'] }
     let(:colors) { ['red', 'green'] }
-    describe 'presence of labels' do
-      it 'renders two labels for two different types of circles' do
-        expect(svg.all('text.label_text').count).to eq(2)
-      end
+    let(:item_height) { 10 }
+    let(:columns) { 1 }
+    let(:first_graph_circle_cy) { svg.all('circle')[0][:cy].to_i }
+    let(:second_graph_circle_cy) { svg.all('circle')[1][:cy].to_i }
+    let(:first_label_circle_cy) { svg.all('circle')[2][:cy].to_i }
+    let(:second_label_circle_cy) { svg.all('circle')[3][:cy].to_i }
+    it 'renders first label-circle two lengths underneath last graph-circle' do
+      expect(first_graph_circle_cy).to eq(5)
+      expect(second_graph_circle_cy).to eq(15)
+      expect(first_label_circle_cy).to eq(35)
     end
-    describe 'position of labels' do
-      let(:data) { [1, 1] }
-      let(:labels) { ['See', 'Fire'] }
-      let(:colors) { ['red', 'green'] }
-      let(:item_height) { 10 }
-      let(:columns) { 1 }
-      let(:first_graph_circle_cy) { svg.all('circle')[0][:cy].to_i }
-      let(:second_graph_circle_cy) { svg.all('circle')[1][:cy].to_i }
-      let(:first_label_circle_cy) { svg.all('circle')[2][:cy].to_i }
-      let(:second_label_circle_cy) { svg.all('circle')[3][:cy].to_i }
-      it 'renders first label-circle two lengths underneath last graph-circle' do
-        expect(first_graph_circle_cy).to eq(5)
-        expect(second_graph_circle_cy).to eq(15)
-        expect(first_label_circle_cy).to eq(35)
-      end
-      it 'renders label-circles with the same height-distance as graph-circles' do
-        expect(second_graph_circle_cy - first_graph_circle_cy).to eq(second_label_circle_cy - first_label_circle_cy)
-      end
+    it 'renders label-circles with the same height-distance as graph-circles' do
+      expect(second_graph_circle_cy - first_graph_circle_cy).to eq(second_label_circle_cy - first_label_circle_cy)
     end
+  end
+end
+
+context 'label-text' do
+  let(:data) { [2, 2] }
+  let(:labels) { ['See', 'Fire'] }
+  let(:colors) { ['red', 'green'] }
+  describe 'presence of label-text' do
+    it 'renders two labels for two different types of circles' do
+      expect(svg.all('text.label_text').count).to eq(2)
+    end
+  end
+  describe 'style of label-text' do
+    it 'renders labels with a default font-size of 16' do
+      expect(svg.all('text.label_text').first[:'font-size']).to eq('16')
+    end
+    it 'renders labels with a default font-family of arial' do
+      expect(svg.all('text.label_text').first[:'font-family']).to eq('arial')
+    end
+  end
+end
+
+
+
+context 'filename is set' do
+  let(:options) { { filename: 'dots.svg' } }
+  it 'calls #save on the SVG' do
+    expect_any_instance_of(SVG).to receive(:save)
+    graph.render
+  end
+end
+
+describe 'rmagick renderer' do
+  let(:background_color) { 'green' }
+  let(:graph) { GraphTool::CircleCountGraph.new(data, options) }
+  let(:data) { [1] }
+  let(:colors) { ['red'] }
+  let(:type) { :png }
+
+  it 'calls #circle on Magick::RVG' do
+    expect_any_instance_of(Magick::RVG).to receive(:circle).with(10, 10, 10).and_return(double(styles: nil))
+    graph.render
+  end
+
+  it 'calls #styles on Magick::RVG::Circle' do
+    expect_any_instance_of(Magick::RVG::Circle).to receive(:styles).with(fill: 'red')
+    graph.render
   end
 
   context 'filename is set' do
-    let(:options) { { filename: 'dots.svg' } }
-    it 'calls #save on the SVG' do
-      expect_any_instance_of(SVG).to receive(:save)
+    let(:options) { { type: :png, filename: 'dots.jpg' } }
+    it 'calls #write on Magick::Image' do
+      expect_any_instance_of(Magick::Image).to receive(:write)
       graph.render
     end
   end
-
-  describe 'rmagick renderer' do
-    let(:background_color) { 'green' }
-    let(:graph) { GraphTool::CircleCountGraph.new(data, options) }
-    let(:data) { [1] }
-    let(:colors) { ['red'] }
-    let(:type) { :png }
-
-    it 'calls #circle on Magick::RVG' do
-      expect_any_instance_of(Magick::RVG).to receive(:circle).with(10, 10, 10).and_return(double(styles: nil))
-      graph.render
-    end
-
-    it 'calls #styles on Magick::RVG::Circle' do
-      expect_any_instance_of(Magick::RVG::Circle).to receive(:styles).with(fill: 'red')
-      graph.render
-    end
-
-    context 'filename is set' do
-      let(:options) { { type: :png, filename: 'dots.jpg' } }
-      it 'calls #write on Magick::Image' do
-        expect_any_instance_of(Magick::Image).to receive(:write)
-        graph.render
-      end
-    end
-  end
+end
 end
