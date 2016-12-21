@@ -1,12 +1,11 @@
 module GraphTool::Grid
-  attr_accessor :graph
-
   def draw_grid
     lines.each { |l| l.draw }
   end
 
   def lines
-    grid_line_values.map { |v| GridLine.new(self, v) }
+    grid_line_class = vertical? ? HorizontalGridLine : VerticalGridLine
+    grid_line_values.map { |v| grid_line_class.new(self, v) }
   end
 
   def grid_line_values

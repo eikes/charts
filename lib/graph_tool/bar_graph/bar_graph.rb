@@ -25,7 +25,8 @@ class GraphTool::BarGraph < GraphTool::Graph
       group_margin: 20,
       bar_margin:   3,
       label_height: 20,
-      label_margin: 10
+      label_margin: 10,
+      direction:    :vertical
     )
   end
 
@@ -52,10 +53,20 @@ class GraphTool::BarGraph < GraphTool::Graph
   def draw_group_labels
     return if options[:group_labels].nil? || group_labels.empty?
     raise ArgumentError if group_labels.count != group_count
+    group_label_style = {
+      text_anchor:  'middle',
+      writing_mode: (vertical? ? 'lr' : 'tb'),
+      class:        'group_label'
+    }
     group_labels.each_with_index do |group_label, i|
-      x = outer_margin + (i + 0.5) * all_bars_width / group_count + i * group_margin
-      y = outer_margin + inner_height + renderer.font_size
-      renderer.text group_label, x, y, text_anchor: 'middle', class: 'group_label'
+      if vertical?
+        x = outer_margin + (i + 0.5) * all_bars_width / group_count + i * group_margin
+        y = outer_margin + inner_height + renderer.font_size
+      else
+        x = outer_margin - renderer.font_size
+        y = outer_margin + (i + 0.5) * all_bars_width / group_count + i * group_margin
+      end
+      renderer.text group_label, x, y, group_label_style
     end
   end
 
@@ -66,7 +77,7 @@ class GraphTool::BarGraph < GraphTool::Graph
     labels.each_with_index do |label, index|
       x = outer_margin + label_row_length_sum
       y = height - outer_margin - label_total_height + label_row * (label_height + label_margin)
-      label_row_length_sum += label.length * 10 + label_height + label_margin
+      label_row_length_sum += label.length * 10 + label_height + 2 * label_margin
       if label_row_length_sum > inner_width
         label_row_length_sum = 0
         label_row += 1
@@ -92,7 +103,8 @@ class GraphTool::BarGraph < GraphTool::Graph
   def draw
     prepared_data.each_with_index do |set, set_nr|
       set.each_with_index do |data_value, bar_nr_in_set|
-        Bar.new(self, data_value, set_nr, bar_nr_in_set).draw unless data_value.nil?
+        bar_class = vertical? ? VerticalBar : HorizontalBar
+        bar_class.new(self, data_value, set_nr, bar_nr_in_set).draw unless data_value.nil?
       end
     end
   end
@@ -101,16 +113,16 @@ class GraphTool::BarGraph < GraphTool::Graph
     width - 2 * outer_margin
   end
 
-  def bar_outer_width
-    all_bars_width.to_f / total_bar_count
-  end
-
   def bar_inner_width
     bar_outer_width - 2 * bar_margin
   end
 
+  def bar_outer_width
+    all_bars_width.to_f / total_bar_count
+  end
+
   def all_bars_width
-    inner_width - sum_of_group_margins
+    (vertical? ? inner_width : inner_height) - sum_of_group_margins
   end
 
   def sum_of_group_margins
@@ -139,5 +151,9 @@ class GraphTool::BarGraph < GraphTool::Graph
 
   def normalize(value)
     (value.to_f - min_value) / (max_value - min_value)
+  end
+
+  def vertical?
+    direction == :vertical
   end
 end

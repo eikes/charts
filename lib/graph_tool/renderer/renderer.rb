@@ -20,6 +20,13 @@ class GraphTool::Renderer
     end
   end
 
+  def grid_line_style
+    {
+      stroke:       '#BBBBBB',
+      stroke_width: 1
+    }
+  end
+
   def font_style
     {
       font_family: 'arial',
