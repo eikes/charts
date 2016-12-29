@@ -1,4 +1,4 @@
-class GraphTool::BarGraph < GraphTool::Graph
+class GraphTool::BarChart < GraphTool::Graph
   include GraphTool::Grid
 
   attr_reader :max_value,

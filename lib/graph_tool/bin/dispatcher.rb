@@ -24,7 +24,7 @@ class GraphTool::Dispatcher
       elsif style == :manikin
         GraphTool::ManikinCountGraph.new(data, graph_options)
       elsif style == :bar
-        GraphTool::BarGraph.new(data, graph_options)
+        GraphTool::BarChart.new(data, graph_options)
       end
     end
   end

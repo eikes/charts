@@ -2,5 +2,5 @@ engines:
   duplication:
     enabled: true
     exclude_fingerprints:
-    # ignore BarGraph calc_min calc_max code duplication:
+    # ignore BarChart calc_min calc_max code duplication:
     - 7da5b03898f765e54ffb90813cf0865b

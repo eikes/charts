@@ -1,4 +1,4 @@
-class GraphTool::BarGraph::VerticalBar < GraphTool::BarGraph::Bar
+class GraphTool::BarChart::VerticalBar < GraphTool::BarChart::Bar
   def x
     (x_margin + x_offset).floor.to_i
   end

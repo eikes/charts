@@ -1,4 +1,4 @@
-RSpec.describe GraphTool::BarGraph do
+RSpec.describe GraphTool::BarChart do
   let(:data) { [[0, 10, 15, 20]] }
   let(:options) do
     {
@@ -24,7 +24,7 @@ RSpec.describe GraphTool::BarGraph do
   let(:bar_margin) { 0 }
   let(:outer_margin) { 0 }
   let(:include_zero) { true }
-  let(:graph) { GraphTool::BarGraph.new(data, options) }
+  let(:graph) { GraphTool::BarChart.new(data, options) }
   let(:svg) { Nokogiri::XML(graph.render) }
 
   let(:rectangles) { svg.css('rect.bar') }
@@ -35,10 +35,10 @@ RSpec.describe GraphTool::BarGraph do
 
   describe '#initialize' do
     it 'provides default options' do
-      expect(GraphTool::BarGraph.new(data).width).to eq(600)
+      expect(GraphTool::BarChart.new(data).width).to eq(600)
     end
     it 'provides default options' do
-      expect(GraphTool::BarGraph.new(data).height).to eq(400)
+      expect(GraphTool::BarChart.new(data).height).to eq(400)
     end
   end
 
@@ -154,7 +154,7 @@ RSpec.describe GraphTool::BarGraph do
   context 'min and max are set' do
     let(:data) { [[20, 40]] }
     let(:min_max_options) { options.merge(min: 10, max: 50) }
-    let(:graph) { GraphTool::BarGraph.new(data, min_max_options) }
+    let(:graph) { GraphTool::BarChart.new(data, min_max_options) }
     it 'correctly sets the ys' do
       expect(ys).to eq(['75.0', '25.0'])
     end

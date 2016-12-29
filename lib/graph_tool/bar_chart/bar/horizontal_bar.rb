@@ -1,4 +1,4 @@
-class GraphTool::BarGraph::HorizontalBar < GraphTool::BarGraph::Bar
+class GraphTool::BarChart::HorizontalBar < GraphTool::BarChart::Bar
   def x
     x_margin + x_offset
   end
