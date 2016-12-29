@@ -27,6 +27,10 @@ module GraphTool::Renderer::SvgRenderer
     svg.rect style.merge(x: x, y: y, width: width, height: height)
   end
 
+  def path(d, style = {})
+    svg.path style.merge(d: d)
+  end
+
   def text(text, x, y, style = {})
     svg.text text, font_style.merge(style).merge(x: x, y: y)
   end

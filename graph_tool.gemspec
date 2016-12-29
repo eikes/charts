@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
                     'graph_tool/bar_chart/bar/bar',
                     'graph_tool/bar_chart/bar/vertical_bar',
                     'graph_tool/bar_chart/bar/horizontal_bar',
+                    'graph_tool/pie_chart/pie_chart',
                     'graph_tool/count_graph/count_graph',
                     'graph_tool/count_graph/circle_count_graph',
                     'graph_tool/count_graph/cross_count_graph',
