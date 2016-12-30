@@ -8,6 +8,7 @@ class GraphTool::PieChart < GraphTool::Graph
     super(data, options)
     raise ArgumentError unless data.is_a? Array
     raise ArgumentError if options[:labels] && !options[:labels].empty? && options[:labels].count != data.count
+    raise ArgumentError if options[:explode] && !options[:explode].empty? && options[:explode].count != data.count
   end
 
   def default_options
@@ -15,7 +16,9 @@ class GraphTool::PieChart < GraphTool::Graph
       width:        600,
       height:       400,
       label_height: 20,
-      label_margin: 10
+      label_margin: 10,
+      explode:      nil,
+      border_width: 2
     )
   end
 
@@ -35,17 +38,21 @@ class GraphTool::PieChart < GraphTool::Graph
     prepared_data.length.times do |i|
       start_deg = Math::PI * 2 * sub_sums[i]
       end_deg = Math::PI * 2 * sub_sums[i + 1]
-      start_x = center_x + radius * Math.sin(start_deg)
-      start_y = center_y - radius * Math.cos(start_deg)
-      end_x = center_x + radius * Math.sin(end_deg)
-      end_y = center_y - radius * Math.cos(end_deg)
+      middle_deg = (start_deg + end_deg) / 2
+      expl = explode ? explode[i] : 0
+      middle_x = center_x + expl * Math.sin(middle_deg)
+      middle_y = center_y - expl * Math.cos(middle_deg)
+      start_x = middle_x + radius * Math.sin(start_deg)
+      start_y = middle_y - radius * Math.cos(start_deg)
+      end_x = middle_x + radius * Math.sin(end_deg)
+      end_y = middle_y - radius * Math.cos(end_deg)
       more_than_half = prepared_data[i] > 0.5 ? 1 : 0
-      path = "M#{center_x} #{center_y}
+      path = "M#{middle_x} #{middle_y}
               L#{start_x} #{start_y}
               A#{radius} #{radius} 0 #{more_than_half} 1 #{end_x} #{end_y}
-              L#{center_x} #{center_y}
+              L#{middle_x} #{middle_y}
               "
-      renderer.path(path, fill: colors[i])
+      renderer.path(path, fill: colors[i], stroke: background_color, stroke_width: border_width)
     end
   end
 

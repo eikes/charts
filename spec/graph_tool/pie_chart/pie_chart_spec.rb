@@ -7,7 +7,8 @@ RSpec.describe GraphTool::PieChart do
       height:       height,
       title:        title,
       labels:       labels,
-      outer_margin: outer_margin
+      outer_margin: outer_margin,
+      explode:      explode
     }
   end
   let(:type) { :svg }
@@ -16,6 +17,7 @@ RSpec.describe GraphTool::PieChart do
   let(:title) { nil }
   let(:labels) { [] }
   let(:outer_margin) { 0 }
+  let(:explode) { nil }
   let(:graph) { GraphTool::PieChart.new(data, options) }
   let(:svg) { Nokogiri::XML(graph.render) }
 
@@ -66,8 +68,8 @@ RSpec.describe GraphTool::PieChart do
     end
     it 'starts and ends each slice in the center' do
       paths.each do |path|
-        expect(path[:d]).to match /M100 50/
-        expect(path[:d]).to match /L100 50/
+        expect(path[:d]).to match /M100.0 50.0/
+        expect(path[:d]).to match /L100.0 50.0/
       end
     end
   end
@@ -76,6 +78,15 @@ RSpec.describe GraphTool::PieChart do
     let(:labels) { ['One', 'Two', 'Three', 'Four'] }
     it 'creates 4 labels' do
       expect(svg.css('text.label').count).to eq 4
+    end
+  end
+
+  describe '#explode option' do
+    let(:data) { [20, 20] }
+    let(:explode) { [20, 0] }
+    it 'moves the first arc to the right' do
+      expect(paths.first[:d]).to match /M70.0 50.0/
+      expect(paths.last[:d]).to match /M50.0 50.0/
     end
   end
 
