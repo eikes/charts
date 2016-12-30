@@ -1,4 +1,5 @@
 class GraphTool::PieChart < GraphTool::Graph
+  include GraphTool::Legend
 
   attr_reader :sum,
               :sub_sums
@@ -6,6 +7,7 @@ class GraphTool::PieChart < GraphTool::Graph
   def validate_arguments(data, options)
     super(data, options)
     raise ArgumentError unless data.is_a? Array
+    raise ArgumentError if options[:labels] && !options[:labels].empty? && options[:labels].count != data.count
   end
 
   def default_options
@@ -22,6 +24,11 @@ class GraphTool::PieChart < GraphTool::Graph
     normalized_data = data.map { |value| value.to_f / sum }
     @sub_sums = (normalized_data.length + 1).times.map { |i| normalized_data.first(i).reduce 0.0, :+ }
     normalized_data
+  end
+
+  def pre_draw
+    super
+    draw_labels
   end
 
   def draw
@@ -59,6 +66,6 @@ class GraphTool::PieChart < GraphTool::Graph
   end
 
   def inner_height
-    height - 2 * outer_margin
+    height - 2 * outer_margin - label_total_height
   end
 end

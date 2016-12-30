@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
                     'graph_tool/renderer/rvg_renderer',
                     'graph_tool/renderer/svg_renderer',
                     'graph_tool/graph',
+                    'graph_tool/legend',
                     'graph_tool/bar_chart/grid/grid',
                     'graph_tool/bar_chart/grid/grid_line',
                     'graph_tool/bar_chart/grid/vertical_grid_line',

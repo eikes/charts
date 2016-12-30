@@ -72,5 +72,12 @@ RSpec.describe GraphTool::PieChart do
     end
   end
 
+  describe '#draw_labels' do
+    let(:labels) { ['One', 'Two', 'Three', 'Four'] }
+    it 'creates 4 labels' do
+      expect(svg.css('text.label').count).to eq 4
+    end
+  end
+
 
 end

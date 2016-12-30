@@ -8,6 +8,7 @@ require_relative 'graph_tool/renderer/svg_renderer'
 
 # Classes:
 require_relative 'graph_tool/graph'
+require_relative 'graph_tool/legend'
 require_relative 'graph_tool/bar_chart/grid/grid'
 require_relative 'graph_tool/bar_chart/grid/grid_line'
 require_relative 'graph_tool/bar_chart/grid/vertical_grid_line'
