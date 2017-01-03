@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://github.com/eikes/graph_tool'
   s.license     = 'MIT'
   s.files       = [
+                    'lib/graph_tool',
                     'lib/graph_tool/renderer/renderer',
                     'lib/graph_tool/renderer/rvg_renderer',
                     'lib/graph_tool/renderer/svg_renderer',
