@@ -1,4 +1,4 @@
-class GraphTool::BarGraph::Bar
+class GraphTool::BarChart::Bar
   attr_reader :graph, :data_value, :set_nr, :bar_nr_in_set
 
   def initialize(graph, data_value, set_nr, bar_nr_in_set)

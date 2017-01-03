@@ -1,6 +1,6 @@
 RSpec.describe GraphTool::Grid do
   let(:options) { {} }
-  let(:graph) { GraphTool::BarGraph.new(data, options) }
+  let(:graph) { GraphTool::BarChart.new(data, options) }
 
   describe '#number_of_grid_lines' do
     let(:subject) { graph.number_of_grid_lines }

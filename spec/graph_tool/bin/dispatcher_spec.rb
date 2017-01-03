@@ -45,8 +45,8 @@ RSpec.describe GraphTool::Dispatcher do
   describe 'style bar' do
     let(:data) { [[5, 2]] }
     let(:style) { 'bar' }
-    it 'selects BarGraph' do
-      expect(graph).to be_an_instance_of(GraphTool::BarGraph)
+    it 'selects BarChart' do
+      expect(graph).to be_an_instance_of(GraphTool::BarChart)
     end
   end
 

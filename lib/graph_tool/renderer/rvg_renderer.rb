@@ -29,6 +29,10 @@ module GraphTool::Renderer::RvgRenderer
     canvas(style) { |c| c.rect width, height, x, y }
   end
 
+  def path(d, style)
+    canvas(style) { |c| c.path d }
+  end
+
   def text(text, x, y, style = {})
     canvas(font_style.merge(style)) { |c| c.text x, y, text }
   end
