@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'graph_tool'
-  s.version     = '0.0.6'
+  s.version     = '0.0.7'
   s.date        = '2016-12-05'
   s.summary     = 'GraphTool renders beautiful graphs'
   s.description = 'A tool to create various kinds of infographics and graphs'
