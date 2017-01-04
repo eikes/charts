@@ -20,20 +20,17 @@ class Charts::Chart
     if options[:outer_margin] and !options[:outer_margin].is_a?(Numeric)
       raise ArgumentError.new('outer_margin not a number')
     end
-    if options[:colors]
-      unless options[:colors].is_a? Array
-        raise ArgumentError.new('colors not an array')
+    validate_array_and_count(data, options, :colors)
+    validate_array_and_count(data, options, :labels)
+  end
+
+  def validate_array_and_count(data, options, key)
+    if options[key]
+      unless options[key].is_a? Array
+        raise ArgumentError.new("#{ key } not an array")
       end
-      if options[:colors].any? and data.count > options[:colors].count
-        raise ArgumentError.new('not enough colors')
-      end
-    end
-    if options[:labels]
-      unless options[:labels].is_a? Array
-        raise ArgumentError.new('labels not an array')
-      end
-      if options[:labels].any? and data.count > options[:labels].count
-        raise ArgumentError.new('not enough labels')
+      if options[key].any? and data.count > options[key].count
+        raise ArgumentError.new("not enough #{ key }")
       end
     end
   end
