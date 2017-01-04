@@ -4,7 +4,7 @@ class GraphTool::OptParser
   attr_reader :args, :options, :parser
 
   FORMATS = [:txt, :svg, :png, :jpg, :gif].freeze
-  STYLES = [:circle, :cross, :manikin, :bar].freeze
+  STYLES = [:circle, :cross, :manikin, :bar, :pie].freeze
   DATA_EXAMPLE_ARGS = '-d 8,7'.freeze
   COLOR_EXAMPLE_ARGS = '--colors red,gold'.freeze
   FLOAT_INTEGER_REGEX = /^(?=.)([+-]?([0-9]*)(\.([0-9]+))?)$/.freeze
@@ -88,7 +88,7 @@ class GraphTool::OptParser
         '-s STYLE',
         '--style STYLE',
         STYLES,
-        "Choose the graph style: #{STYLES.join(', ')}"
+        "Choose the graph style: #{STYLES.join(', ')} (circle, cross and manikin are count graphs)"
       ) do |style|
         options[:style] = style
       end
@@ -129,17 +129,31 @@ class GraphTool::OptParser
       end
       opts.on(
         '-w WIDTH',
+        '--width WIDTH (not for count graphs)',
+        Integer,
+        'Sets the image width'
+      ) do |width|
+        options[:width] = width
+      end
+      opts.on(
+        '-h HEIGHT',
+        '--height HEIGHT (not for count graphs)',
+        Integer,
+        'Sets the image height'
+      ) do |height|
+        options[:height] = height
+      end
+      opts.on(
         '--item-width WIDTH',
         Integer,
-        'Sets the width of the individual item'
+        'Sets the width of the individual item (count graphs only)'
       ) do |item_width|
         options[:item_width] = item_width
       end
       opts.on(
-        '-h HEIGHT',
         '--item-height HEIGHT',
         Integer,
-        'Sets the height of the individual item'
+        'Sets the height of the individual item (count graphs only)'
       ) do |item_height|
         options[:item_height] = item_height
       end

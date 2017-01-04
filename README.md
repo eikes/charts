@@ -4,7 +4,7 @@
 
 # Graph tool
 
-Generate info graphic elements with ease
+Generate charts and info graphic elements with ease
 
 # Usage
 
@@ -20,9 +20,13 @@ Create images:
 
     $ bin/graph_tool --data 18,16 --data 12,21 --style bar --title Seats --labels Reserved,Sold --group-labels 2016,2017 --filename images/bars.jpg
 
-![example bar graph](https://raw.githubusercontent.com/eikes/graph_tool/master/images/bars.jpg)
+![example bar chart](https://raw.githubusercontent.com/eikes/graph_tool/master/images/bars.jpg)
 
-    $ bin/graph_tool --data 18,16 --labels Swimmers,Divers --colors Navy,Teal --style manikin -w 50 -h 50 --filename images/manikin.jpg
+    $ bin/graph_tool --data 55,20,20 --style pie --title Pies --labels Apple,Crumble,Cherry --colors ForestGreen,Chocolate,Crimson --width 350 --height 350 --filename images/pie.jpg
+
+![example pie chart](https://raw.githubusercontent.com/eikes/graph_tool/master/images/pie.jpg)
+
+    $ bin/graph_tool --data 18,16 --labels Swimmers,Divers --colors Navy,Teal --style manikin --item-width 50 --item-height 50 --filename images/manikin.jpg
 
 ![example manikin image](https://raw.githubusercontent.com/eikes/graph_tool/master/images/manikin.jpg)
 

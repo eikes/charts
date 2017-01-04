@@ -25,6 +25,8 @@ class GraphTool::Dispatcher
         GraphTool::ManikinCountGraph.new(data, graph_options)
       elsif style == :bar
         GraphTool::BarChart.new(data, graph_options)
+      elsif style == :pie
+        GraphTool::PieChart.new(data, graph_options)
       end
     end
   end
@@ -36,16 +38,18 @@ class GraphTool::Dispatcher
   def graph_options
     options.select do |key, _value|
       [
-        :filename, 
-        :type, 
-        :columns, 
-        :item_width, 
-        :item_height, 
-        :colors, 
-        :title, 
-        :labels, 
-        :group_labels, 
-        :background_color
+        :background_color,
+        :colors,
+        :columns,
+        :filename,
+        :group_labels,
+        :height,
+        :item_height,
+        :item_width,
+        :labels,
+        :title,
+        :type,
+        :width
       ].include? key
     end
   end
