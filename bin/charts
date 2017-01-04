@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/charts'
+
+args = ARGV
+# Please leave the 'code' comments in here:
+# code #
+options = Charts::OptParser.new(args).parse
+Charts::Dispatcher.new(options).render unless options[:help]
+# code #
