@@ -10,6 +10,6 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
   s.files       = Dir['lib/**/*.rb']
   s.bindir      = 'bin'
-  s.add_runtime_dependency 'victor'
-  s.add_runtime_dependency 'rmagick'
+  s.add_runtime_dependency 'victor', '~> 0.1.3'
+  s.add_runtime_dependency 'rmagick', '> 2.0.0'
 end
