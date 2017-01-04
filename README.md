@@ -1,6 +1,6 @@
 [![Code Climate](https://codeclimate.com/github/eikes/charts/badges/gpa.svg)](https://codeclimate.com/github/eikes/charts)
-
 [![Build Status](https://travis-ci.org/eikes/charts.svg?branch=master)](https://travis-ci.org/eikes/charts)
+[![Gem Version](https://badge.fury.io/rb/charts.svg)](https://badge.fury.io/rb/charts)
 
 # Charts
 
