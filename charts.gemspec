@@ -11,5 +11,5 @@ Gem::Specification.new do |s|
   s.files       = Dir['lib/**/*.rb']
   s.bindir      = 'bin'
   s.add_runtime_dependency 'victor', '~> 0.1.3'
-  s.add_runtime_dependency 'rmagick', '> 2.0.0'
+  s.add_runtime_dependency 'rmagick', '~> 2.0'
 end
