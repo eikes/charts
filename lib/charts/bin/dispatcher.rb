@@ -1,33 +1,34 @@
 module Charts
   class Dispatcher
-    attr_reader :options
+    attr_reader :options, :chart
 
     def initialize(options)
       @options = options
+      @chart = dispatch
     end
 
     def render
       if options[:filename]
-        graph.render
+        chart.render
       else
-        puts graph.render
+        puts chart.render
       end
     end
 
-    def graph
+    def dispatch
       if type == :txt
-        SymbolCountChart.new(data, graph_options)
+        SymbolCountChart.new(data, chart_options)
       elsif [:svg, :png, :jpg, :gif].include? type
         if style == :circle
-          CircleCountChart.new(data, graph_options)
+          CircleCountChart.new(data, chart_options)
         elsif style == :cross
-          CrossCountChart.new(data, graph_options)
+          CrossCountChart.new(data, chart_options)
         elsif style == :manikin
-          ManikinCountChart.new(data, graph_options)
+          ManikinCountChart.new(data, chart_options)
         elsif style == :bar
-          BarChart.new(data, graph_options)
+          BarChart.new(data, chart_options)
         elsif style == :pie
-          PieChart.new(data, graph_options)
+          PieChart.new(data, chart_options)
         end
       end
     end
@@ -36,7 +37,7 @@ module Charts
       options[:data]
     end
 
-    def graph_options
+    def chart_options
       options.select do |key, _value|
         [
           :background_color,
