@@ -56,7 +56,7 @@ RSpec.describe Charts::OptParser do
         expect { subject }.to raise_error(RuntimeError, "No data provided. Please pass in data using the --data flag: 'bin/charts -d 8,7'")
       end
     end
-    context 'bar graph one data set is provided' do
+    context 'bar chart one data set is provided' do
       let(:args) { data_args + ['--style', 'bar'] }
       it { is_expected.to include(data: [[8.0, 7.0]]) }
     end

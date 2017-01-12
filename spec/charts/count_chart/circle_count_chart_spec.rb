@@ -1,7 +1,7 @@
 RSpec.describe Charts::CircleCountChart do
   let(:data) { [1] }
-  let(:graph) { Charts::CircleCountChart.new(data, options) }
-  let(:svg) { Nokogiri::XML(graph.render) }
+  let(:chart) { Charts::CircleCountChart.new(data, options) }
+  let(:svg) { Nokogiri::XML(chart.render) }
   let(:columns) { 2 }
   let(:inner_margin) { 0 }
   let(:outer_margin) { 0 }
@@ -27,7 +27,7 @@ RSpec.describe Charts::CircleCountChart do
 
   describe 'setup' do
     it 'sets the SVG header' do
-      expect(graph.render).to match(/DOCTYPE svg PUBLIC/)
+      expect(chart.render).to match(/DOCTYPE svg PUBLIC/)
     end
   end
 
@@ -316,17 +316,17 @@ context 'label-items' do
     let(:colors) { ['red', 'green'] }
     let(:item_height) { 10 }
     let(:columns) { 1 }
-    let(:first_graph_circle_cy) { svg.css('circle')[0][:cy].to_i }
-    let(:second_graph_circle_cy) { svg.css('circle')[1][:cy].to_i }
+    let(:first_chart_circle_cy) { svg.css('circle')[0][:cy].to_i }
+    let(:second_chart_circle_cy) { svg.css('circle')[1][:cy].to_i }
     let(:first_label_circle_cy) { svg.css('circle')[2][:cy].to_i }
     let(:second_label_circle_cy) { svg.css('circle')[3][:cy].to_i }
-    it 'renders first label-circle two lengths underneath last graph-circle' do
-      expect(first_graph_circle_cy).to eq(5)
-      expect(second_graph_circle_cy).to eq(15)
+    it 'renders first label-circle two lengths underneath last chart-circle' do
+      expect(first_chart_circle_cy).to eq(5)
+      expect(second_chart_circle_cy).to eq(15)
       expect(first_label_circle_cy).to eq(35)
     end
-    it 'renders label-circles with the same height-distance as graph-circles' do
-      expect(second_graph_circle_cy - first_graph_circle_cy).to eq(second_label_circle_cy - first_label_circle_cy)
+    it 'renders label-circles with the same height-distance as chart-circles' do
+      expect(second_chart_circle_cy - first_chart_circle_cy).to eq(second_label_circle_cy - first_label_circle_cy)
     end
   end
 end
@@ -356,32 +356,32 @@ context 'filename is set' do
   let(:options) { { filename: 'dots.svg' } }
   it 'calls #save on the SVG' do
     expect_any_instance_of(SVG).to receive(:save)
-    graph.render
+    chart.render
   end
 end
 
 describe 'rmagick renderer' do
   let(:background_color) { 'green' }
-  let(:graph) { Charts::CircleCountChart.new(data, options) }
+  let(:chart) { Charts::CircleCountChart.new(data, options) }
   let(:data) { [1] }
   let(:colors) { ['red'] }
   let(:type) { :png }
 
   it 'calls #circle on Magick::RVG' do
     expect_any_instance_of(Magick::RVG).to receive(:circle).with(10, 10, 10).and_return(double(styles: nil))
-    graph.render
+    chart.render
   end
 
   it 'calls #styles on Magick::RVG::Circle' do
     expect_any_instance_of(Magick::RVG::Circle).to receive(:styles).with(fill: 'red')
-    graph.render
+    chart.render
   end
 
   context 'filename is set' do
     let(:options) { { type: :png, filename: 'dots.jpg' } }
     it 'calls #write on Magick::Image' do
       expect_any_instance_of(Magick::Image).to receive(:write)
-      graph.render
+      chart.render
     end
   end
 end

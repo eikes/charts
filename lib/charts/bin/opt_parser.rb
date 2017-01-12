@@ -31,7 +31,7 @@ class Charts::OptParser
   end
 
   def post_process_options
-    # force 2-dimensional array for bar graph if only one data set is provided
+    # force 2-dimensional array for bar chart if only one data set is provided
     if options[:style] == :bar and !options[:data].first.is_a? Array
       options[:data] = [options[:data]]
     end
@@ -88,7 +88,7 @@ class Charts::OptParser
         '-s STYLE',
         '--style STYLE',
         STYLES,
-        "Choose the graph style: #{STYLES.join(', ')} (circle, cross and manikin are count graphs)"
+        "Choose the chart style: #{STYLES.join(', ')} (circle, cross and manikin are count charts)"
       ) do |style|
         options[:style] = style
       end
@@ -129,7 +129,7 @@ class Charts::OptParser
       end
       opts.on(
         '-w WIDTH',
-        '--width WIDTH (not for count graphs)',
+        '--width WIDTH (not for count charts)',
         Integer,
         'Sets the image width'
       ) do |width|
@@ -137,7 +137,7 @@ class Charts::OptParser
       end
       opts.on(
         '-h HEIGHT',
-        '--height HEIGHT (not for count graphs)',
+        '--height HEIGHT (not for count charts)',
         Integer,
         'Sets the image height'
       ) do |height|
@@ -146,14 +146,14 @@ class Charts::OptParser
       opts.on(
         '--item-width WIDTH',
         Integer,
-        'Sets the width of the individual item (count graphs only)'
+        'Sets the width of the individual item (count charts only)'
       ) do |item_width|
         options[:item_width] = item_width
       end
       opts.on(
         '--item-height HEIGHT',
         Integer,
-        'Sets the height of the individual item (count graphs only)'
+        'Sets the height of the individual item (count charts only)'
       ) do |item_height|
         options[:item_height] = item_height
       end

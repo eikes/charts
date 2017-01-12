@@ -21,13 +21,13 @@ RSpec.describe 'bin/charts' do
         expect { eval script }.to output(/circle/).to_stdout
       end
     end
-    context 'bar graph one data set is provided' do
+    context 'bar chart one data set is provided' do
       let(:args) { ['--data', '10,20', '--style', 'bar'] }
       it 'prints the svg to stdout' do
         expect { eval script }.to output(/rect.*class="bar"/).to_stdout
       end
     end
-    context 'bar graph two data sets are provided' do
+    context 'bar chart two data sets are provided' do
       let(:args) { ['--data', '10,20', '--data', '20,30', '--style', 'bar'] }
       it 'prints the svg to stdout' do
         expect { eval script }.to output(/rect.*class="bar"/).to_stdout

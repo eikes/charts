@@ -1,9 +1,9 @@
 RSpec.describe Charts::Grid do
   let(:options) { {} }
-  let(:graph) { Charts::BarChart.new(data, options) }
+  let(:chart) { Charts::BarChart.new(data, options) }
 
   describe '#number_of_grid_lines' do
-    let(:subject) { graph.number_of_grid_lines }
+    let(:subject) { chart.number_of_grid_lines }
     context 'for numbers betweem 0 and 1' do
       let(:data) { [[0, 1]] }
       it { is_expected.to eq 5 }
@@ -23,7 +23,7 @@ RSpec.describe Charts::Grid do
   end
 
   describe '#grid_line_values' do
-    let(:subject) { graph.grid_line_values }
+    let(:subject) { chart.grid_line_values }
     context 'for numbers betweem 0 and 1' do
       let(:data) { [[0, 1]] }
       it { is_expected.to eq [0.0, 0.2, 0.4, 0.6, 0.8, 1.0] }

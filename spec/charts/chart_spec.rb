@@ -1,7 +1,7 @@
 RSpec.describe Charts::Chart do
   let(:data) { [1] }
   let(:options) { { columns: 2, colors: ['red']} }
-  let(:graph) { Charts::Chart.new(data, options) }
+  let(:chart) { Charts::Chart.new(data, options) }
 
   describe '#initialize' do
     it 'raises an error when no data is provided' do
@@ -33,10 +33,10 @@ RSpec.describe Charts::Chart do
       expect { Charts::Chart.new([2, 4], labels: ['red']) }.to raise_error(ArgumentError)
     end
     it 'stores the data in an instance attribute' do
-      expect(graph.data).to eq([1])
+      expect(chart.data).to eq([1])
     end
     it 'stores the options in an instance attribute' do
-      expect(graph.options).to include(columns: 2)
+      expect(chart.options).to include(columns: 2)
     end
   end
 
@@ -57,16 +57,16 @@ RSpec.describe Charts::Chart do
       }
     end
     it 'has a columns method' do
-      expect(graph.columns).to eq(5)
+      expect(chart.columns).to eq(5)
     end
     it 'has a colors method' do
-      expect(graph.colors).to eq(['#ABCDEF'])
+      expect(chart.colors).to eq(['#ABCDEF'])
     end
     it 'has a type method' do
-      expect(graph.type).to eq('png')
+      expect(chart.type).to eq('png')
     end
     it 'has a bogus_option method' do
-      expect(graph.bogus_option).to eq(123)
+      expect(chart.bogus_option).to eq(123)
     end
   end
 

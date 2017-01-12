@@ -1,9 +1,9 @@
 class Charts::Renderer
-  attr_reader :graph
+  attr_reader :chart
 
-  def initialize(graph)
-    @graph = graph
-    if graph.type == :svg
+  def initialize(chart)
+    @chart = chart
+    if chart.type == :svg
       extend Charts::Renderer::SvgRenderer
     else
       extend Charts::Renderer::RvgRenderer
@@ -12,7 +12,7 @@ class Charts::Renderer
   end
 
   def post_draw
-    filename = graph.options[:filename]
+    filename = chart.options[:filename]
     if filename
       save filename
     else

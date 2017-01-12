@@ -1,14 +1,14 @@
 class Charts::Grid::VerticalGridLine < Charts::Grid::GridLine
   def y1
-    graph.outer_margin
+    chart.outer_margin
   end
 
   def y2
-    graph.outer_margin + graph.inner_height
+    chart.outer_margin + chart.inner_height
   end
 
   def x1
-    graph.outer_margin + graph.inner_width * graph.normalize(value)
+    chart.outer_margin + chart.inner_width * chart.normalize(value)
   end
 
   def x2
@@ -16,7 +16,7 @@ class Charts::Grid::VerticalGridLine < Charts::Grid::GridLine
   end
 
   def label_y
-    y2 + graph.renderer.font_size + 5
+    y2 + chart.renderer.font_size + 5
   end
 
   def label_x

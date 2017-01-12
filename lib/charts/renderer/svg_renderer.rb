@@ -4,7 +4,7 @@ module Charts::Renderer::SvgRenderer
   attr_reader :svg
 
   def pre_draw
-    @svg = SVG.new width: graph.width, height: graph.height
+    @svg = SVG.new width: chart.width, height: chart.height
   end
 
   def print

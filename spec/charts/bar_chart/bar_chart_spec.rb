@@ -24,8 +24,8 @@ RSpec.describe Charts::BarChart do
   let(:bar_margin) { 0 }
   let(:outer_margin) { 0 }
   let(:include_zero) { true }
-  let(:graph) { Charts::BarChart.new(data, options) }
-  let(:svg) { Nokogiri::XML(graph.render) }
+  let(:chart) { Charts::BarChart.new(data, options) }
+  let(:svg) { Nokogiri::XML(chart.render) }
 
   let(:rectangles) { svg.css('rect.bar') }
   let(:widths) { rectangles.map { |r| r[:width] } }
@@ -44,10 +44,10 @@ RSpec.describe Charts::BarChart do
 
   describe '#prepare_data' do
     it 'maps the data to a value between 0 and 1' do
-      expect(graph.prepared_data).to eq([[0, 0.5, 0.75, 1]])
+      expect(chart.prepared_data).to eq([[0, 0.5, 0.75, 1]])
     end
     it 'maps the data to a value between 0 and 1' do
-      graph.prepared_data.each do |set|
+      chart.prepared_data.each do |set|
         set.each do |item|
           expect(item).to be <= 1
           expect(item).to be >= 0
@@ -57,41 +57,41 @@ RSpec.describe Charts::BarChart do
     context 'data has negative values' do
       let(:data) { [[10, -10, 5, 0, -5]] }
       it 'maps the data to a value between 0 and 1' do
-        expect(graph.prepared_data).to eq([[1.0, 0.0, 0.75, 0.5, 0.25]])
+        expect(chart.prepared_data).to eq([[1.0, 0.0, 0.75, 0.5, 0.25]])
       end
       it 'sets the base_line' do
-        expect(graph.base_line).to eq(0.5)
+        expect(chart.base_line).to eq(0.5)
       end
     end
     context 'data has nil values' do
       let(:data) { [[0, nil, 20]] }
       it 'maps the data to a value between 0 and 1' do
-        expect(graph.prepared_data).to eq([[0.0, nil, 1.0]])
+        expect(chart.prepared_data).to eq([[0.0, nil, 1.0]])
       end
     end
     describe 'base_line' do
       context 'zero is 0' do
         let(:data) { [[0, 10]] }
         it 'sets the base_line' do
-          expect(graph.base_line).to eq(0)
+          expect(chart.base_line).to eq(0)
         end
       end
       context 'zero is 0.5' do
         let(:data) { [[-10, 10]] }
         it 'sets the base_line' do
-          expect(graph.base_line).to eq(0.5)
+          expect(chart.base_line).to eq(0.5)
         end
       end
       context 'zero is 1' do
         let(:data) { [[-10, 0]] }
         it 'sets the base_line' do
-          expect(graph.base_line).to eq(1)
+          expect(chart.base_line).to eq(1)
         end
       end
       context 'zero is 1' do
         let(:data) { [[10, 20]] }
         it 'sets the base_line' do
-          expect(graph.base_line).to eq(0)
+          expect(chart.base_line).to eq(0)
         end
       end
     end
@@ -102,10 +102,10 @@ RSpec.describe Charts::BarChart do
       let(:data) { [[10, nil, 20]] }
       let(:options) { { include_zero: false } }
       it 'sets max' do
-        expect(graph.max_value).to eq(20)
+        expect(chart.max_value).to eq(20)
       end
       it 'sets min' do
-        expect(graph.min_value).to eq(10)
+        expect(chart.min_value).to eq(10)
       end
     end
   end
@@ -154,7 +154,7 @@ RSpec.describe Charts::BarChart do
   context 'min and max are set' do
     let(:data) { [[20, 40]] }
     let(:min_max_options) { options.merge(min: 10, max: 50) }
-    let(:graph) { Charts::BarChart.new(data, min_max_options) }
+    let(:chart) { Charts::BarChart.new(data, min_max_options) }
     it 'correctly sets the ys' do
       expect(ys).to eq(['75.0', '25.0'])
     end
@@ -218,18 +218,18 @@ RSpec.describe Charts::BarChart do
 
   describe '#height and #width' do
     it 'has a width attribute' do
-      expect(graph).to respond_to(:width)
+      expect(chart).to respond_to(:width)
     end
     it 'has a height attribute' do
-      expect(graph).to respond_to(:height)
+      expect(chart).to respond_to(:height)
     end
     context 'provides width and height via the options' do
       let(:options) { { width: 200, height: 200 } }
-      it "sets the graph.width to 200" do
-        expect(graph.width).to eq(200)
+      it "sets the chart.width to 200" do
+        expect(chart.width).to eq(200)
       end
-      it "sets the graph.height to 200" do
-        expect(graph.height).to eq(200)
+      it "sets the chart.height to 200" do
+        expect(chart.height).to eq(200)
       end
     end
   end
@@ -243,7 +243,7 @@ RSpec.describe Charts::BarChart do
     describe 'too few group_labels' do
       let(:group_labels) { ['one', 'two'] }
       it 'raises an error' do
-        expect{ graph.render }.to raise_error(ArgumentError)
+        expect{ chart.render }.to raise_error(ArgumentError)
       end
     end
   end
@@ -258,7 +258,7 @@ RSpec.describe Charts::BarChart do
     describe 'too few labels' do
       let(:labels) { ['Alpha', 'Beta'] }
       it 'raises an error' do
-        expect{ graph.render }.to raise_error(ArgumentError)
+        expect{ chart.render }.to raise_error(ArgumentError)
       end
     end
   end
@@ -275,7 +275,7 @@ RSpec.describe Charts::BarChart do
 
     it 'calls #line on the canvas' do
       expect_any_instance_of(Magick::Draw).to receive(:rectangle).exactly(5).times
-      graph.render
+      chart.render
     end
   end
 

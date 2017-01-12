@@ -1,7 +1,7 @@
 RSpec.describe Charts::ManikinCountChart do
   let(:data) { [1] }
-  let(:graph) { Charts::ManikinCountChart.new(data, options) }
-  let(:svg) { Nokogiri::XML(graph.render) }
+  let(:chart) { Charts::ManikinCountChart.new(data, options) }
+  let(:svg) { Nokogiri::XML(chart.render) }
   let(:columns) { 2 }
   let(:item_width) { 20 }
   let(:item_height) { 20 }
@@ -66,23 +66,23 @@ RSpec.describe Charts::ManikinCountChart do
 
     it 'calls #circle on the canvas' do
       expect_any_instance_of(Magick::Draw).to receive(:circle).exactly(1).times
-      graph.render
+      chart.render
     end
 
     it 'calls #line on the canvas' do
       expect_any_instance_of(Magick::Draw).to receive(:line).exactly(3).times
-      graph.render
+      chart.render
     end
 
     it 'calls #stroke on the canvas' do
       expect_any_instance_of(Magick::Draw).to receive(:stroke).with('#e41a1d').at_least(3).times
-      graph.render
+      chart.render
     end
 
     it 'calls #stroke on the canvas' do
       expect_any_instance_of(Magick::Draw).to receive(:fill).with('white').once
       expect_any_instance_of(Magick::Draw).to receive(:fill).with('#e41a1d').at_least(4).times
-      graph.render
+      chart.render
     end
   end
 end

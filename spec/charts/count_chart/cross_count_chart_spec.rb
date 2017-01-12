@@ -1,7 +1,7 @@
 RSpec.describe Charts::CrossCountChart do
   let(:data) { [1] }
-  let(:graph) { Charts::CrossCountChart.new(data, options) }
-  let(:svg) { Nokogiri::XML(graph.render) }
+  let(:chart) { Charts::CrossCountChart.new(data, options) }
+  let(:svg) { Nokogiri::XML(chart.render) }
   let(:columns) { 2 }
   let(:inner_margin) { 0 }
   let(:outer_margin) { 0 }
@@ -24,7 +24,7 @@ RSpec.describe Charts::CrossCountChart do
 
   describe 'setup' do
     it 'sets the SVG header' do
-      expect(graph.render).to match(/DOCTYPE svg PUBLIC/)
+      expect(chart.render).to match(/DOCTYPE svg PUBLIC/)
     end
   end
 
@@ -158,7 +158,7 @@ RSpec.describe Charts::CrossCountChart do
     let(:options) { { filename: 'dots.svg' } }
     it 'calls #save on the SVG' do
       expect_any_instance_of(SVG).to receive(:save)
-      graph.render
+      chart.render
     end
   end
 end

@@ -1,6 +1,6 @@
 RSpec.describe Charts::CountChart do
   let(:data) { [1] }
-  let(:graph) { Charts::CountChart.new(data, options) }
+  let(:chart) { Charts::CountChart.new(data, options) }
   let(:columns) { 2 }
   let(:item_width) { 20 }
   let(:item_height) { 20 }
@@ -22,13 +22,13 @@ RSpec.describe Charts::CountChart do
 
   describe '#initialize' do
     it 'provides default options' do
-      graph = Charts::CountChart.new([2])
-      expect(graph.columns).to eq(10)
+      chart = Charts::CountChart.new([2])
+      expect(chart.columns).to eq(10)
     end
     it 'merges default options with passed in options' do
-      graph = Charts::CountChart.new([2], extra: 123)
-      expect(graph.columns).to eq(10)
-      expect(graph.extra).to eq(123)
+      chart = Charts::CountChart.new([2], extra: 123)
+      expect(chart.columns).to eq(10)
+      expect(chart.extra).to eq(123)
     end
     it 'raises an error when value is not an Integer' do
       expect { Charts::CountChart.new(['k']) }.to raise_error(ArgumentError)
@@ -39,9 +39,9 @@ RSpec.describe Charts::CountChart do
   end
 
   describe '#default_options' do
-    let(:graph) { Charts::CountChart.new [1] }
+    let(:chart) { Charts::CountChart.new [1] }
     it 'has a default item-colors' do
-      expect(graph.colors).to eq([
+      expect(chart.colors).to eq([
                                    '#e41a1d',
                                    '#377eb9',
                                    '#4daf4b',
@@ -54,109 +54,109 @@ RSpec.describe Charts::CountChart do
                                  ])
     end
     it 'has a default background-colors' do
-      expect(graph.background_color).to eq('white')
+      expect(chart.background_color).to eq('white')
     end
     it 'has a default file-type' do
-      expect(graph.type).to eq(:svg)
+      expect(chart.type).to eq(:svg)
     end
     it 'has a default item width of 20' do
-      expect(graph.item_width).to eq(20)
+      expect(chart.item_width).to eq(20)
     end
     it 'has a default item height of 20' do
-      expect(graph.item_height).to eq(20)
+      expect(chart.item_height).to eq(20)
     end
     it 'has a default inner-margin of 2px' do
-      expect(graph.inner_margin).to eq(2)
+      expect(chart.inner_margin).to eq(2)
     end
     it 'has a default outer-margin of 30px' do
-      expect(graph.outer_margin).to eq(30)
+      expect(chart.outer_margin).to eq(30)
     end
     it 'has 10 default columns' do
-      expect(graph.columns).to eq(10)
+      expect(chart.columns).to eq(10)
     end
     it 'has an empty labels attribute' do
-      expect(graph.labels).to eq([])
+      expect(chart.labels).to eq([])
     end
     context 'with item_width 40 and item_height 40 in the options' do
-      let(:graph) { Charts::CountChart.new(data, options) }
+      let(:chart) { Charts::CountChart.new(data, options) }
       let(:item_width) { 40 }
       let(:item_height) { 40 }
       it 'has the item_width in the options attribute' do
-        expect(graph.item_width).to eq(40)
+        expect(chart.item_width).to eq(40)
       end
       it 'has the item_height in the options attribute' do
-        expect(graph.item_height).to eq(40)
+        expect(chart.item_height).to eq(40)
       end
     end
   end
 
   describe '#background color' do
     it 'has a background_color attribute' do
-      expect(graph).to respond_to(:background_color)
+      expect(chart).to respond_to(:background_color)
     end
   end
 
   describe '#draw labels' do
     it 'has a draw_labels attribute' do
-      expect(graph).to respond_to(:draw_labels)
+      expect(chart).to respond_to(:draw_labels)
     end
   end
 
   describe '#draw label text' do
     it 'has a draw_label_text attribute' do
-      expect(graph).to respond_to(:draw_label_text)
+      expect(chart).to respond_to(:draw_label_text)
     end
   end
 
   describe '#label count' do
     it 'has a label_count attribute' do
-      expect(graph).to respond_to(:label_count)
+      expect(chart).to respond_to(:label_count)
     end
   end
 
   describe 'inner margin' do
     it 'has a offset_x attribute' do
-      expect(graph).to respond_to(:offset_x)
+      expect(chart).to respond_to(:offset_x)
     end
     it 'has a offset_y attribute' do
-      expect(graph).to respond_to(:offset_y)
+      expect(chart).to respond_to(:offset_y)
     end
     it 'has a outer_item_width attribute' do
-      expect(graph).to respond_to(:outer_item_width)
+      expect(chart).to respond_to(:outer_item_width)
     end
     it 'has a outer_item_height attribute' do
-      expect(graph).to respond_to(:outer_item_height)
+      expect(chart).to respond_to(:outer_item_height)
     end
     it 'has a inner_margin attribute' do
-      expect(graph).to respond_to(:inner_margin)
+      expect(chart).to respond_to(:inner_margin)
     end
     context 'width-margin of a single item' do
       let(:inner_margin) { 2 }
       it 'returns the correct outer_item_width' do
-        expect(graph.outer_item_width).to eq(24)
+        expect(chart.outer_item_width).to eq(24)
       end
       it 'returns the correct offset_x' do
-        expect(graph.offset_x(data.first)).to eq(24)
+        expect(chart.offset_x(data.first)).to eq(24)
       end
     end
     context 'height-margin of a single item' do
       let(:item_height) { 20 }
       let(:inner_margin) { 2 }
       it 'returns the correct outer_item_height' do
-        expect(graph.outer_item_height).to eq(24)
+        expect(chart.outer_item_height).to eq(24)
       end
       it 'returns the correct offset_y' do
-        expect(graph.offset_y(data.first)).to eq(24)
+        expect(chart.offset_y(data.first)).to eq(24)
       end
     end
     context 'width-margin of a several items' do
       let(:data) { [8] }
       let(:inner_margin) { 12 }
       it 'returns the correct outer_item_width' do
-        expect(graph.outer_item_width).to eq(44)
+        expect(chart.outer_item_width).to eq(44)
       end
       it 'returns the correct offset_x' do
-        expect(graph.offset_x(data.first)).to eq(352)
+        expect(chart.offset_x(data.first)).to eq(352)
       end
     end
     context 'height-margin of a several items' do
@@ -164,53 +164,53 @@ RSpec.describe Charts::CountChart do
       let(:item_height) { 40 }
       let(:inner_margin) { 12 }
       it 'returns the correct outer_item_height' do
-        expect(graph.outer_item_height).to eq(64)
+        expect(chart.outer_item_height).to eq(64)
       end
       it 'returns the correct offset_y' do
-        expect(graph.offset_y(data.first)).to eq(512)
+        expect(chart.offset_y(data.first)).to eq(512)
       end
     end
   end
 
   describe '#prepare_data' do
     it 'creates the prepared_data for simple keys' do
-      graph = Charts::CountChart.new([3, 2], colors: ['x', 'o'], columns: 2)
-      expect(graph.prepared_data).to eq([
+      chart = Charts::CountChart.new([3, 2], colors: ['x', 'o'], columns: 2)
+      expect(chart.prepared_data).to eq([
                                           ['x', 'x'],
                                           ['x', 'o'],
                                           ['o']
                                         ])
     end
     it 'creates the prepared_data for complex keys' do
-      graph = Charts::CountChart.new([2, 2], colors: ['#FF0000', '#00FF00'], columns: 2)
-      expect(graph.prepared_data).to eq([
+      chart = Charts::CountChart.new([2, 2], colors: ['#FF0000', '#00FF00'], columns: 2)
+      expect(chart.prepared_data).to eq([
                                           ['#FF0000', '#FF0000'],
                                           ['#00FF00', '#00FF00']
                                         ])
     end
     it 'default colors get assigned when no colors are specified' do
-      graph = Charts::CountChart.new([1, 1, 1])
-      expect(graph.prepared_data).to eq([
+      chart = Charts::CountChart.new([1, 1, 1])
+      expect(chart.prepared_data).to eq([
                                           ['#e41a1d', '#377eb9', '#4daf4b']
                                         ])
     end
   end
 
   shared_examples 'has a width and height of' do |width, height|
-    it "sets the graph.width to #{width}" do
-      expect(graph.width).to eq(width)
+    it "sets the chart.width to #{width}" do
+      expect(chart.width).to eq(width)
     end
-    it "sets the graph.height to #{height}" do
-      expect(graph.height).to eq(height)
+    it "sets the chart.height to #{height}" do
+      expect(chart.height).to eq(height)
     end
   end
 
   describe '#height and #width' do
     it 'has a width attribute' do
-      expect(graph).to respond_to(:width)
+      expect(chart).to respond_to(:width)
     end
     it 'has a height attribute' do
-      expect(graph).to respond_to(:height)
+      expect(chart).to respond_to(:height)
     end
     context 'one item' do
       include_examples 'has a width and height of', 20, 20
@@ -273,20 +273,20 @@ RSpec.describe Charts::CountChart do
 
   describe '#item_height and #item_width' do
     it 'has a item width attribute' do
-      expect(graph).to respond_to(:item_width)
+      expect(chart).to respond_to(:item_width)
     end
     it 'has a item height attribute' do
-      expect(graph).to respond_to(:item_height)
+      expect(chart).to respond_to(:item_height)
     end
     context 'setup' do
       let(:data) { [2] }
       let(:item_width) { 50 }
       let(:item_height) { 50 }
       it 'item width gets correct value' do
-        expect(graph.item_width).to eq(50)
+        expect(chart.item_width).to eq(50)
       end
       it 'item height gets correct value' do
-        expect(graph.item_height).to eq(50)
+        expect(chart.item_height).to eq(50)
       end
     end
   end

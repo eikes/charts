@@ -18,8 +18,8 @@ RSpec.describe Charts::PieChart do
   let(:labels) { [] }
   let(:outer_margin) { 0 }
   let(:explode) { nil }
-  let(:graph) { Charts::PieChart.new(data, options) }
-  let(:svg) { Nokogiri::XML(graph.render) }
+  let(:chart) { Charts::PieChart.new(data, options) }
+  let(:svg) { Nokogiri::XML(chart.render) }
 
   let(:paths) { svg.css('path') }
 
@@ -34,17 +34,17 @@ RSpec.describe Charts::PieChart do
 
   describe '#prepare_data' do
     it 'prepares the sum' do
-      expect(graph.sum).to eq(200)
+      expect(chart.sum).to eq(200)
     end
     it 'maps the data to a value between 0 and 1' do
-      expect(graph.prepared_data).to eq([0.1, 0.2, 0.3, 0.4])
+      expect(chart.prepared_data).to eq([0.1, 0.2, 0.3, 0.4])
     end
     it 'prepares the sub sums' do
-      sub_sums = graph.sub_sums.map {|v| v.round(1) }
+      sub_sums = chart.sub_sums.map {|v| v.round(1) }
       expect(sub_sums).to eq [0.0, 0.1, 0.3, 0.6, 1.0]
     end
     it 'maps the data to a value between 0 and 1' do
-      graph.prepared_data.each do |value|
+      chart.prepared_data.each do |value|
         expect(value).to be <= 1
         expect(value).to be >= 0
       end

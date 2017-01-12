@@ -4,7 +4,7 @@ module Charts::Renderer::RvgRenderer
   attr_reader :rvg
 
   def pre_draw
-    @rvg = Magick::RVG.new(graph.width, graph.height) do |canvas|
+    @rvg = Magick::RVG.new(chart.width, chart.height) do |canvas|
       canvas.background_fill = 'white'
     end
   end
@@ -39,7 +39,7 @@ module Charts::Renderer::RvgRenderer
 
   def canvas(style)
     style.delete(:class)
-    rvg.rvg(graph.width, graph.height) do |canvas|
+    rvg.rvg(chart.width, chart.height) do |canvas|
       yield(canvas).styles(style)
     end
   end

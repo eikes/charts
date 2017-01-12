@@ -8,8 +8,8 @@ RSpec.describe Charts::SymbolCountChart do
   end
   shared_examples 'renders text' do |data, options, result|
     it "outputs #{result} when data = #{data} and options = #{options}" do
-      graph = Charts::SymbolCountChart.new(data, options)
-      expect(graph.render).to eq result
+      chart = Charts::SymbolCountChart.new(data, options)
+      expect(chart.render).to eq result
     end
   end
 
@@ -25,10 +25,10 @@ RSpec.describe Charts::SymbolCountChart do
   context 'filename is set' do
     let(:data) { [1] }
     let(:filename) { 'dots.txt' }
-    let(:graph) { Charts::SymbolCountChart.new(data, options) }
+    let(:chart) { Charts::SymbolCountChart.new(data, options) }
     it 'calls File#open' do
       expect(File).to receive(:open)
-      graph.render
+      chart.render
     end
   end
 end
