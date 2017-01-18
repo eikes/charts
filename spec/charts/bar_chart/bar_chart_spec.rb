@@ -243,7 +243,7 @@ RSpec.describe Charts::BarChart do
     describe 'too few group_labels' do
       let(:group_labels) { ['one', 'two'] }
       it 'raises an error' do
-        expect{ chart.render }.to raise_error(ArgumentError)
+        expect{ chart.render }.to raise_error(ArgumentError, 'count of group-Labels and bars does not match')
       end
     end
   end
@@ -255,10 +255,10 @@ RSpec.describe Charts::BarChart do
       labels_texts = svg.css('text.label').map{ |t| t.text.tr("\n", '') }
       expect(labels_texts).to eq(labels)
     end
-    describe 'too few labels' do
+    describe 'count of label and data does not match' do
       let(:labels) { ['Alpha', 'Beta'] }
       it 'raises an error' do
-        expect{ chart.render }.to raise_error(ArgumentError)
+        expect{ chart.render }.to raise_error(ArgumentError, 'number of labels does not match array')
       end
     end
   end
