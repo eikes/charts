@@ -24,3 +24,10 @@ Style/AlignParameters:
 
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
+
+Style/WordArray:
+  Description: 'Use %w or %W for arrays of words.'
+  EnforcedStyle: brackets
+
+Style/EmptyMethod:
+  Enabled: false
