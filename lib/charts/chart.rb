@@ -1,8 +1,5 @@
 class Charts::Chart
-  attr_reader :data,
-              :options,
-              :prepared_data,
-              :renderer
+  attr_reader :data, :options, :prepared_data, :renderer
 
   def initialize(data, opts = {})
     validate_arguments(data, opts)
