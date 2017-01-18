@@ -14,9 +14,9 @@ class Charts::Chart
   end
 
   def validate_arguments(data, options)
-    raise ArgumentError, 'Data missing' if data.empty?
-    raise ArgumentError, 'Data not an array' unless data.is_a? Array
-    raise ArgumentError, 'Options missing' unless options.is_a? Hash
+    raise ArgumentError.new('Data missing') if data.empty?
+    raise ArgumentError.new('Data not an array') unless data.is_a? Array
+    raise ArgumentError.new('Options missing') unless options.is_a? Hash
     if options[:outer_margin] && !options[:outer_margin].is_a?(Numeric)
       raise ArgumentError, 'outer_margin not a number'
     end
