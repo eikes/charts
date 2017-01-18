@@ -105,7 +105,8 @@ class Charts::Chart
     renderer.text options[:title], x, y, text_anchor: 'middle', class: 'title'
   end
 
-  def initialize_instance_variables; end
+  def initialize_instance_variables 
+  end
 
   def create_options_methods
     options.each do |key, value|
