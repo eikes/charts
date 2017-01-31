@@ -53,7 +53,7 @@ class Charts::BarChart < Charts::Chart
 
   def draw_group_labels
     return if options[:group_labels].nil? || group_labels.empty?
-    raise ArgumentError if group_labels.count != group_count
+    raise ArgumentError, 'count of group-Labels and bars does not match' if group_labels.count != group_count
     group_label_style = {
       text_anchor:  'middle',
       writing_mode: (vertical? ? 'lr' : 'tb'),
